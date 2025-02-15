@@ -169,3 +169,30 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+.DS_Store
+node_modules/
+venv/
+__pycache__/
+*.log
+*.pyc
+.env
+
+dist/
+.vite/
+
+db.sqlite3
+/static/
+/media/
+
+docker-compose.override.yml
+*.dockerignore
+
+.vscode/
+.idea/
+*.iml
+
+nginx/logs/
+
+postgres_data/
+
