@@ -11,6 +11,7 @@ services:
     depends_on:
     - backend
     - frontend
+    - omniauth
     networks:
      - hypertube_default
 
@@ -26,6 +27,8 @@ services:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    networks:
+      - hypertube_default
 
   backend:
     build: ./backend
@@ -38,7 +41,8 @@ services:
       - "8000:8000"
     volumes:
       - ./backend:/app
-
+    networks:
+      - hypertube_default
   frontend:
     build: ./frontend
     container_name: hypertube-frontend
@@ -51,6 +55,20 @@ services:
       - ./frontend/index.html:/app/index.html
     stdin_open: true
     tty: true
+    networks:
+      - hypertube_default
+
+  omniauth:
+    build: ./omniauth-service
+    container_name: hypertube-omniauth
+    ports:
+      - "4567:4567"
+    volumes:
+      - ./omniauth-service:/app
+    env_file:
+      - ./omniauth-service/.env
+    networks:
+      - hypertube_default	
 
 volumes:
   postgres_data:
