@@ -5,11 +5,12 @@ WORKDIR /app
 
 COPY package.json package-lock.json ./
 
-# Exécuter npm install dans Docker (et non sur Mac)
 RUN npm install --legacy-peer-deps
 
 COPY . .
 
 EXPOSE 3000
+
+ENV CHOKIDAR_USEPOLLING=true
 
 CMD ["npm", "run", "dev"]

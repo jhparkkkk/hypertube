@@ -37,6 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'oauth2_provider',
+    'social_django',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -73,9 +77,10 @@ WSGI_APPLICATION = 'hypertube.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DB_USER = os.getenv('DB_USER', 'hypertube')
-DB_PASSWORD = os.getenv('DB_PASSWORD', 'hypertube')
+DB_USER = os.getenv('POSTGRES_USER')
+DB_PASSWORD = os.getenv('POSTGRES_PASSWORD')
 
+print(DB_USER, DB_PASSWORD) # Debug
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',

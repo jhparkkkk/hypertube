@@ -26,6 +26,8 @@ services:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    env_file:
+      - .env
 
   backend:
     build: ./backend
@@ -33,11 +35,13 @@ services:
     depends_on:
       - db
     environment:
-      - DJANGO_DB_HOST=db
+      - DEBUG=true
     ports:
       - "8000:8000"
     volumes:
       - ./backend:/app
+    env_file:
+      - .env
 
   frontend:
     build: ./frontend
@@ -47,8 +51,10 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./frontend/src:/app/src
-      - ./frontend/index.html:/app/index.html
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
     stdin_open: true
     tty: true
 
