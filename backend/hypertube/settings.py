@@ -80,7 +80,6 @@ WSGI_APPLICATION = 'hypertube.wsgi.application'
 DB_USER = os.getenv('POSTGRES_USER')
 DB_PASSWORD = os.getenv('POSTGRES_PASSWORD')
 
-print(DB_USER, DB_PASSWORD) # Debug
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
