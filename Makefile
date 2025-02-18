@@ -23,7 +23,7 @@ backend-makemigrations:
 	docker-compose exec backend python manage.py makemigrations
 
 backend-db:
-	docker-compose exec db psql -U postgres -d hypertube_db
+	docker-compose exec db psql -U hypertube_user -d hypertube_db
 
 frontend-up:
 	docker-compose up --build -d frontend
