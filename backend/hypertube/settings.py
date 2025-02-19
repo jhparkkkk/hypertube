@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+os.environ["DJANGO_SETTINGS_MODULE"] = "hypertube.settings"
 
 # Application definition
 

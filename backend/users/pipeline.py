@@ -10,11 +10,11 @@ def associate_by_email(strategy, details, backend, user=None, *args, **kwargs):
 
     try:
         existing_user = User.objects.get(email=email)
-        
+
         if existing_user.auth_provider != backend.name:
             raise AuthException(
                 backend,
-                f"This email is already registered with {existing_user.auth_provider}. "
+                f"This email {email} is already registered with {existing_user.auth_provider}. "
                 "Please log in with the original provider."
             )
 
@@ -24,6 +24,9 @@ def associate_by_email(strategy, details, backend, user=None, *args, **kwargs):
         return None
 
 def set_auth_provider(strategy, details, backend, user=None, *args, **kwargs):
+    """
+    Set the auth provider to the current to prevent duplicate accounts.
+    """
     if user:
         provider = backend.name
         if user.auth_provider != provider:
