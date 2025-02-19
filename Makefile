@@ -25,6 +25,9 @@ backend-makemigrations:
 backend-db:
 	docker-compose exec db psql -U hypertube_user -d hypertube_db
 
+backend-shell:
+	docker-compose exec backend bash
+
 frontend-up:
 	docker-compose up --build -d frontend
 

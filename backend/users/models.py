@@ -15,6 +15,7 @@ class User(AbstractBaseUser):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     password = models.CharField(max_length=128)
+    profile_picture = models.URLField(max_length=500, blank=True, null=True) 
     auth_provider = models.CharField(max_length=50, choices=[
             (AuthProvider.EMAIL, "Email"),
             (AuthProvider.GITHUB, "Github"),

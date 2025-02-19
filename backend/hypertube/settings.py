@@ -117,6 +117,7 @@ print("[DEBUG] SOCIAL_AUTH_GITHUB_SECRET", SOCIAL_AUTH_GITHUB_SECRET)
 print("[DEBUG] SOCIAL_AUTH_42_KEY", SOCIAL_AUTH_FORTYTWO_KEY)
 print("[DEBUG] SOCIAL_AUTH_42_SECRET", SOCIAL_AUTH_FORTYTWO_SECRET)
 
+SOCIAL_AUTH_GITHUB_SCOPE = ["user:email",]
 
 SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_details',
@@ -127,6 +128,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.user.get_username',
     'social_core.pipeline.user.create_user',
     'users.pipeline.set_auth_provider',
+    'users.pipeline.set_profile_picture',
     'social_core.pipeline.social_auth.associate_user',
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details',

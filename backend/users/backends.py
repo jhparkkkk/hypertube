@@ -17,6 +17,7 @@ class FortyTwoOAuth2(BaseOAuth2):
         ("email", "email"),
         ("first_name", "first_name"),
         ("last_name", "last_name"),
+        ("image", "profile_picture")
     ]
 
     def get_user_details(self, response):
@@ -29,6 +30,7 @@ class FortyTwoOAuth2(BaseOAuth2):
             "email": response["email"],
             "first_name": response.get("first_name", ""),
             "last_name": response.get("last_name", ""),
+            "profile_picture": response.get("image", {}).get("link"),
             "auth_provider": self.name,
         }
 
