@@ -37,6 +37,9 @@ frontend-restart:
 frontend-logs:
 	docker-compose logs -f frontend
 
+frontend-shell:
+	docker-compose exec frontend bash
+
 frontend-npm:
 	docker-compose exec frontend npm install
 

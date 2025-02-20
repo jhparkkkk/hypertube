@@ -1,5 +1,6 @@
 from social_core.exceptions import AuthException
 from django.contrib.auth import get_user_model
+from django.shortcuts import redirect
 
 User = get_user_model()
 
@@ -12,11 +13,7 @@ def associate_by_email(strategy, details, backend, user=None, *args, **kwargs):
         existing_user = User.objects.get(email=email)
 
         if existing_user.auth_provider != backend.name:
-            raise AuthException(
-                backend,
-                f"This email {email} is already registered with {existing_user.auth_provider}. "
-                "Please log in with the original provider."
-            )
+            return redirect("/error?message=This email is already linked to another account.")
 
         return {"user": existing_user}
 
