@@ -64,7 +64,6 @@ const Signup = () => {
       }
     }
 
-    // username must be between 3 and 16 characters
     if (data.username) {
       if (!isValidLength(data.username, 3, 16)) {
       errors.username = "Username must be between 3 and 16 characters";
@@ -93,6 +92,7 @@ const Signup = () => {
     setIsFormValid(isValid);
     console.log("isFormValid:", isFormValid);
     console.log("errors:", errors);
+
     return isValid;
   }
   
@@ -107,11 +107,12 @@ const Signup = () => {
     if (!isFormValid) return;
     try {
         console.log("formData:", formData);
-        const response = await api.post("/auth/signup", formData);
+        const response = await api.post("/auth/register/", formData);
         console.log("User created:", response.data);
     } catch (error: any) {
       if (error.response) {
         if (error.response.status === 400) {
+          console.log(error.response.data);
           setErrors(error.response.data);  
         }
       }
@@ -162,6 +163,9 @@ const Signup = () => {
             fullWidth 
             variant="filled"
             error={!!errors.email}
+            helperText={errors.email
+            ? errors.email
+            : null}
             InputProps={{ sx: { color: "white" } }} 
           />
           <TextField 
@@ -170,6 +174,10 @@ const Signup = () => {
             onChange={handleChange} 
             fullWidth 
             variant="filled" 
+            error={!!errors.username}
+            helperText={errors.username
+              ? errors.username
+              : null}
             InputProps={{ sx: { color: "white" } }} 
           />
           <TextField 
@@ -178,6 +186,10 @@ const Signup = () => {
             onChange={handleChange} 
             fullWidth 
             variant="filled"
+            error={!!errors.first_name}
+            helperText={errors.first_name
+              ? errors.first_name
+              : null}
             InputProps={{ sx: { color: "white" } }} 
           />
           <TextField 
@@ -186,6 +198,10 @@ const Signup = () => {
             onChange={handleChange} 
             fullWidth 
             variant="filled"
+            error={!!errors.last_name}
+            helperText={errors.last_name
+              ? errors.last_name
+              : null}
             InputProps={{ sx: { color: "white" } }} 
           />
           <TextField 
@@ -194,7 +210,11 @@ const Signup = () => {
             name="password" 
             onChange={handleChange} 
             fullWidth 
-            variant="filled" 
+            variant="filled"
+            error={!!errors.password}
+            helperText={errors.password
+              ? errors.password
+              : null}
             InputProps={{ sx: { color: "white" } }} 
           />
           {errors.general && (
