@@ -107,7 +107,7 @@ const Signup = () => {
     if (!isFormValid) return;
     try {
         console.log("formData:", formData);
-        const response = await api.post("/auth/register/", formData);
+        const response = await api.post("/auth/signup", formData);
         console.log("User created:", response.data);
     } catch (error: any) {
       if (error.response) {

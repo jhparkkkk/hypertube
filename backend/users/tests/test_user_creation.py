@@ -15,7 +15,7 @@ def test_register_user_success():
         "last_name": "Doe",
         "password": "Test@1234"
     }
-    response = client.post("/api/auth/register/", payload, format="json")
+    response = client.post("/api/auth/signup", payload, format="json")
 
     assert response.status_code == 201
 
@@ -40,7 +40,7 @@ def test_register_user_invalid_email():
         "last_name": "Doe",
         "password": "Test@1234"
     }
-    response = client.post("/api/auth/register/", payload, format="json")
+    response = client.post("/api/auth/signup", payload, format="json")
 
     assert response.status_code == 400
     assert "email" in response.data
@@ -54,7 +54,7 @@ def test_register_user_missing_fields():
         "email": "testuser@example.com",
         "password": "Test@1234"
     }
-    response = client.post("/api/auth/register/", payload, format="json")
+    response = client.post("/api/auth/signup", payload, format="json")
 
     assert response.status_code == 400
     assert "username" in response.data
@@ -81,7 +81,7 @@ def test_register_user_duplicate_email():
         "last_name": "Doe",
         "password": "Test@5678"
     }
-    response = client.post("/api/auth/register/", payload, format="json")
+    response = client.post("/api/auth/signup", payload, format="json")
 
     assert response.status_code == 400
     assert "email" in response.data
@@ -106,7 +106,7 @@ def test_register_user_duplicate_username():
         "last_name": "Doe",
         "password": "Test@5678"
     }
-    response = client.post("/api/auth/register/", payload, format="json")
+    response = client.post("/api/auth/signup", payload, format="json")
 
     assert response.status_code == 400
     assert "username" in response.data
@@ -123,7 +123,7 @@ def test_register_user_weak_password():
         "last_name": "Doe",
         "password": "12345"
     }
-    response = client.post("/api/auth/register/", payload, format="json")
+    response = client.post("/api/auth/signup", payload, format="json")
     
     assert response.status_code == 400
     assert "password" in response.data
@@ -140,7 +140,7 @@ def test_register_user_long_password():
         "last_name": "Doe",
         "password": "A" * 51  # Password too long
     }
-    response = client.post("/api/auth/register/", payload, format="json")
+    response = client.post("/api/auth/signup", payload, format="json")
     
     assert response.status_code == 400
     assert "password" in response.data
@@ -157,7 +157,7 @@ def test_register_user_missing_digit_in_password():
         "last_name": "Doe",
         "password": "OnlyLetters"
     }
-    response = client.post("/api/auth/register/", payload, format="json")
+    response = client.post("/api/auth/signup", payload, format="json")
     
     assert response.status_code == 400
     assert "password" in response.data
@@ -174,7 +174,7 @@ def test_register_user_missing_letter_in_password():
         "last_name": "Doe",
         "password": "12345678"
     }
-    response = client.post("/api/auth/register/", payload, format="json")
+    response = client.post("/api/auth/signup", payload, format="json")
     
     assert response.status_code == 400
     assert "password" in response.data
@@ -201,7 +201,7 @@ def test_register_user_different_providers():
         "password": "Test@5678",
         "auth_provider": "fortytwo"
     }
-    response = client.post("/api/auth/register/", payload, format="json")
+    response = client.post("/api/auth/signup", payload, format="json")
 
     assert response.status_code == 400
     assert "email" in response.data
