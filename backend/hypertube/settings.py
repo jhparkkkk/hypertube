@@ -42,11 +42,25 @@ INSTALLED_APPS = [
     'oauth2_provider',
     'social_django', # omniauth for django
     'rest_framework',
+    'rest_framework_simplejwt',
     'corsheaders',
     'users',
-
-    
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+from datetime import timedelta
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),  
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'AUTH_HEADER_TYPES': ('Bearer',),  
+}
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',

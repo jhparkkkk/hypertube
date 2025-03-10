@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { GitHub, Password, School } from "@mui/icons-material";
 
+import { Navigate } from "react-router-dom";
 import { api , API_BASE_URL} from "../api/axiosConfig";
 
 const Signup = () => {
@@ -20,18 +21,20 @@ const Signup = () => {
     last_name: "",
     password: "",
   });
+
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isFormValid, setIsFormValid] = useState(false);
+
+  const isValidEmail = (email: string) => /\S+@\S+\.\S+/.test(email);
+  const isValidLength = (value: string, min: number, max: number) => value.length >= min && value.length <= max;
+  const hasDigit = (value: string) => /\d/.test(value);
+  const isAlpha = (value: string) => /^[a-zA-Z]*$/.test(value);
+  const isAlphanumeric = (value: string) => /^[a-zA-Z0-9]*$/.test(value);
 
   const validateForm = (data: typeof formData) => { 
     const errors: Partial<Record<keyof typeof formData, string>> = {};
     let isValid = true;
 
-    const isValidEmail = (email: string) => /\S+@\S+\.\S+/.test(email);
-    const isValidLength = (value: string, min: number, max: number) => value.length >= min && value.length <= max;
-    const hasDigit = (value: string) => /\d/.test(value);
-    const isAlpha = (value: string) => /^[a-zA-Z]*$/.test(value);
-    const isAlphanumeric = (value: string) => /^[a-zA-Z0-9]*$/.test(value);
     const requiredFields: (keyof typeof formData)[] = [
       "email",
       "username",
@@ -86,7 +89,6 @@ const Signup = () => {
     }
     });
 
-
     
     setErrors(errors);
     setIsFormValid(isValid);
@@ -99,21 +101,27 @@ const Signup = () => {
   
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    validateForm({ ...formData, [e.target.name]: e.target.value });
+    const updatedFormData = { ...formData, [e.target.name]: e.target.value };
+    setFormData(updatedFormData);
+    validateForm(updatedFormData);
   };
+
 
   const handleSubmit = async () => {
     if (!isFormValid) return;
     try {
         console.log("formData:", formData);
         const response = await api.post("/auth/register/", formData);
+        localStorage.setItem("access_token", response.data.tokens.access_token);
         console.log("User created:", response.data);
+        window.location.href = "/login";
     } catch (error: any) {
       if (error.response) {
         if (error.response.status === 400) {
           console.log(error.response.data);
           setErrors(error.response.data);  
+        } else if (error.response.status === 403) {
+          console.error("Login first");
         }
       }
       console.error("Signup error", error);
