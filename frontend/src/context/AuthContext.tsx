@@ -16,6 +16,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode}) => {
 
     useEffect(() => {
         const token = localStorage.getItem("accessToken");
+        console.log("stored token:", token);
         if (token) {
             api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
             setUser({ token });
@@ -23,8 +24,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode}) => {
     }, []);
 
     const login = (token: string) => {
-        console.log("login", token);
+        if (!token) {
+            console.error("No token provided");return;}
+        console.log("received token:", token);  
         localStorage.setItem("accessToken", token);
+        alert("login");
         api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         setUser({ token });
         navigate("/");

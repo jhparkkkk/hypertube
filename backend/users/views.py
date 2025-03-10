@@ -7,6 +7,7 @@ from rest_framework.decorators import api_view
 from django.contrib.auth.hashers import make_password
 from .serializers import UserSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth import authenticate
 
 User = get_user_model()
 
@@ -20,27 +21,29 @@ def register_user(request):
             "access": str(refresh.access_token),
             "refresh": str(refresh),
         }
-        print("[DEBUG] tokens", tokens)
-
         return Response({
             "user":serializer.data,
-            "tokens": tokens
+            "tokens": tokens,
         }, status=status.HTTP_201_CREATED)
     print("[DEBUG] serializer.errors", serializer.errors)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(["POST"])
 def login_user(request):
-    email = request.data.get("email")
+    username = request.data.get("username")
     password = request.data.get("password")
-    user = User.objects.filter(email=email).first()
-    if user is None:
-        return Response({"error": "Invalid Credentials"}, status=status.HTTP_400_BAD_REQUEST)
-    if not user.check_password(password):
-        return Response({"error": "Invalid Credentials"}, status=status.HTTP_400_BAD_REQUEST)
-    refresh = RefreshToken.for_user(user)
-    tokens = {
-        "access": str(refresh.access_token),
-        "refresh": str(refresh),
-    }
-    return Response(tokens, status=status.HTTP_200_OK)
+    email  = User.objects.get(username=username).email
+    user = authenticate(email=email, password=password)
+    print("[DEBUG] user", user)
+    if user:
+        refresh = RefreshToken.for_user(user)
+        tokens = {
+            "access": str(refresh.access_token),
+            "refresh": str(refresh),
+        }
+        return Response({
+            "user": UserSerializer(user).data,
+            "tokens": tokens,
+        }, status=status.HTTP_200_OK)
+    print("PROBLEMO")
+    return Response({"error": "Invalid credentials"}, status=status.HTTP_400_BAD_REQUEST)

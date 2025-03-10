@@ -78,6 +78,9 @@ CORS_ALLOWED_ORIGINS = [
 ]
 CORS_ALLOW_CREDENTIALS = True
 
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000"
+]
 SESSION_COOKIE_SAMESITE = "Lax"
 
 ROOT_URLCONF = 'hypertube.urls'
