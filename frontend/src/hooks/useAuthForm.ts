@@ -79,7 +79,9 @@ export const useAuthForm = (authType: AuthType) => {
             }
         } catch (error: any) {
             if (error.response) {
-                setErrors(error.response.data|| { general: "Unexpected error occurred" });
+                console.log("error login", error.response.data.error);
+                setErrors({"general": error.response.data.error});
+                alert(errors);
             }
             }
     }

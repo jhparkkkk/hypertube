@@ -74,7 +74,7 @@ const AuthForm = ({
                     <TextField label="Password" type="password" name="password" onChange={handleChange} fullWidth variant="filled"
                         error={!!errors.password} helperText={errors.password || ""} InputProps={{ sx: { color: "white" } }} />
                     {errors.general && (
-                        <Typography color="error" sx={{ mt: 2 }}>
+                        <Typography color="error">
                             {errors.general}
                         </Typography>
                     )}

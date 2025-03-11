@@ -1,7 +1,10 @@
 import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Header = () => {
+  
+  const { user, logout } = useAuth();
   return (
     <AppBar 
       position="fixed"
@@ -28,18 +31,27 @@ const Header = () => {
 
         {/* Boutons */}
         <Box>
-          <Button color="inherit" component={Link} to="/login" sx={{ marginRight: 2 }}>
-            Log in 
-          </Button>
-          <Button 
-            color="inherit" 
-            variant="outlined"
-            component={Link} 
-            to="/signup"
-            sx={{ borderColor: "white", color: "white" }}
-          >
-            Sign up
-          </Button>
+          {user && (
+            <Button color="inherit" variant="outlined" onClick={logout} sx={{ borderColor: "white", color: "white" }}>
+              LOG OUT
+            </Button>
+          )}
+          {!user && (
+            <Box>
+              <Button color="inherit" component={Link} to="/login" sx={{ marginRight: 2 }}>
+                Log in 
+              </Button>
+              <Button
+                color="inherit" 
+                variant="outlined"
+                component={Link} 
+                to="/signup"
+                sx={{ borderColor: "white", color: "white" }}>
+                Sign up
+              </Button>
+            </Box>
+          )}
+          
         </Box>
       </Toolbar>
     </AppBar>

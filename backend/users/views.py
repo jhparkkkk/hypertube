@@ -11,6 +11,7 @@ from django.contrib.auth import authenticate
 
 User = get_user_model()
 
+
 @api_view(["POST"])
 def register_user(request):
     serializer = UserSerializer(data=request.data)
@@ -22,17 +23,22 @@ def register_user(request):
             "refresh": str(refresh),
         }
         return Response({
-            "user":serializer.data,
+            "user": serializer.data,
             "tokens": tokens,
         }, status=status.HTTP_201_CREATED)
     print("[DEBUG] serializer.errors", serializer.errors)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(["POST"])
 def login_user(request):
     username = request.data.get("username")
     password = request.data.get("password")
-    email  = User.objects.get(username=username).email
+    try:
+        email = User.objects.get(username=username).email
+    except User.DoesNotExist:
+        return Response({"error": "User does not exist"}, status=status.HTTP_404_NOT_FOUND)
+
     user = authenticate(email=email, password=password)
     print("[DEBUG] user", user)
     if user:

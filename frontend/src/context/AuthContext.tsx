@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode}) => {
         alert("login");
         api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         setUser({ token });
-        navigate("/");
+        navigate("/home");
     };
 
     const logout = () => {
@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode}) => {
         localStorage.removeItem("accessToken");
         delete api.defaults.headers.common["Authorization"];
         setUser(null);
-        navigate("/login");
+        navigate("/");
     }
 
     return (

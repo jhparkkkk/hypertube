@@ -4,8 +4,7 @@ import { useAuth } from "../context/AuthContext";
 const ProtectedRoute = () => {
     const { user } = useAuth();
   if (!user) {
-    alert("Navigate to login");
-    return <Navigate to="/login" />;
+    return <Navigate to="/" />;
   }
 
   return <Outlet />;
