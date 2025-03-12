@@ -4,8 +4,9 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+
 @pytest.mark.django_db
-def test_register_user_success():
+def test_create_user_success():
     """ Test successful user registration """
     client = APIClient()
     payload = {
@@ -30,7 +31,7 @@ def test_register_user_success():
 
 
 @pytest.mark.django_db
-def test_register_user_invalid_email():
+def test_create_user_invalid_email():
     """ Test registration fails with an invalid email """
     client = APIClient()
     payload = {
@@ -47,7 +48,7 @@ def test_register_user_invalid_email():
 
 
 @pytest.mark.django_db
-def test_register_user_missing_fields():
+def test_create_user_missing_fields():
     """ Test registration fails when required fields are missing """
     client = APIClient()
     payload = {
@@ -63,7 +64,7 @@ def test_register_user_missing_fields():
 
 
 @pytest.mark.django_db
-def test_register_user_duplicate_email():
+def test_create_user_duplicate_email():
     """ Test registration fails if email is already taken """
     User.objects.create_user(
         email="testuser@example.com",
@@ -88,7 +89,7 @@ def test_register_user_duplicate_email():
 
 
 @pytest.mark.django_db
-def test_register_user_duplicate_username():
+def test_create_user_duplicate_username():
     """ Test registration fails if username is already taken """
     User.objects.create_user(
         email="existing@example.com",
@@ -113,7 +114,7 @@ def test_register_user_duplicate_username():
 
 
 @pytest.mark.django_db
-def test_register_user_weak_password():
+def test_create_user_weak_password():
     """ Test registration fails when password is too weak """
     client = APIClient()
     payload = {
@@ -124,13 +125,13 @@ def test_register_user_weak_password():
         "password": "12345"
     }
     response = client.post("/api/auth/signup", payload, format="json")
-    
+
     assert response.status_code == 400
     assert "password" in response.data
 
 
 @pytest.mark.django_db
-def test_register_user_long_password():
+def test_create_user_long_password():
     """ Test registration fails when password is too long """
     client = APIClient()
     payload = {
@@ -141,13 +142,13 @@ def test_register_user_long_password():
         "password": "A" * 51  # Password too long
     }
     response = client.post("/api/auth/signup", payload, format="json")
-    
+
     assert response.status_code == 400
     assert "password" in response.data
 
 
 @pytest.mark.django_db
-def test_register_user_missing_digit_in_password():
+def test_create_user_missing_digit_in_password():
     """ Test registration fails when password has no digits """
     client = APIClient()
     payload = {
@@ -158,13 +159,13 @@ def test_register_user_missing_digit_in_password():
         "password": "OnlyLetters"
     }
     response = client.post("/api/auth/signup", payload, format="json")
-    
+
     assert response.status_code == 400
     assert "password" in response.data
 
 
 @pytest.mark.django_db
-def test_register_user_missing_letter_in_password():
+def test_create_user_missing_letter_in_password():
     """ Test registration fails when password has no letters """
     client = APIClient()
     payload = {
@@ -175,13 +176,13 @@ def test_register_user_missing_letter_in_password():
         "password": "12345678"
     }
     response = client.post("/api/auth/signup", payload, format="json")
-    
+
     assert response.status_code == 400
     assert "password" in response.data
 
 
 @pytest.mark.django_db
-def test_register_user_different_providers():
+def test_create_user_different_providers():
     """ Test that a user cannot register with different providers """
     User.objects.create_user(
         email="testuser@example.com",

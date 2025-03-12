@@ -1,8 +1,9 @@
 from django.urls import path, include
-from .views import register_user, login_user
+from .views import create_user, oauth_token, users
 
 urlpatterns = [
     path("", include("social_django.urls", namespace="social")),
-    path("register/", register_user, name="register"),
-    path("login/", login_user, name="login"),
+    path("register", create_user, name="register"),
+    path("oauth/token", oauth_token, name="login"),
+    path("users/", users, name="users"),
 ]
