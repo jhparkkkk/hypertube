@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from rest_framework import status
 from rest_framework.response import Response
@@ -38,6 +38,13 @@ def create_user(request):
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def oauth_token(request):
+    client_id = request.data.get("client_id")
+    client_secret = request.data.get("client_secret")
+    print("[DEBUG] client_id", client_id)
+    print("[DEBUG] client_secret", client_secret)
+    if client_id != settings.VITE_CLIENT_ID or client_secret != settings.VITE_CLIENT_SECRET:
+        return Response({"error": "Invalid client_id or client_secret"}, status=status.HTTP_400_BAD)
+
     username = request.data.get("username")
     password = request.data.get("password")
     try:

@@ -17,6 +17,7 @@ export const useAuthForm = (authType: AuthType) => {
     const [formData, setFormData] = useState<FormData>({
         username: "",
         password: "",
+        ... (authType === "login" && { client_id: import.meta.env.VITE_CLIENT_ID, client_secret: import.meta.env.VITE_CLIENT_SECRET }),
         ...(authType === "register" && { email: "", first_name: "", last_name: "" }),
     });
 
