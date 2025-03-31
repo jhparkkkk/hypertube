@@ -70,13 +70,22 @@ def oauth_token(request):
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
-def users(request):
-    print("[DEBUUUUUUG] request", request)
-    # if request and request.id:
-    # user = User.objects.get(id=request.id)
-    # serializer = UserSerializer(user)
-    # return Response(serializer.data, status=status
-    # .HTTP_200_OK)
-    users = User.objects.all()
-    serializer = UserSerializer(users, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+def users(request, id=None):
+    try:
+        if id:
+            user = User.objects.get(id=id)
+            serializer = UserSerializer(user)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        users = User.objects.all()
+        serializer = UserSerializer(users, many=True)
+
+        users_list = []
+        for user in serializer.data:
+            users_list.append({
+                "id": user["id"],
+                "username": user["username"],
+            })
+        return Response(users_list, status=status.HTTP_200_OK)
+    except User.DoesNotExist:
+        return Response({"error": "User does not exist"}, status=status.HTTP_404_NOT_FOUND)

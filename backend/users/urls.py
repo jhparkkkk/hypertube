@@ -6,4 +6,5 @@ urlpatterns = [
     path("register", create_user, name="register"),
     path("oauth/token", oauth_token, name="login"),
     path("users/", users, name="users"),
+    path("users/<int:id>/", users, name="users"),
 ]
