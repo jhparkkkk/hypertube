@@ -6,10 +6,12 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth.hashers import make_password
-from .serializers import UserSerializer
+
+from .serializers import UserSerializer, ResetPasswordRequestSerializer, ResetPasswordSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
-
+from users.models import PasswordReset
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
 User = get_user_model()
 
 
@@ -89,3 +91,47 @@ def users(request, id=None):
         return Response(users_list, status=status.HTTP_200_OK)
     except User.DoesNotExist:
         return Response({"error": "User does not exist"}, status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(["POST"])
+@permission_classes([AllowAny])
+def request_reset_password(request):
+    email = request.data.get("email")
+    serializer = ResetPasswordRequestSerializer()
+    try:
+        user = User.objects.get(email=email)
+    except User.DoesNotExist:
+        return Response({"error": "User with credentials not found"}, status=status.HTTP_404_NOT_FOUND)
+    token_generator = PasswordResetTokenGenerator()
+    token = token_generator.make_token(user)
+    reset = PasswordReset.objects.create(email=email, token=token)
+    reset.save()
+
+    reset_url = f"http://localhost:3000/reset-password/{token}"
+    print("[DEBUG] reset_url", reset)
+
+    return Response({"success": "We have sent you a link to reset your password"}, status=status.HTTP_200_OK)
+
+
+@api_view(["POST"])
+@permission_classes([AllowAny])
+def reset_password(request, token):
+    serializer = ResetPasswordSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+
+    data = serializer.validated_data
+    new_password = data.get("new_password")
+    confirm_password = data.get("confirm_password")
+    if new_password != confirm_password:
+        return Response({"error": "Passwords do not match"}, status=status.HTTP_400_BAD_REQUEST)
+
+    reset_obj = PasswordReset.objects.get(token=token)
+    try:
+        user = User.objects.get(email=reset_obj.email)
+    except User.DoesNotExist:
+        return Response({"error": "User with email not found"}, status=status.HTTP_404_NOT
+                        )
+    user.password = make_password(new_password)
+    user.save()
+    reset_obj.delete()
+    return Response({"success": "Password reset successful"}, status=status.HTTP_200_OK)
