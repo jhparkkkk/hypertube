@@ -5,7 +5,8 @@ import {
     Container,
     Box,
     Paper,
-    Divider
+    Divider,
+    Link
 } from "@mui/material";
 import { GitHub, School } from "@mui/icons-material";
 
@@ -81,6 +82,14 @@ const AuthForm = ({
                     <Button variant="contained" color="error" fullWidth disabled={!isFormValid} sx={{ mt: 2, borderRadius: "8px", fontWeight: "bold", padding: "10px", backgroundColor: "#E50914" }} onClick={handleSubmit}>
                         {title}
                     </Button>
+                    {!isSignup && (
+                        <>
+                        <div className="forgot-password">
+                            <Link className="" href="/reset-password">
+                            Forgot Password?
+                            </Link>
+                        </div>
+                        </>)}
                     {isSignup && (
                         <>
                             <Divider sx={{ my: 2, backgroundColor: "rgba(255, 255, 255, 0.3)" }} />
