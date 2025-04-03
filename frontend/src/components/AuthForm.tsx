@@ -10,6 +10,9 @@ import {
 } from "@mui/material";
 import { GitHub, School } from "@mui/icons-material";
 
+type AuthType = "login" | "register" | "reset";
+
+
 interface AuthFormProps {
     title: string;
     formData: any;
@@ -17,7 +20,7 @@ interface AuthFormProps {
     handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleSubmit: () => void;
     isFormValid: boolean;
-    isSignup?: boolean;
+    authType?: AuthType;
     handleProviderLogin?: (provider: string) => void;
 }
 
@@ -28,7 +31,7 @@ const AuthForm = ({
     handleChange,
     handleSubmit,
     isFormValid,
-    isSignup = false,
+    authType,
     handleProviderLogin
 }: AuthFormProps) => {
     return (
@@ -60,7 +63,8 @@ const AuthForm = ({
                 </Typography>
 
                 <Box component="form" display="flex" flexDirection="column" gap={1.5}>
-                    {isSignup && (
+
+                    {authType == 'register' && (
                         <>
                             <TextField label="Email" name="email" onChange={handleChange} fullWidth variant="filled"
                                 error={!!errors.email} helperText={errors.email || ""} InputProps={{ sx: { color: "white" } }} />
@@ -70,10 +74,21 @@ const AuthForm = ({
                                 error={!!errors.last_name} helperText={errors.last_name || ""} InputProps={{ sx: { color: "white" } }} />
                         </>
                     )}
-                    <TextField label="Username" name="username" onChange={handleChange} fullWidth variant="filled"
+                    {authType == 'reset' && (
+                        <>
+                            <TextField label="Email" name="email" onChange={handleChange} fullWidth variant="filled"
+                                error={!!errors.email} helperText={errors.email || ""} InputProps={{ sx: { color: "white" } }} />
+                        </>
+                    )}
+                    
+                    {authType != 'reset' && 
+                        <>
+                        <TextField label="Username" name="username" onChange={handleChange} fullWidth variant="filled"
                         error={!!errors.username} helperText={errors.username || ""} InputProps={{ sx: { color: "white" } }} />
-                    <TextField label="Password" type="password" name="password" onChange={handleChange} fullWidth variant="filled"
+                        <TextField label="Password" type="password" name="password" onChange={handleChange} fullWidth variant="filled"
                         error={!!errors.password} helperText={errors.password || ""} InputProps={{ sx: { color: "white" } }} />
+                        </>
+                    }
                     {errors.general && (
                         <Typography color="error">
                             {errors.general}
@@ -82,7 +97,7 @@ const AuthForm = ({
                     <Button variant="contained" color="error" fullWidth disabled={!isFormValid} sx={{ mt: 2, borderRadius: "8px", fontWeight: "bold", padding: "10px", backgroundColor: "#E50914" }} onClick={handleSubmit}>
                         {title}
                     </Button>
-                    {!isSignup && (
+                    { authType == 'login' && (
                         <>
                         <div className="forgot-password">
                             <Link className="" href="/reset-password">
@@ -90,7 +105,7 @@ const AuthForm = ({
                             </Link>
                         </div>
                         </>)}
-                    {isSignup && (
+                    {authType == 'register' && (
                         <>
                             <Divider sx={{ my: 2, backgroundColor: "rgba(255, 255, 255, 0.3)" }} />
                             <Button variant="outlined" startIcon={<GitHub />} fullWidth sx={{ borderRadius: "8px", borderColor: "rgba(255, 255, 255, 0.5)", color: "white" }} onClick={() => handleProviderLogin && handleProviderLogin("github")}>
@@ -101,6 +116,7 @@ const AuthForm = ({
                             </Button>
                         </>
                     )}
+
                 </Box>
             </Paper>
         </Container>

@@ -2,11 +2,12 @@ import './App.css'
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { AuthProvider } from './context/AuthContext';
 import Layout from './components/Layout';
+import ProtectedRoute from './components/ProtectedRoute';
+
 import Home from './pages/Home';
 import Signup from "./pages/Signup";
-import ProtectedRoute from './components/ProtectedRoute';
 import Login from './pages/Login';
-import ResetPassword from './components/PasswordReset';
+import ResetPassword from './pages/ResetPassword';
 
 function App() {
   return (
