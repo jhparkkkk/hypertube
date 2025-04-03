@@ -9,8 +9,9 @@ import {
     Link
 } from "@mui/material";
 import { GitHub, School } from "@mui/icons-material";
+import { useParams, useSearchParams } from 'react-router';
 
-type AuthType = "login" | "register" | "reset";
+type AuthType = "login" | "register" | "request-reset" | "reset";
 
 
 interface AuthFormProps {
@@ -22,6 +23,7 @@ interface AuthFormProps {
     isFormValid: boolean;
     authType?: AuthType;
     handleProviderLogin?: (provider: string) => void;
+    params?: any;
 }
 
 const AuthForm = ({
@@ -32,7 +34,7 @@ const AuthForm = ({
     handleSubmit,
     isFormValid,
     authType,
-    handleProviderLogin
+    handleProviderLogin,
 }: AuthFormProps) => {
     return (
         <Container
@@ -72,16 +74,28 @@ const AuthForm = ({
                                 error={!!errors.first_name} helperText={errors.first_name || ""} InputProps={{ sx: { color: "white" } }} />
                             <TextField label="Last Name" name="last_name" onChange={handleChange} fullWidth variant="filled"
                                 error={!!errors.last_name} helperText={errors.last_name || ""} InputProps={{ sx: { color: "white" } }} />
+                            <TextField label="Username" name="username" onChange={handleChange} fullWidth variant="filled"
+                            error={!!errors.username} helperText={errors.username || ""} InputProps={{ sx: { color: "white" } }} />
+                            <TextField label="Password" type="password" name="password" onChange={handleChange} fullWidth variant="filled"
+                            error={!!errors.password} helperText={errors.password || ""} InputProps={{ sx: { color: "white" } }} />
                         </>
                     )}
-                    {authType == 'reset' && (
+                    {authType == 'request-reset' && (
                         <>
                             <TextField label="Email" name="email" onChange={handleChange} fullWidth variant="filled"
                                 error={!!errors.email} helperText={errors.email || ""} InputProps={{ sx: { color: "white" } }} />
                         </>
                     )}
+                    {authType == 'reset' && (
+                        <>
+                            <TextField label="New Password" type="password" name="new_password" onChange={handleChange} fullWidth variant="filled"
+                                error={!!errors.new_password} helperText={errors.new_password || ""} InputProps={{ sx: { color: "white" } }} />
+                            <TextField label="Confirm Password" type="password" name="confirm_password" onChange={handleChange} fullWidth variant="filled"
+                                error={!!errors.confirm_password} helperText={errors.confirm_password || ""} InputProps={{ sx: { color: "white" } }} />
+                        </>
+                    )}
                     
-                    {authType != 'reset' && 
+                    {authType == 'login' && 
                         <>
                         <TextField label="Username" name="username" onChange={handleChange} fullWidth variant="filled"
                         error={!!errors.username} helperText={errors.username || ""} InputProps={{ sx: { color: "white" } }} />
@@ -100,7 +114,7 @@ const AuthForm = ({
                     { authType == 'login' && (
                         <>
                         <div className="forgot-password">
-                            <Link className="" href="/reset-password">
+                            <Link className="" href="/request-reset-password">
                             Forgot Password?
                             </Link>
                         </div>

@@ -7,6 +7,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home';
 import Signup from "./pages/Signup";
 import Login from './pages/Login';
+import RequestResetPassword from './pages/RequestResetPassword';
 import ResetPassword from './pages/ResetPassword';
 
 function App() {
@@ -17,7 +18,9 @@ function App() {
             <Route index element={<Home />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/request-reset-password" element={<RequestResetPassword />} />
+            <Route path="/reset-password/:reset-token" element={<ResetPassword />} />
+
             <Route element={<ProtectedRoute />}>
               <Route path="/home" element={<div>Dashboard</div>} />
               <Route path="/profile" element={<div>Settings</div>} />

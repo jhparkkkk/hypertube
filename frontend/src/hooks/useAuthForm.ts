@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { api } from "../api/axiosConfig";
 import { useAuth } from "../context/AuthContext";
 
-type AuthType = "login" | "register" | "reset";
+type AuthType = "login" | "register" | "request-reset" | "reset";
 
 
 interface FormData {
@@ -16,11 +16,10 @@ interface FormData {
 
 export const useAuthForm = (authType: AuthType) => {
     const [formData, setFormData] = useState<FormData>({
-        username: "",
-        password: "",
-        ... (authType === "login" && { username: "", password: "", client_id: import.meta.env.VITE_CLIENT_ID, client_secret: import.meta.env.VITE_CLIENT_SECRET }),
-        ...(authType === "register" && { email: "", first_name: "", last_name: "" }),
-        ...(authType === "reset" && { email: "" })
+        ...(authType === "login" && { username: "", password: "", client_id: import.meta.env.VITE_CLIENT_ID, client_secret: import.meta.env.VITE_CLIENT_SECRET }),
+        ...(authType === "register" && { email: "", first_name: "", last_name: "", username: "", password: "" }),
+        ...(authType === "request-reset" && { email: "" }),
+        ...(authType === "reset" && { new_password: "", confirm_password: "" }),
     });
 
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -39,9 +38,13 @@ export const useAuthForm = (authType: AuthType) => {
         if (authType === "login") {
             requiredFields.push("username", "password");
         }
-        if (authType === "reset") {
+        if (authType === "request-reset") {
             requiredFields.push("email");
         }
+        if (authType === "reset") {
+            requiredFields.push("new_password", "confirm_password");
+        }
+        
 
         requiredFields.forEach((key) => {
             if (!(key in data) || !data[key as keyof FormData]) {
@@ -62,12 +65,13 @@ export const useAuthForm = (authType: AuthType) => {
             isValid = false;
         }
 
-        if (authType === "reset") {
+        if (authType === "request-reset") {
             if (data.email && !/\S+@\S+\.\S+/.test(data.email)) {
                 errors.email = "Invalid email format";
                 isValid = false;
             }
         }
+        
         setErrors(errors);
         setIsFormValid(isValid);
         return isValid;
@@ -80,15 +84,19 @@ export const useAuthForm = (authType: AuthType) => {
 
     const handleSubmit = async () => {
         if (!isFormValid) return;
+
         const endpointByAuthType = {
-            login: '/oauth/token',
-            register: '/register',
-            reset: '/reset-password'
-          };
+            'login': '/oauth/token',
+            'register': '/register',
+            'request-reset': '/request-reset-password',
+            'reset': '/reset-password/'
+        };
         
         const endpoint = endpointByAuthType[authType];
         console.log("formData", formData);
         try {
+            alert(endpoint)
+            console.log("endpoint", endpoint);
             const response = await api.post(endpoint, formData);
 
             console.log(`User succesfully ${authType}ed in:`, response.data);

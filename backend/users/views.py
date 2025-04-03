@@ -12,6 +12,10 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 from users.models import PasswordReset
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
+
+from django.template.loader import render_to_string
+from django.core.mail import EmailMessage
+
 User = get_user_model()
 
 
@@ -109,7 +113,15 @@ def request_reset_password(request):
 
     reset_url = f"http://localhost:3000/reset-password/{token}"
     print("[DEBUG] reset_url", reset)
-
+    subject = 'Password Reset Request'
+    message = render_to_string('password_reset_email.html', {
+        'user': user,
+        'reset_url': reset_url,
+    })
+    from_email = settings.EMAIL_HOST_USER
+    email = EmailMessage(subject, message, from_email, [email])
+    email.content_subtype = "html"  # Set the content type to HTML
+    email.send(fail_silently=False)
     return Response({"success": "We have sent you a link to reset your password"}, status=status.HTTP_200_OK)
 
 
