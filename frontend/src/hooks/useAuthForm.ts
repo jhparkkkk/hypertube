@@ -88,7 +88,7 @@ export const useAuthForm = (authType: AuthType, params="") => {
             'login': '/oauth/token',
             'register': '/register',
             'request-reset': '/request-reset-password',
-            'reset': '/reset-password/' + params,
+            'reset': '/reset-password/'+ params + '/',
         };
         
         const endpoint = endpointByAuthType[authType];
@@ -117,3 +117,5 @@ export const useAuthForm = (authType: AuthType, params="") => {
     
     return { formData, errors, isFormValid, handleChange, handleSubmit };
     };
+
+    

@@ -69,8 +69,25 @@ class ResetPasswordRequestSerializer(serializers.Serializer):
 
 
 class ResetPasswordSerializer(serializers.Serializer):
-    new_password = serializers.RegexField(
-        regex=r'^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$',
-        write_only=True,
-        error_messages={'invalid': ('Password must be at least 8 characters long with at least one capital letter and symbol')})
-    confirm_password = serializers.CharField(write_only=True, required=True)
+    def validate_password(self, value):
+        if len(value) < 8:
+            raise serializers.ValidationError(
+                "Password must be at least 8 characters long.")
+        if len(value) > 50:
+            raise serializers.ValidationError(
+                "Password must be at most 50 characters long")
+        if not any(char.isdigit() for char in value):
+            raise serializers.ValidationError(
+                "Password must contain at least one digit.")
+        if not any(char.isalpha() for char in value):
+            raise serializers.ValidationError(
+                "Password must contain at least one letter.")
+        return value
+
+    def validate(self, attributes):
+        new_password = self.validate_password(
+            self.initial_data.get("new_password"))
+        confirm_password = self.validate_password(
+            self.initial_data.get("confirm_password"))
+        if new_password != confirm_password:
+            raise serializers.ValidationError("Passwords do not match")

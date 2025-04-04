@@ -128,11 +128,15 @@ def request_reset_password(request):
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def reset_password(request, token=''):
-    token = request.query_params.get('token')
+    print("[DEBUG] token", token)
+    # token = request.query_params.get('token')
 
     serializer = ResetPasswordSerializer(data=request.data)
-    serializer.is_valid(raise_exception=True)
-
+    try:
+        serializer.is_valid(raise_exception=True)
+    except Exception as e:
+        # TODO: parse  serializer.errors and return a proper response
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
     data = serializer.validated_data
     new_password = data.get("new_password")
     confirm_password = data.get("confirm_password")
