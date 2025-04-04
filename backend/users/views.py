@@ -111,7 +111,7 @@ def request_reset_password(request):
     reset = PasswordReset.objects.create(email=email, token=token)
     reset.save()
 
-    reset_url = f"http://localhost:3000/reset-password/{token}"
+    reset_url = f"http://localhost:3000/reset-password/param?reset-token={token}"
     print("[DEBUG] reset_url", reset)
     subject = 'Password Reset Request'
     message = render_to_string('password_reset_email.html', {
@@ -120,14 +120,16 @@ def request_reset_password(request):
     })
     from_email = settings.EMAIL_HOST_USER
     email = EmailMessage(subject, message, from_email, [email])
-    email.content_subtype = "html"  # Set the content type to HTML
+    email.content_subtype = "html"
     email.send(fail_silently=False)
     return Response({"success": "We have sent you a link to reset your password"}, status=status.HTTP_200_OK)
 
 
 @api_view(["POST"])
 @permission_classes([AllowAny])
-def reset_password(request, token):
+def reset_password(request, token=''):
+    token = request.query_params.get('token')
+
     serializer = ResetPasswordSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
 

@@ -14,14 +14,13 @@ interface FormData {
     password?: string;
 }
 
-export const useAuthForm = (authType: AuthType) => {
+export const useAuthForm = (authType: AuthType, params="") => {
     const [formData, setFormData] = useState<FormData>({
         ...(authType === "login" && { username: "", password: "", client_id: import.meta.env.VITE_CLIENT_ID, client_secret: import.meta.env.VITE_CLIENT_SECRET }),
         ...(authType === "register" && { email: "", first_name: "", last_name: "", username: "", password: "" }),
         ...(authType === "request-reset" && { email: "" }),
         ...(authType === "reset" && { new_password: "", confirm_password: "" }),
     });
-
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
     const [isFormValid, setIsFormValid] = useState(false);
     const navigate = useNavigate();
@@ -89,14 +88,14 @@ export const useAuthForm = (authType: AuthType) => {
             'login': '/oauth/token',
             'register': '/register',
             'request-reset': '/request-reset-password',
-            'reset': '/reset-password/'
+            'reset': '/reset-password/' + params,
         };
         
         const endpoint = endpointByAuthType[authType];
-        console.log("formData", formData);
         try {
             alert(endpoint)
             console.log("endpoint", endpoint);
+
             const response = await api.post(endpoint, formData);
 
             console.log(`User succesfully ${authType}ed in:`, response.data);

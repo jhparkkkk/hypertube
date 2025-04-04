@@ -1,5 +1,5 @@
 import './App.css'
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { Routes, Route, BrowserRouter, useLocation } from "react-router-dom";
 import { AuthProvider } from './context/AuthContext';
 import Layout from './components/Layout';
 import ProtectedRoute from './components/ProtectedRoute';

@@ -8,6 +8,7 @@ urlpatterns = [
     path("users/", users, name="users"),
     path("users/<int:id>/", users, name="users"),
     path("request-reset-password", request_reset_password, name="reset-password"),
-    path("reset-password/<str:token>", reset_password, name="reset-password"),
+    path("reset-password/<str:token>/",
+         reset_password, name="reset-password"),
     path("delete-user", delete_user, name="delete-user"),
 ]

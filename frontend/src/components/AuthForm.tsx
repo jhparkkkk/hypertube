@@ -9,7 +9,6 @@ import {
     Link
 } from "@mui/material";
 import { GitHub, School } from "@mui/icons-material";
-import { useParams, useSearchParams } from 'react-router';
 
 type AuthType = "login" | "register" | "request-reset" | "reset";
 
@@ -35,7 +34,9 @@ const AuthForm = ({
     isFormValid,
     authType,
     handleProviderLogin,
+    params,
 }: AuthFormProps) => {
+    console.log("params", params);  
     return (
         <Container
             maxWidth="xs"
