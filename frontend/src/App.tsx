@@ -9,7 +9,7 @@ import Signup from "./pages/Signup";
 import Login from './pages/Login';
 import RequestResetPassword from './pages/RequestResetPassword';
 import ResetPassword from './pages/ResetPassword';
-
+import UserProfile from './pages/UserProfile';
 function App() {
   return (
     <AuthProvider>
@@ -21,9 +21,11 @@ function App() {
             <Route path="/request-reset-password" element={<RequestResetPassword />} />
             <Route path="/reset-password/:reset-token" element={<ResetPassword />} />
 
+
             <Route element={<ProtectedRoute />}>
               <Route path="/home" element={<div>Dashboard</div>} />
               <Route path="/profile" element={<div>Settings</div>} />
+              <Route path="/users/:id" element={<UserProfile />} />
             </Route>
 
           </Route>

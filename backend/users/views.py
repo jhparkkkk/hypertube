@@ -165,7 +165,7 @@ def delete_user(request):
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
-def update_user(request):
+def update_user(request): 
     user = request.user
     serializer = UserSerializer(user, data=request.data, partial=True)
     serializer.is_valid(raise_exception=True)
