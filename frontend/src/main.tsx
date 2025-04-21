@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
-import Signup from "./pages/Signup";
 
 import CssBaseline from "@mui/material/CssBaseline";
 import theme from "./theme";

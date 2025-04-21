@@ -5,4 +5,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install watchdog
 COPY . .
 RUN mkdir -p /app/downloads
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "hypertube.wsgi", "--reload"]
+CMD ["sh", "-c", "python manage.py migrate && gunicorn --bind 0.0.0.0:8000 hypertube.wsgi --reload"]
