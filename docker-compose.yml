@@ -64,4 +64,3 @@ volumes:
 
 networks:
   hypertube_default:
-    external: true
