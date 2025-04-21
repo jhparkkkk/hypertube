@@ -1,5 +1,5 @@
 from django.db import models
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.utils import timezone
 from django.conf import settings
 import os
@@ -29,7 +29,7 @@ class MovieFile(models.Model):
 	def save(self, *args, **kwargs):
 		# Check if file should be deleted (unwatched for a month)
 		if self.last_watched:
-			month_ago = timezone.now() - datetime.timedelta(days=30)
+			month_ago = timezone.now() - timedelta(days=30)
 			if self.last_watched < month_ago:
 				if self.file_path and os.path.exists(self.file_path):
 					os.remove(self.file_path)

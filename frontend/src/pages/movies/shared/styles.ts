@@ -57,6 +57,33 @@ export const moviePlayerStyles = {
     width: '100%',
     maxWidth: '1000px',
     margin: '0 auto',
-    bgcolor: '#000'
+    bgcolor: '#000',
+    position: 'relative'
+  },
+  bufferingOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    zIndex: 1,
+    gap: 2,
+    color: 'white'
+  },
+  downloadProgress: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    padding: '8px 16px',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
   }
 } as const; 

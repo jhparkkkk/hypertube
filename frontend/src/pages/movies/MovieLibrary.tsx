@@ -5,17 +5,25 @@ import {
   Grid,
   TextField,
   CircularProgress,
+  Typography,
 } from '@mui/material';
 import { api } from '../../api/axiosConfig';
 import { Movie } from './shared/types';
 import { MovieCard } from './shared/components';
 
+interface MovieResponse {
+  results: Movie[];
+  page: number;
+  total_pages: number;
+}
+
 const MovieLibrary: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
-  const [search, setSearch] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
+  const [search, setSearch] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+  const [totalResults, setTotalResults] = useState<number>(0);
   const observer = useRef<IntersectionObserver>();
 
   const lastMovieElementRef = useCallback((node: HTMLElement | null) => {
@@ -23,7 +31,7 @@ const MovieLibrary: React.FC = () => {
     if (observer.current) observer.current.disconnect();
     observer.current = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting && hasMore) {
-        setPage(prevPage => prevPage + 1);
+        setPage((prevPage: number) => prevPage + 1);
       }
     });
     if (node) observer.current.observe(node);
@@ -32,29 +40,34 @@ const MovieLibrary: React.FC = () => {
   const fetchMovies = async (searchTerm: string, currentPage: number) => {
     setLoading(true);
     try {
-      const response = await api.get('/movies/', {
+      const response = await api.get<MovieResponse>('/movies/', {
         params: {
           search: searchTerm,
           page: currentPage
         }
       });
       
-      const moviesData = Array.isArray(response.data) ? response.data : response.data.results;
-      const totalPages = Array.isArray(response.data) ? Math.ceil(response.data.length / 20) : response.data.total_pages;
+      const { results: moviesData, total_pages: totalPages } = response.data;
       
       if (moviesData) {
-        setMovies(prev => 
-          currentPage === 1 ? moviesData : [...prev, ...moviesData]
+        // Filter out movies without posters (backend should already do this)
+        const validMovies = moviesData.filter((movie: Movie) => movie.poster_path);
+        
+        setMovies((prev: Movie[]) => 
+          currentPage === 1 ? validMovies : [...prev, ...validMovies]
         );
         setHasMore(currentPage < totalPages);
+        setTotalResults(validMovies.length);
       } else {
         setMovies([]);
         setHasMore(false);
+        setTotalResults(0);
       }
     } catch (error) {
       console.error('Error fetching movies:', error);
       setMovies([]);
       setHasMore(false);
+      setTotalResults(0);
     }
     setLoading(false);
   };
@@ -70,20 +83,20 @@ const MovieLibrary: React.FC = () => {
   useEffect(() => {
     debouncedSearch(search);
     return () => debouncedSearch.cancel();
-  }, [search]);
+  }, [search, debouncedSearch]);
 
   useEffect(() => {
     if (page > 1) {
       fetchMovies(search, page);
     }
-  }, [page]);
+  }, [page, search]);
 
   return (
     <Box sx={{ p: 3, backgroundColor: '#1a1a1a', minHeight: '100vh' }}>
       <Box sx={{ mb: 3 }}>
         <TextField
           fullWidth
-          placeholder="Search movies"
+          placeholder="Search movies..."
           variant="outlined"
           value={search}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
@@ -109,8 +122,14 @@ const MovieLibrary: React.FC = () => {
         />
       </Box>
 
+      {movies.length === 0 && !loading && (
+        <Typography variant="h6" color="white" align="center" sx={{ mt: 4 }}>
+          {search ? 'No movies found' : 'Loading popular movies...'}
+        </Typography>
+      )}
+
       <Grid container spacing={3}>
-        {movies.map((movie, index) => (
+        {movies.map((movie: Movie, index: number) => (
           <Grid
             item
             xs={12}

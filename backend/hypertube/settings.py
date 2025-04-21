@@ -63,6 +63,26 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
 CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+    'range',
+]
 
 SESSION_COOKIE_SAMESITE = "Lax"
 
@@ -189,3 +209,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 TMDB_API_KEY = os.getenv('TMDB_API_KEY')
 TMDB_API_TOKEN = os.getenv('TMDB_API_TOKEN')
+
+# Downloads path for movie files
+DOWNLOAD_PATH = '/app/downloads'
+os.makedirs(DOWNLOAD_PATH, exist_ok=True)

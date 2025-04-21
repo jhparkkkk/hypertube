@@ -12,8 +12,21 @@ export interface MovieCardProps {
 	movie: Movie;
 }
 
-export type DownloadStatus = 'PENDING' | 'DOWNLOADING' | 'CONVERTING' | 'READY' | 'ERROR';
+export enum DownloadStatus {
+	NOT_STARTED = 'NOT_STARTED',
+	DOWNLOADING = 'DOWNLOADING',
+	CONVERTING = 'CONVERTING',
+	READY = 'READY',
+	ERROR = 'ERROR'
+}
 
 export interface MoviePlayerProps {
-	movieId: string;
+	movieId: number;
+}
+
+export interface MovieStatusResponse {
+	status: DownloadStatus;
+	progress?: number;
+	movie_file_id?: string;
+	error?: string;
 }

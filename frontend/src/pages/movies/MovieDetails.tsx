@@ -18,6 +18,7 @@ interface Movie {
   vote_average: number;
   poster_path: string | null;
   backdrop_path: string | null;
+  magnet_link?: string;
 }
 
 const MovieDetails: React.FC = () => {
@@ -25,12 +26,26 @@ const MovieDetails: React.FC = () => {
   const [movie, setMovie] = useState<Movie | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isStartingStream, setIsStartingStream] = useState(false);
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
       try {
         const response = await api.get(`/movies/${id}/`);
         setMovie(response.data);
+        
+        // If magnet link exists, start the stream automatically
+        if (response.data.magnet_link) {
+          setIsStartingStream(true);
+          try {
+            await api.post(`/movies/${id}/start_stream/`, {
+              magnet_link: response.data.magnet_link
+            });
+          } catch (error) {
+            console.error('Error starting stream:', error);
+          }
+          setIsStartingStream(false);
+        }
       } catch (error) {
         console.error('Error fetching movie details:', error);
         setError('Failed to load movie details');
@@ -146,6 +161,32 @@ const MovieDetails: React.FC = () => {
             </Typography>
           </Grid>
         </Grid>
+
+        {movie.magnet_link && (
+          <Paper 
+            elevation={3}
+            sx={{ 
+              mt: 4,
+              p: 2,
+              backgroundColor: '#2a2a2a',
+              border: '1px solid #444',
+              borderRadius: 2
+            }}
+          >
+            <Typography 
+              variant="h5" 
+              gutterBottom 
+              sx={{ 
+                color: '#fff',
+                mb: 2,
+                fontWeight: 500
+              }}
+            >
+              Watch Movie
+            </Typography>
+            <MoviePlayer movieId={Number(id)} />
+          </Paper>
+        )}
       </Box>
     </Box>
   );
