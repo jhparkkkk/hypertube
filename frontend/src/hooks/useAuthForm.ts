@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { api } from "../api/axiosConfig";
+import { api, API_BASE_URL } from "../api/axiosConfig";
 import { useAuth } from "../context/AuthContext";
-
 type AuthType = "login" | "register" | "request-reset" | "reset";
 
 
@@ -114,8 +113,12 @@ export const useAuthForm = (authType: AuthType, params="") => {
             }
             }
     }
+	const handleProviderLogin = (test: string) => {
+		alert("test");
+		window.location.replace(`${API_BASE_URL}/login/${test}`);
+	};
     
-    return { formData, errors, isFormValid, handleChange, handleSubmit };
+    return { formData, errors, isFormValid, handleChange, handleSubmit, handleProviderLogin, authType, params};
     };
 
     
