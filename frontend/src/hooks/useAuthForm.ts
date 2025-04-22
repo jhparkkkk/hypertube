@@ -100,7 +100,7 @@ export const useAuthForm = (authType: AuthType, params="") => {
             console.log(`User succesfully ${authType}ed in:`, response.data);
 
             if (authType === "login") {
-                login(response.data.tokens.access);
+                login(response.data.tokens.access, response.data.user);
                 navigate("/home");
             } else {
                 navigate("/home");

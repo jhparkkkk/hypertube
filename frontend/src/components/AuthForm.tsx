@@ -218,6 +218,38 @@ const AuthForm = ({
 					</Button>
 					{authType == "login" && (
 						<>
+							<Button
+								variant="outlined"
+								startIcon={<GitHub />}
+								fullWidth
+								sx={{
+									borderRadius: "8px",
+									borderColor: "rgba(255, 255, 255, 0.5)",
+									color: "white",
+								}}
+								onClick={() =>
+									handleProviderLogin &&
+									handleProviderLogin("github")
+								}
+							>
+								Continue with GitHub
+							</Button>
+							<Button
+								variant="outlined"
+								startIcon={<School />}
+								fullWidth
+								sx={{
+									borderRadius: "8px",
+									borderColor: "rgba(255, 255, 255, 0.5)",
+									color: "white",
+								}}
+								onClick={() =>
+									handleProviderLogin &&
+									handleProviderLogin("fortytwo")
+								}
+							>
+								Continue with 42
+							</Button>
 							<div className="forgot-password">
 								<Link
 									className=""

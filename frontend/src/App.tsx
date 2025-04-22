@@ -1,40 +1,44 @@
-import './App.css'
+import "./App.css";
 import { Routes, Route, BrowserRouter, useLocation } from "react-router-dom";
-import { AuthProvider } from './context/AuthContext';
-import Layout from './components/Layout';
-import ProtectedRoute from './components/ProtectedRoute';
-import MovieLibrary from './pages/movies/MovieLibrary';
-import MovieDetails from './pages/movies/MovieDetails';
-import Home from './pages/Home';
+import { AuthProvider } from "./context/AuthContext";
+import Layout from "./components/Layout";
+import ProtectedRoute from "./components/ProtectedRoute";
+import MovieLibrary from "./pages/movies/MovieLibrary";
+import MovieDetails from "./pages/movies/MovieDetails";
+import Home from "./pages/Home";
 import Signup from "./pages/Signup";
-import Login from './pages/Login';
-import RequestResetPassword from './pages/RequestResetPassword';
-import ResetPassword from './pages/ResetPassword';
-import UserProfile from './pages/UserProfile';
+import Login from "./pages/Login";
+import RequestResetPassword from "./pages/RequestResetPassword";
+import ResetPassword from "./pages/ResetPassword";
+import UserProfile from "./pages/UserProfile";
 function App() {
-  return (
-    <AuthProvider>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/request-reset-password" element={<RequestResetPassword />} />
-            <Route path="/reset-password/:reset-token" element={<ResetPassword />} />
-            <Route path="/movies" element={<MovieLibrary />} />
-            <Route path="/movies/:id" element={<MovieDetails />} />
+	return (
+		<AuthProvider>
+			<Routes>
+				<Route path="/" element={<Layout />}>
+					<Route index element={<Home />} />
+					<Route path="/signup" element={<Signup />} />
+					<Route path="/login" element={<Login />} />
+					<Route
+						path="/request-reset-password"
+						element={<RequestResetPassword />}
+					/>
+					<Route
+						path="/reset-password/:reset-token"
+						element={<ResetPassword />}
+					/>
+					<Route path="/movies" element={<MovieLibrary />} />
+					<Route path="/movies/:id" element={<MovieDetails />} />
 
-
-            <Route element={<ProtectedRoute />}>
-              <Route path="/home" element={<div>Dashboard</div>} />
-              <Route path="/profile" element={<div>Settings</div>} />
-              <Route path="/users/:id" element={<UserProfile />} />
-            </Route>
-
-          </Route>
-        </Routes>
-    </AuthProvider>
-  )
+					<Route element={<ProtectedRoute />}>
+						<Route path="/home" element={<div>Dashboard</div>} />
+						<Route path="/profile" element={<div>Settings</div>} />
+						<Route path="/users/:id" element={<UserProfile />} />
+					</Route>
+				</Route>
+			</Routes>
+		</AuthProvider>
+	);
 }
 
 export default App;
