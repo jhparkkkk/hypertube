@@ -103,7 +103,7 @@ export const useAuthForm = (authType: AuthType, params="") => {
                 login(response.data.tokens.access);
                 navigate("/home");
             } else {
-                navigate("/login");
+                navigate("/home");
             }
         } catch (error: any) {
             if (error.response) {
