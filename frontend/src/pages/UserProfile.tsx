@@ -26,7 +26,7 @@ interface User {
 }
 
 const UserProfile = ({ isOwnProfile = true }) => {
-	const { user } = useAuth();
+	const { user, setUser } = useAuth();
 	const [form, setForm] = useState<User | null>(null);
 	const [isEditing, setIsEditing] = useState(false);
 
@@ -55,6 +55,7 @@ const UserProfile = ({ isOwnProfile = true }) => {
 			console.log("Saving form data:", form);
 			const res = await api.post("/update-user", form);
 			setForm(res.data);
+			setUser(res.data);
 			setIsEditing(false);
 			alert("Profile updated!");
 		} catch (error: any) {
@@ -62,7 +63,7 @@ const UserProfile = ({ isOwnProfile = true }) => {
 				"Erreur lors de la mise à jour :",
 				error.response?.data,
 			);
-			alert("Échec de la mise à jour du profil.");
+			alert("Error updating profile.");
 		}
 	};
 
