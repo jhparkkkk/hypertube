@@ -4,6 +4,7 @@ from typing import Dict, Any, List
 from django.conf import settings
 import os
 from urllib.parse import quote_plus
+import re
 
 logger = logging.getLogger(__name__)
 
@@ -72,7 +73,91 @@ class TorrentService:
         if not self.api_key:
             logger.error("JACKETT_API_KEY not set in environment variables")
         self.min_seeders = 3
+        self.language_names = {}
+        self._init_language_names()
         logger.info("TorrentService initialized with URL: %s", self.jackett_url)
+
+    def _init_language_names(self):
+        """Initialize language names from TMDB configuration"""
+        try:
+            url = "https://api.themoviedb.org/3/configuration/languages"
+            headers = {"Authorization": f"Bearer {settings.TMDB_API_TOKEN}"}
+            response = requests.get(url, headers=headers)
+            response.raise_for_status()
+
+            for lang in response.json():
+                iso = lang.get("iso_639_1")
+                if iso:
+                    eng_name = lang.get("english_name", "").lower()
+                    native_name = lang.get("name", "").lower()
+
+                    variations = set()
+                    if eng_name:
+                        variations.add(eng_name)
+                        variations.add(eng_name.replace(" ", ""))
+                    if native_name:
+                        variations.add(native_name)
+                        variations.add(native_name.replace(" ", ""))
+
+                    variations.add(iso)
+
+                    self.language_names[iso] = variations
+
+            logger.info(f"Initialized {len(self.language_names)} language mappings")
+        except Exception as e:
+            logger.error(f"Error initializing language names: {str(e)}")
+            self.language_names = {}
+
+    def _detect_language_in_title(self, title: str, original_language: str) -> bool:
+        """
+        Detect if a torrent title indicates it's in the original language
+        Returns True if the title suggests original language or if we can't determine
+        """
+        title = title.lower()
+
+        dub_keywords = ["dubbed", "dub", "dublado", "doblado", "doublé", "doublage"]
+        if any(kw in title for kw in dub_keywords):
+            return False
+
+        if original_language == "en":
+            return True
+
+        language_variations = self.language_names.get(original_language, set())
+        if language_variations:
+            return any(variation in title for variation in language_variations)
+
+        return True
+
+    def _clean_title(self, title: str) -> str:
+        """Clean title by removing special characters and extra spaces"""
+        cleaned = re.sub(r"[^\w\s]", "", title)
+        return " ".join(cleaned.split())
+
+    def _generate_search_terms(self, title: str, year: int = None) -> List[str]:
+        """Generate various formats of the title for better torrent matching"""
+        terms = []
+
+        clean_title = self._clean_title(title)
+
+        if year:
+            terms.append(f"{title} {year}")
+
+        if year:
+            terms.append(f"{clean_title} {year}")
+
+        terms.append(title)
+
+        if clean_title != title:
+            terms.append(clean_title)
+
+        for article in ["the ", "a ", "an "]:
+            if clean_title.lower().startswith(article):
+                no_article = clean_title[len(article) :].strip()
+                terms.append(no_article)
+                if year:
+                    terms.append(f"{no_article} {year}")
+
+        return list(dict.fromkeys(terms))
 
     def search_movie_torrents(self, tmdb_id: str = None, title: str = None, year: int = None) -> List[Dict]:
         """
@@ -80,38 +165,50 @@ class TorrentService:
         Returns a list of available torrents with quality and size information
         """
         try:
-            search_term = title
-            if year:
-                search_term = f"{title} {year}"
+            original_language = None
+            original_title = None
+            if tmdb_id:
+                try:
+                    tmdb_url = f"https://api.themoviedb.org/3/movie/{tmdb_id}"
+                    headers = {"Authorization": f"Bearer {settings.TMDB_API_TOKEN}"}
+                    movie_info = requests.get(tmdb_url, headers=headers).json()
+                    original_language = movie_info.get("original_language")
+                    original_title = movie_info.get("original_title")
+                    logger.info(f"Original language: {original_language}, Original title: {original_title}")
+                except Exception as e:
+                    logger.error(f"Error fetching TMDB info: {str(e)}")
 
-            logger.info("Starting search for: %s", search_term)
+            search_terms = []
+            if original_title and original_title != title:
+                search_terms.extend(self._generate_search_terms(original_title, year))
+            search_terms.extend(self._generate_search_terms(title, year))
 
-            search_url = f"{self.jackett_url}/api/v2.0/indexers/all/results"
-            params = {
-                "apikey": self.api_key,
-                "Query": search_term,
-                "Category[]": ["2000", "2010", "2020", "2030", "2040", "2045", "2050", "2060"],
-                "Type": "search",
-            }
+            logger.info(f"Searching with terms: {search_terms}")
 
-            # logger.error("DEBUG: Starting Jackett search with URL: %s", search_url)
-            # logger.error("DEBUG: Search parameters: %s", params)
+            all_results = []
+            for search_term in search_terms:
+                logger.info(f"Searching for: {search_term}")
 
-            response = requests.get(search_url, params=params, timeout=15)
-            # logger.error("DEBUG: Jackett response status: %d", response.status_code)
-            # logger.error("DEBUG: Jackett response headers: %s", dict(response.headers))
+                search_url = f"{self.jackett_url}/api/v2.0/indexers/all/results"
+                params = {
+                    "apikey": self.api_key,
+                    "Query": search_term,
+                    "Category[]": ["2000", "2010", "2020", "2030", "2040", "2045", "2050", "2060"],
+                    "Type": "search",
+                }
 
-            if not response.ok:
-                logger.error("Jackett API error: %d - %s", response.status_code, response.text)
-                return []
+                response = requests.get(search_url, params=params, timeout=10)
 
-            try:
-                results = response.json().get("Results", [])
+                if not response.ok:
+                    logger.error(f"Jackett API error: {response.status_code} - {response.text}")
+                    continue
 
-            except Exception as e:
-                logger.error("Failed to parse Jackett response: %s", str(e))
-                logger.error("Raw response text: %s", response.text[:1000])
-                return []
+                try:
+                    results = response.json().get("Results", [])
+                    all_results.extend(results)
+                except Exception as e:
+                    logger.error(f"Failed to parse Jackett response: {str(e)}")
+                    continue
 
             torrent_list = []
             valid_results = 0
@@ -120,48 +217,30 @@ class TorrentService:
             for result in results:
                 try:
                     title = result.get("Title", "Unknown")
-                    # logger.error("DEBUG: Processing result: %s", title)
 
                     magnet_uri = result.get("MagnetUri")
-                    # logger.error("DEBUG: Found MagnetUri: %s", bool(magnet_uri))
-
                     if not magnet_uri:
                         link = result.get("Link")
-                        # logger.error("DEBUG: No MagnetUri, checking Link: %s", link)
                         if isinstance(link, str) and link.startswith("magnet:?"):
                             magnet_uri = link
-                            # logger.error("DEBUG: Using Link as magnet")
-
-                    if not magnet_uri:
-                        info_hash = result.get("InfoHash")
-                        # logger.error("DEBUG: No magnet link, checking InfoHash: %s", info_hash)
-                        if info_hash:
-                            magnet_uri = self._create_magnet_link(info_hash, title)
-                            # logger.error("DEBUG: Created magnet from hash")
-
-                    if not magnet_uri:
-                        # logger.error("DEBUG: No magnet URI found for: %s", title)
-                        invalid_results += 1
-                        continue
-
-                    def safe_int(value, default=0):
-                        if not value:
-                            return default
-                        try:
-                            return int(str(value))
-                        except (ValueError, TypeError):
-                            return default
+                        else:
+                            info_hash = result.get("InfoHash")
+                            if info_hash:
+                                magnet_uri = self._create_magnet_link(info_hash, title)
+                            else:
+                                invalid_results += 1
+                                continue
 
                     seeders = safe_int(result.get("Seeders"))
-                    peers = safe_int(result.get("Peers"))
-                    size = safe_int(result.get("Size"))
-
-                    # logger.error("DEBUG: Parsed values - Seeders: %d, Peers: %d, Size: %d", seeders, peers, size)
-
                     if seeders < 1:
-                        # logger.error("DEBUG: Skipping due to no seeders: %s", title)
                         invalid_results += 1
                         continue
+
+                    if original_language and not self._detect_language_in_title(title, original_language):
+                        continue
+
+                    peers = safe_int(result.get("Peers"))
+                    size = safe_int(result.get("Size"))
 
                     torrent = {
                         "title": title,
@@ -172,21 +251,15 @@ class TorrentService:
                         "source": result.get("Tracker", "Unknown"),
                     }
 
-                    # logger.error("DEBUG: Adding valid torrent: %s", torrent)
                     valid_results += 1
                     torrent_list.append(torrent)
 
                 except Exception as e:
                     invalid_results += 1
-                    logger.error("Error processing result: %s - %s", str(e), result)
+                    logger.error(f"Error processing result: {str(e)} - {result}")
                     continue
 
-            # Sort by seeders and size
             torrent_list.sort(key=lambda x: (x["seeders"], x["size"]), reverse=True)
-
-            # logger.error(
-            #     "DEBUG: Final results - Total: %d, Valid: %d, Invalid: %d", len(results), valid_results, invalid_results
-            # )
 
             return torrent_list
 
@@ -194,10 +267,10 @@ class TorrentService:
             logger.error("Timeout while connecting to Jackett")
             return []
         except requests.ConnectionError as e:
-            logger.error("Connection error to Jackett: %s", str(e))
+            logger.error(f"Connection error to Jackett: {str(e)}")
             return []
         except Exception as e:
-            logger.error("Error searching for torrents: %s", str(e))
+            logger.error(f"Error searching for torrents: {str(e)}")
             return []
 
     @staticmethod
@@ -235,7 +308,6 @@ def get_trackers():
     except Exception as e:
         logging.error(f"Error fetching ngosang trackers: {str(e)}")
 
-    # Add some fallback trackers in case the fetches fail
     fallback_trackers = [
         "udp://tracker.opentrackr.org:1337/announce",
         "udp://open.demonii.com:1337/announce",
@@ -259,12 +331,19 @@ def get_trackers():
         "http://buny.uk:6969/announce",
     ]
 
-    # If we couldn't fetch any trackers, use the fallback list
     if not trackers:
         trackers.update(fallback_trackers)
 
     return list(trackers)
 
 
-# Replace the hardcoded trackers list with the dynamic one
 trackers = get_trackers()
+
+
+def safe_int(value, default=0):
+    if not value:
+        return default
+    try:
+        return int(str(value))
+    except (ValueError, TypeError):
+        return default

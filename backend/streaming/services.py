@@ -1,178 +1,151 @@
-import subprocess
 import logging
-from django.http import StreamingHttpResponse, HttpResponse
-from typing import Optional
 import os
-import json
-from rest_framework import status
+import subprocess
+from typing import Optional
 
 logger = logging.getLogger(__name__)
 
 
 class StreamingService:
-	def __init__(self):
-		self.chunk_size = 8192  # 8KB chunks
-		self.supported_formats = {".mp4", ".mkv", ".avi", ".mov", ".wmv"}
+    def __init__(self):
+        self.chunk_size = 8192
+        self.supported_formats = {".mp4", ".mkv", ".avi", ".mov", ".wmv"}
+        self.chunk_duration = 10
 
-	def _probe_video(self, file_path):
-		"""Get video information using ffprobe"""
-		try:
-			cmd = ["ffprobe", "-v", "quiet", "-print_format", "json", "-show_format", "-show_streams", file_path]
-			result = subprocess.run(cmd, capture_output=True, text=True)
-			if result.returncode == 0:
-				return json.loads(result.stdout)
-			return None
-		except Exception as e:
-			logger.error(f"FFprobe error: {str(e)}")
-			return None
+    def _get_duration(self, file_path: str) -> Optional[float]:
+        """Get video duration using ffprobe"""
+        cmd = [
+            "ffprobe",
+            "-v",
+            "error",
+            "-show_entries",
+            "format=duration",
+            "-of",
+            "default=noprint_wrappers=1:nokey=1",
+            file_path,
+        ]
+        try:
+            result = subprocess.run(cmd, capture_output=True, text=True)
+            return float(result.stdout.strip())
+        except Exception as e:
+            logger.error(f"Error getting duration: {e}")
+            return None
 
-	def stream_video(self, file_path, start_time=0, quality="720p"):
-		"""Stream video using FFmpeg with adaptive quality and seeking support"""
-		if not os.path.exists(file_path):
-			logger.error(f"File not found: {file_path}")
-			return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+    def _convert_chunk(self, input_file: str, start_time: float, duration: float, output_file: str) -> bool:
+        """Convert a chunk of video"""
+        cmd = [
+            "ffmpeg",
+            "-y",
+            "-i",
+            input_file,
+            "-ss",
+            str(start_time),
+            "-t",
+            str(duration),
+            "-c:v",
+            "libx264",
+            "-preset",
+            "fast",
+            "-crf",
+            "23",
+            "-vf",
+            "format=yuv420p",
+            "-c:a",
+            "aac",
+            "-b:a",
+            "128k",
+            "-ac",
+            "2",
+            "-movflags",
+            "+faststart",
+            "-f",
+            "mp4",
+            output_file,
+        ]
+        try:
+            subprocess.run(cmd, check=True)
+            return True
+        except subprocess.CalledProcessError as e:
+            logger.error(f"Error converting chunk: {e}")
+            return False
 
-		# Get video information
-		probe_data = self._probe_video(file_path)
-		if not probe_data:
-			logger.error("Failed to probe video file")
-			return HttpResponse(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    def get_chunk_path(self, file_path: str, chunk_index: int) -> str:
+        """Get the path for a specific chunk"""
+        output_dir = f"conversions/{os.path.basename(file_path)}"
+        return f"{output_dir}/chunk_{chunk_index}.mp4"
 
-		# Set video parameters based on quality
-		video_params = self._get_video_params(quality)
+    def ensure_chunk_directory(self, file_path: str) -> str:
+        """Ensure the chunk directory exists and return its path"""
+        output_dir = f"conversions/{os.path.basename(file_path)}"
+        os.makedirs(output_dir, exist_ok=True)
+        return output_dir
 
-		try:
-			# Base FFmpeg command
-			cmd = [
-				"ffmpeg",
-				"-ss",
-				str(start_time),  # Seek position
-				"-i",
-				file_path,
-				"-c:v",
-				"libx264",  # Video codec
-				"-preset",
-				"ultrafast",  # Fastest encoding
-				"-tune",
-				"zerolatency",  # Minimize latency
-				"-c:a",
-				"aac",  # Audio codec
-				"-ac",
-				"2",  # Stereo audio
-				"-b:a",
-				"128k",  # Audio bitrate
-				"-maxrate",
-				video_params["maxrate"],
-				"-bufsize",
-				video_params["bufsize"],
-				"-vf",
-				f"scale={video_params['scale']}",  # Resolution
-				"-movflags",
-				"+faststart+frag_keyframe+empty_moov",  # Optimize for streaming
-				"-f",
-				"mp4",  # Force MP4 format
-				"-",  # Output to pipe
-			]
+    def is_mp4(self, file_path: str) -> bool:
+        """Check if the file is an MP4"""
+        return file_path.lower().endswith(".mp4")
 
-			logger.info(f"Starting FFmpeg stream: {' '.join(cmd)}")
+    def get_mp4_path(self, file_path: str) -> str:
+        """Get the path for the MP4 version of the file"""
+        output_dir = f"conversions/{os.path.basename(file_path)}"
+        return f"{output_dir}/full.mp4"
 
-			process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=-1)
+    def process_next_chunk(self, input_file: str, last_processed_time: float) -> tuple[bool, float]:
+        """
+        Process the next chunk of video
+        Returns: (success, new_last_processed_time)
+        """
+        if self.is_mp4(input_file):
+            return False, last_processed_time
 
-			def stream_generator():
-				try:
-					while True:
-						chunk = process.stdout.read(self.chunk_size)
-						if not chunk:
-							break
-						yield chunk
-				except Exception as e:
-					logger.error(f"Streaming error: {str(e)}")
-				finally:
-					try:
-						process.terminate()
-						process.wait(timeout=5)
-					except subprocess.TimeoutExpired:
-						process.kill()
+        current_duration = self._get_duration(input_file)
+        if current_duration is None:
+            return False, last_processed_time
 
-			response = StreamingHttpResponse(stream_generator(), content_type="video/mp4")
+        if last_processed_time >= current_duration:
+            return False, last_processed_time
 
-			# Add headers for better streaming
-			response["Accept-Ranges"] = "bytes"
-			response["Cache-Control"] = "no-cache"
-			response["X-Accel-Buffering"] = "no"
+        next_chunk_end = min(last_processed_time + self.chunk_duration, current_duration)
+        chunk_index = int(last_processed_time / self.chunk_duration)
 
-			return response
+        self.ensure_chunk_directory(input_file)
+        output_file = self.get_chunk_path(input_file, chunk_index)
 
-		except Exception as e:
-			logger.error(f"Failed to start streaming: {str(e)}")
-			if "process" in locals():
-				try:
-					process.terminate()
-					process.wait(timeout=5)
-				except subprocess.TimeoutExpired:
-					process.kill()
-			return HttpResponse(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        logger.info(f"Converting chunk {chunk_index} from {last_processed_time} to {next_chunk_end}")
 
-	def _get_video_params(self, quality):
-		"""Get video parameters based on quality setting"""
-		params = {
-			"1080p": {"scale": "-1:1080", "maxrate": "5M", "bufsize": "10M"},
-			"720p": {"scale": "-1:720", "maxrate": "2.5M", "bufsize": "5M"},
-			"480p": {"scale": "-1:480", "maxrate": "1M", "bufsize": "2M"},
-		}
-		return params.get(quality, params["720p"])
+        if self._convert_chunk(input_file, last_processed_time, self.chunk_duration, output_file):
+            return True, next_chunk_end
+        else:
+            return False, last_processed_time
 
-	def convert_video(self, input_path, output_path):
-		"""Convert video to web-compatible format"""
-		try:
-			cmd = [
-				"ffmpeg",
-				"-i",
-				input_path,
-				"-c:v",
-				"libx264",
-				"-preset",
-				"medium",
-				"-crf",
-				"23",
-				"-c:a",
-				"aac",
-				"-b:a",
-				"192k",
-				"-movflags",
-				"+faststart",
-				"-y",
-				output_path,
-			]
+    def get_available_chunks(self, file_path: str) -> list[str]:
+        """Get list of available converted chunks or the full MP4 file"""
+        if self.is_mp4(file_path):
+            mp4_path = self.get_mp4_path(file_path)
+            return [mp4_path] if os.path.exists(mp4_path) else []
 
-			process = subprocess.run(cmd, capture_output=True, text=True)
-			return process.returncode == 0
+        output_dir = f"conversions/{os.path.basename(file_path)}"
+        if not os.path.exists(output_dir):
+            return []
 
-		except Exception as e:
-			logger.error(f"Conversion error: {str(e)}")
-			return False
+        chunks = []
+        i = 0
+        while True:
+            chunk_path = self.get_chunk_path(file_path, i)
+            if not os.path.exists(chunk_path):
+                break
+            chunks.append(chunk_path)
+            i += 1
+        return chunks
 
-	def get_thumbnail(self, file_path: str, time_position: float = 0) -> Optional[bytes]:
-		"""
-		Generate a thumbnail from the video at the specified time position
-		"""
-		try:
-			cmd = [
-				"ffmpeg",
-				"-ss",
-				str(time_position),
-				"-i",
-				file_path,
-				"-vframes",
-				"1",
-				"-f",
-				"image2pipe",
-				"-vcodec",
-				"png",
-				"-",
-			]
-			result = subprocess.run(cmd, capture_output=True)
-			return result.stdout if result.returncode == 0 else None
-		except Exception as e:
-			logger.error("Error generating thumbnail: %s", str(e))
-			return None
+    def is_conversion_complete(self, file_path: str) -> bool:
+        """Check if the entire file has been converted"""
+        if self.is_mp4(file_path):
+            return os.path.exists(self.get_mp4_path(file_path))
+
+        total_duration = self._get_duration(file_path)
+        if total_duration is None:
+            return False
+
+        chunks = self.get_available_chunks(file_path)
+        expected_chunks = int((total_duration + self.chunk_duration - 1) / self.chunk_duration)
+        return len(chunks) >= expected_chunks

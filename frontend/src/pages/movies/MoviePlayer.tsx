@@ -1,15 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import { api } from '../../api/axiosConfig';
-import { MoviePlayerProps } from './shared/types';
 
-interface MovieStatus {
-  ready: boolean;
-  downloading: boolean;
-  file_path: string;
+interface MoviePlayerProps {
+  movieId: string;
+  onError?: (error: string) => void;
 }
 
-export const MoviePlayer: React.FC<MoviePlayerProps> = ({ movieId, magnet }) => {
+export const MoviePlayer: React.FC<MoviePlayerProps> = ({ movieId, onError }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [filePath, setFilePath] = useState<string | null>(null);
@@ -18,15 +16,18 @@ export const MoviePlayer: React.FC<MoviePlayerProps> = ({ movieId, magnet }) => 
   useEffect(() => {
     const checkStatus = async () => {
       try {
-        const response = await api.get<MovieStatus>(`/streaming/${movieId}/status/`);
-        if (response.data.ready) {
-          setFilePath(response.data.file_path);
-          setLoading(false);
-        } else if (!response.data.downloading) {
-          await api.post(`/streaming/${movieId}/start/`, { magnet_link: magnet });
+        const response = await api.get(`/streaming/${movieId}/status/`);
+        if (response.data.status === 'READY') {
+          const streamResponse = await api.get(`/streaming/${movieId}/stream/`);
+          if (streamResponse.data.file_path) {
+            setFilePath(streamResponse.data.file_path);
+            setLoading(false);
+          }
         }
       } catch (err) {
-        setError('Failed to check movie status');
+        const errorMessage = 'Failed to check movie status';
+        setError(errorMessage);
+        onError?.(errorMessage);
         setLoading(false);
       }
     };
@@ -35,10 +36,12 @@ export const MoviePlayer: React.FC<MoviePlayerProps> = ({ movieId, magnet }) => 
     checkStatus();
 
     return () => clearInterval(interval);
-  }, [movieId, magnet]);
+  }, [movieId, onError]);
 
   const handleError = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
-    setError('Failed to load video');
+    const errorMessage = 'Failed to load video';
+    setError(errorMessage);
+    onError?.(errorMessage);
     setLoading(false);
   };
 
@@ -61,7 +64,7 @@ export const MoviePlayer: React.FC<MoviePlayerProps> = ({ movieId, magnet }) => 
   if (!filePath) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
-        <Typography>Downloading movie...</Typography>
+        <Typography>Loading video...</Typography>
       </Box>
     );
   }

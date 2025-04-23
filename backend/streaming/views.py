@@ -10,84 +10,11 @@ import threading
 import libtorrent as lt
 import logging
 import time
-import subprocess
+from concurrent.futures import ThreadPoolExecutor
 
-# Regex pattern for parsing range header
 range_re = re.compile(r"bytes\s*=\s*(\d+)\s*-\s*(\d*)", re.I)
 
 logger = logging.getLogger(__name__)
-
-
-def convert_video(input_path, output_path):
-    """Convert movie to MP4 format with web-compatible codecs"""
-    try:
-        # First check if input file exists and is readable
-        if not os.path.exists(input_path):
-            logging.error(f"Input file does not exist: {input_path}")
-            return False
-
-        # Check if we have write permission in output directory
-        output_dir = os.path.dirname(output_path)
-        if not os.access(output_dir, os.W_OK):
-            logging.error(f"No write permission in output directory: {output_dir}")
-            return False
-
-        # FFmpeg command with more robust parameters
-        cmd = [
-            "ffmpeg",
-            "-y",  # Overwrite output file
-            "-i",
-            input_path,
-            "-c:v",
-            "libx264",  # Video codec
-            "-preset",
-            "medium",  # Encoding speed preset (medium is a good balance)
-            "-crf",
-            "23",  # Quality (lower is better, 18-28 is good)
-            "-c:a",
-            "aac",  # Audio codec
-            "-b:a",
-            "192k",  # Audio bitrate
-            "-movflags",
-            "+faststart",  # Enable fast start for web playback
-            "-max_muxing_queue_size",
-            "9999",  # Prevent muxing errors
-            "-f",
-            "mp4",  # Force MP4 container format
-            output_path,
-        ]
-
-        # Log the full command for debugging
-        logging.info(f"Running FFmpeg command: {' '.join(cmd)}")
-
-        # Run FFmpeg with proper pipe redirection
-        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
-
-        # Capture output in real-time
-        stdout, stderr = process.communicate()
-
-        if process.returncode != 0:
-            logging.error(f"FFmpeg conversion failed with return code {process.returncode}")
-            logging.error(f"FFmpeg stderr: {stderr}")
-            # Clean up failed output file if it exists
-            if os.path.exists(output_path):
-                os.remove(output_path)
-            return False
-
-        # Verify the output file exists and has size > 0
-        if not os.path.exists(output_path) or os.path.getsize(output_path) == 0:
-            logging.error("Output file is missing or empty")
-            return False
-
-        logging.info(f"Successfully converted {input_path} to {output_path}")
-        return True
-
-    except Exception as e:
-        logging.error(f"Error during video conversion: {str(e)}")
-        # Clean up failed output file if it exists
-        if os.path.exists(output_path):
-            os.remove(output_path)
-        return False
 
 
 class TorrentSessionManager:
@@ -115,12 +42,11 @@ class TorrentSessionManager:
                 with self._lock:
                     for handle_id, handle in list(self.handles.items()):
                         if handle.is_valid() and handle.status().is_seeding:
-                            # Keep seeding for a while to help others
-                            if handle.status().active_time > 3600:  # 1 hour
+                            if handle.status().active_time > 3600:
                                 self.remove_torrent(handle_id)
             except Exception as e:
                 logging.error(f"Error in cleanup loop: {str(e)}")
-            time.sleep(300)  # Check every 5 minutes
+            time.sleep(300)
 
     def add_torrent(self, magnet_link, save_path):
         params = lt.parse_magnet_uri(magnet_link)
@@ -149,7 +75,6 @@ class TorrentSessionManager:
                 del self.handle_locks[handle_id]
 
 
-# Global session manager
 torrent_manager = TorrentSessionManager()
 
 
@@ -159,11 +84,9 @@ def process_video_thread(video_id):
         movie_file.download_status = "DOWNLOADING"
         movie_file.save()
 
-        # Ensure download directory exists
         os.makedirs("/app/downloads", exist_ok=True)
         logging.info(f"Using download path: /app/downloads")
 
-        # Add torrent to session manager
         handle_id = torrent_manager.add_torrent(movie_file.magnet_link, "/app/downloads")
         handle = torrent_manager.get_handle(handle_id)
         handle_lock = torrent_manager.get_handle_lock(handle_id)
@@ -175,6 +98,7 @@ def process_video_thread(video_id):
             return
 
         with handle_lock:
+            handle.set_sequential_download(True)
             while not handle.has_metadata():
                 time.sleep(1)
 
@@ -182,20 +106,11 @@ def process_video_thread(video_id):
             largest_file = max(torrent_info.files(), key=lambda f: f.size)
             downloaded_path = os.path.join("/app/downloads", largest_file.path)
 
-            # Create subdirectories if needed
             os.makedirs(os.path.dirname(downloaded_path), exist_ok=True)
 
-            # Set the file path immediately so streaming can start
             movie_file.file_path = downloaded_path
             movie_file.save()
 
-            # Set sequential download and piece priorities
-            handle.set_sequential_download(True)
-            num_pieces = torrent_info.num_pieces()
-            piece_priorities = [7] * num_pieces  # High priority for all pieces
-            handle.prioritize_pieces(piece_priorities)
-
-            # Monitor download progress
             while True:
                 status = handle.status()
                 progress = status.progress * 100
@@ -209,34 +124,53 @@ def process_video_thread(video_id):
 
                 time.sleep(1)
 
-            # Once download is complete, convert to web-compatible format if needed
-            final_path = os.path.join("/app/downloads", f"{movie_file.tmdb_id}_{int(time.time())}.mp4")
+            movie_file.download_status = "CONVERTING"
+            movie_file.save()
 
-            logging.info(f"Converting video: {downloaded_path} -> {final_path}")
-            if convert_video(downloaded_path, final_path):
-                movie_file.file_path = final_path
+            streaming_service = StreamingService()
+            streaming_service.ensure_chunk_directory(downloaded_path)
+
+            if streaming_service.is_mp4(downloaded_path):
                 movie_file.download_status = "READY"
-                # Remove the original file
-                if os.path.exists(downloaded_path):
-                    try:
-                        os.remove(downloaded_path)
-                    except Exception as e:
-                        logging.error(f"Error removing original file: {str(e)}")
-            else:
-                movie_file.download_status = "ERROR"
-                if os.path.exists(final_path):
-                    try:
-                        os.remove(final_path)
-                    except Exception as e:
-                        logging.error(f"Error removing failed conversion: {str(e)}")
+                movie_file.save()
+                return
 
+            total_duration = streaming_service._get_duration(downloaded_path)
+            if not total_duration:
+                raise Exception("Could not get video duration")
+
+            num_chunks = int((total_duration + streaming_service.chunk_duration - 1) / streaming_service.chunk_duration)
+
+            with ThreadPoolExecutor(max_workers=4) as executor:
+                futures = []
+                for i in range(num_chunks):
+                    start_time = i * streaming_service.chunk_duration
+                    futures.append(
+                        executor.submit(
+                            streaming_service._convert_chunk,
+                            downloaded_path,
+                            start_time,
+                            streaming_service.chunk_duration,
+                            streaming_service.get_chunk_path(downloaded_path, i),
+                        )
+                    )
+
+                completed = 0
+                for future in futures:
+                    if future.result():
+                        completed += 1
+                        progress = (completed / num_chunks) * 100
+                        movie_file.download_progress = progress
+                        movie_file.save()
+                        logging.info(f"Chunk conversion progress: {progress:.2f}%")
+
+            movie_file.download_status = "READY"
             movie_file.save()
 
     except Exception as e:
-        logging.error(f"Error processing movie {video_id}: {str(e)}")
-        if "movie_file" in locals():
-            movie_file.download_status = "ERROR"
-            movie_file.save()
+        logging.error(f"Error processing video {video_id}: {str(e)}")
+        movie_file.download_status = "ERROR"
+        movie_file.save()
 
 
 class StreamingViewSet(viewsets.ViewSet):
@@ -300,15 +234,23 @@ class StreamingViewSet(viewsets.ViewSet):
             if not os.path.exists(movie_file.file_path):
                 return Response({"error": "Video file not found"}, status=status.HTTP_404_NOT_FOUND)
 
-            # Get start time from query params (for seeking)
-            start_time = float(request.query_params.get("start", 0))
-
             # Initialize streaming service
             streaming_service = StreamingService()
 
-            # Stream the video
-            response = streaming_service.stream_video(file_path=movie_file.file_path, start_time=start_time)
+            # If it's an MP4 file, return the full file path
+            if streaming_service.is_mp4(movie_file.file_path):
+                mp4_path = streaming_service.get_mp4_path(movie_file.file_path)
+                if not os.path.exists(mp4_path):
+                    # Copy the original MP4 file to the conversions directory
+                    os.makedirs(os.path.dirname(mp4_path), exist_ok=True)
+                    import shutil
 
+                    shutil.copy2(movie_file.file_path, mp4_path)
+                return Response({"file_path": mp4_path})
+
+            # For non-MP4 files, stream using FFmpeg
+            start_time = float(request.query_params.get("start", 0))
+            response = streaming_service.stream_video(file_path=movie_file.file_path, start_time=start_time)
             return response
 
         except MovieFile.DoesNotExist:
@@ -352,9 +294,10 @@ class MovieFileViewSet(viewsets.ModelViewSet):
         if not magnet_link.startswith("magnet:?"):
             return Response({"error": "Invalid magnet link format"}, status=status.HTTP_400_BAD_REQUEST)
 
-        movie_file = serializer.save()
+        # Create movie file with initial status
+        movie_file = serializer.save(download_status="PENDING", download_progress=0)
 
-        # Start the background thread
+        # Start the background thread immediately
         thread = threading.Thread(target=process_video_thread, args=(movie_file.id,))
         thread.daemon = True
         thread.start()

@@ -276,6 +276,12 @@ const MovieDetails: React.FC = () => {
             </Box>
           </Paper>
         )}
+
+        {downloadStatus === 'READY' && (
+          <Box sx={{ mt: 4 }}>
+            <MoviePlayer movieId={id || ''} onError={setError} />
+          </Box>
+        )}
       </Box>
     </Box>
   );

@@ -1,0 +1,680 @@
+2025-04-23 15:20:50.7094 Info Starting Jackett v0.22.1815
+2025-04-23 15:20:51.0315 Info Environment version: 8.0.15 (/app/Jackett/)
+2025-04-23 15:20:51.0361 Info OS version: Unix 5.15.0.134 (64bit OS) (64bit process)
+2025-04-23 15:20:51.0375 Info Jackett variant: CoreLinuxMuslAmdx64
+2025-04-23 15:20:51.0375 Info File /etc/issue: Welcome to Alpine Linux 3.21
+2025-04-23 15:20:51.0375 Info Running in Docker: Yes (image build: v0.22.1815-ls7)
+2025-04-23 15:20:51.0375 Info ThreadPool MaxThreads: 32767 workerThreads, 1000 completionPortThreads
+2025-04-23 15:20:51.0375 Info App config/log directory: /config/Jackett
+2025-04-23 15:20:51.0375 Info Using proxy: Disabled
+2025-04-23 15:20:51.0375 Info Using FlareSolverr: No
+2025-04-23 15:20:51.0407 Info Using HTTP Client: HttpWebClient2
+2025-04-23 15:20:51.0407 Info Loading Native indexers ...
+2025-04-23 15:20:51.0577 Info Loaded 78 Native indexers.
+2025-04-23 15:20:51.0577 Info Loading Cardigann indexers from: /config/cardigann/definitions/, /etc/xdg/cardigan/definitions/, /app/Jackett/Definitions
+2025-04-23 15:20:52.3839 Info Loaded 533 Cardigann indexers.
+2025-04-23 15:20:52.3839 Info Loaded 611 indexers in total
+2025-04-23 15:20:52.3941 Info Adding aggregate indexer ('all' indexer) ...
+2025-04-23 15:20:52.3984 Info Adding filter indexer ('type:public' indexer) ...
+2025-04-23 15:20:52.3984 Info Adding filter indexer ('type:private' indexer) ...
+2025-04-23 15:20:52.3984 Info Adding filter indexer ('type:semi-public' indexer) ...
+2025-04-23 15:20:52.4693 Warn No XML encryptor configured. Key {1d2785a1-f99f-4814-aef4-30a992185e64} may be persisted to storage in unencrypted form.
+2025-04-23 15:20:52.4875 Info Jackett startup finished in 1.915 s
+2025-04-23 15:22:23.9260 Info Jackett stopped
+2025-04-23 15:22:27.4641 Info Starting Jackett v0.22.1815
+2025-04-23 15:22:27.7479 Info Environment version: 8.0.15 (/app/Jackett/)
+2025-04-23 15:22:27.7522 Info OS version: Unix 5.15.0.134 (64bit OS) (64bit process)
+2025-04-23 15:22:27.7538 Info Jackett variant: CoreLinuxMuslAmdx64
+2025-04-23 15:22:27.7538 Info File /etc/issue: Welcome to Alpine Linux 3.21
+2025-04-23 15:22:27.7538 Info Running in Docker: Yes (image build: v0.22.1815-ls7)
+2025-04-23 15:22:27.7538 Info ThreadPool MaxThreads: 32767 workerThreads, 1000 completionPortThreads
+2025-04-23 15:22:27.7538 Info App config/log directory: /config/Jackett
+2025-04-23 15:22:27.7538 Info Using proxy: Disabled
+2025-04-23 15:22:27.7538 Info Using FlareSolverr: No
+2025-04-23 15:22:27.7568 Info Using HTTP Client: HttpWebClient2
+2025-04-23 15:22:27.7568 Info Loading Native indexers ...
+2025-04-23 15:22:27.7738 Info Loaded 78 Native indexers.
+2025-04-23 15:22:27.7738 Info Loading Cardigann indexers from: /config/cardigann/definitions/, /etc/xdg/cardigan/definitions/, /app/Jackett/Definitions
+2025-04-23 15:22:29.3529 Info Loaded 533 Cardigann indexers.
+2025-04-23 15:22:29.3529 Info Loaded 611 indexers in total
+2025-04-23 15:22:29.3635 Info Adding aggregate indexer ('all' indexer) ...
+2025-04-23 15:22:29.3685 Info Adding filter indexer ('type:public' indexer) ...
+2025-04-23 15:22:29.3685 Info Adding filter indexer ('type:private' indexer) ...
+2025-04-23 15:22:29.3685 Info Adding filter indexer ('type:semi-public' indexer) ...
+2025-04-23 15:22:29.4534 Info Jackett startup finished in 2.117 s
+2025-04-23 15:22:57.0786 Info Test search in The Pirate Bay => Found 50 releases [161ms]
+2025-04-23 15:22:57.0786 Info Test search in TheRARBG => Found 50 releases [161ms]
+2025-04-23 15:22:57.2938 Info Test search in YTS => Found 104 releases [376ms]
+2025-04-23 15:22:57.6945 Info Test search in The Pirate Bay => Found 50 releases [17ms]
+2025-04-23 15:22:57.7114 Info Test search in TheRARBG => Found 50 releases [34ms]
+2025-04-23 15:23:00.0570 Info Test search in YTS => Found 104 releases [2380ms]
+2025-04-23 15:23:01.0734 Info Test search in The Pirate Bay => Found 50 releases [14ms]
+2025-04-23 15:23:01.0886 Info Test search in TheRARBG => Found 50 releases [30ms]
+2025-04-23 15:23:02.7689 Info Test search in YTS => Found 104 releases [1710ms]
+2025-04-23 15:23:03.3150 Info Test search in The Pirate Bay => Found 50 releases [14ms]
+2025-04-23 15:23:03.3274 Info Test search in TheRARBG => Found 50 releases [26ms]
+2025-04-23 15:23:04.6176 Info Test search in The Pirate Bay => Found 50 releases [16ms]
+2025-04-23 15:23:04.6264 Info Test search in TheRARBG => Found 50 releases [25ms]
+2025-04-23 15:23:05.4911 Info Test search in YTS => Found 104 releases [2189ms]
+2025-04-23 15:23:05.7695 Info Test search in YTS => Found 104 releases [1168ms]
+2025-04-23 15:23:06.7145 Info Test search in The Pirate Bay => Found 50 releases [15ms]
+2025-04-23 15:23:06.7273 Info Test search in TheRARBG => Found 50 releases [28ms]
+2025-04-23 15:23:08.5189 Info Test search in YTS => Found 104 releases [1819ms]
+2025-04-23 15:23:11.2478 Info Manual search in The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 151 releases [2452ms]
+2025-04-23 15:23:11.3023 Info Manual search in The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 151 releases (from cache) [3ms]
+2025-04-23 15:23:13.7906 Info Test search in The Pirate Bay => Found 50 releases [11ms]
+2025-04-23 15:23:13.8192 Info Test search in TheRARBG => Found 50 releases [39ms]
+2025-04-23 15:23:14.0568 Info Test search in YTS => Found 104 releases [277ms]
+2025-04-23 15:23:16.3208 Info Test search in The Pirate Bay => Found 50 releases [13ms]
+2025-04-23 15:23:16.3324 Info Test search in TheRARBG => Found 50 releases [25ms]
+2025-04-23 15:23:16.7992 Info Test search in YTS => Found 104 releases [492ms]
+2025-04-23 15:23:23.3473 Info Manual search in The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 151 releases (from cache) [2ms]
+2025-04-23 15:23:23.3862 Info Manual search in The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 151 releases (from cache) [2ms]
+2025-04-23 15:28:09.0071 Info Test search in The Pirate Bay => Found 50 releases [84ms]
+2025-04-23 15:28:09.0195 Info Test search in TheRARBG => Found 50 releases [91ms]
+2025-04-23 15:28:09.2529 Info Test search in YTS => Found 104 releases [322ms]
+2025-04-23 15:28:09.8500 Info Test search in The Pirate Bay => Found 50 releases [11ms]
+2025-04-23 15:28:09.8652 Info Test search in TheRARBG => Found 50 releases [26ms]
+2025-04-23 15:28:10.5235 Info Test search in The Pirate Bay => Found 50 releases [12ms]
+2025-04-23 15:28:10.5337 Info Test search in TheRARBG => Found 50 releases [22ms]
+2025-04-23 15:28:11.9752 Info Test search in YTS => Found 104 releases [2136ms]
+2025-04-23 15:28:12.2137 Info Test search in YTS => Found 104 releases [1702ms]
+2025-04-23 15:28:39.6947 Info Manual search in The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 151 releases (from cache) [3ms]
+2025-04-23 15:28:39.7380 Info Manual search in The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 151 releases (from cache) [2ms]
+2025-04-23 15:28:41.6497 Info Manual search in The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 151 releases (from cache) [1ms]
+2025-04-23 15:28:41.6910 Info Manual search in The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 151 releases (from cache) [1ms]
+2025-04-23 15:28:43.1701 Info Manual search in The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 151 releases (from cache) [1ms]
+2025-04-23 15:28:43.2116 Info Manual search in The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 151 releases (from cache) [2ms]
+2025-04-23 15:28:44.5639 Info Manual search in The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 151 releases (from cache) [1ms]
+2025-04-23 15:28:44.6021 Info Manual search in The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 151 releases (from cache) [1ms]
+2025-04-23 15:31:35.2084 Info Manual search in The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 151 releases (from cache) [6ms]
+2025-04-23 15:31:35.2785 Info Manual search in The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 151 releases (from cache) [3ms]
+2025-04-23 15:32:33.8665 Info Manual search in The Pirate Bay, TheRARBG, YTS for A Minecraft Movie 2025 => Found 14 releases [403ms]
+2025-04-23 15:32:33.9266 Info Manual search in The Pirate Bay, TheRARBG, YTS for A Minecraft Movie 2025 => Found 14 releases (from cache) [0ms]
+2025-04-23 15:39:11.8545 Info Manual search in The Pirate Bay, TheRARBG, YTS for Captain America: Brave New World 2025 => Found 129 releases [589ms]
+2025-04-23 15:39:11.9043 Info Manual search in The Pirate Bay, TheRARBG, YTS for Captain America: Brave New World 2025 => Found 129 releases (from cache) [3ms]
+2025-04-23 15:39:45.0175 Info Manual search in The Pirate Bay, TheRARBG, YTS for Gunslingers 2025 => Found 15 releases [257ms]
+2025-04-23 15:39:45.1086 Info Manual search in The Pirate Bay, TheRARBG, YTS for Gunslingers 2025 => Found 15 releases (from cache) [1ms]
+2025-04-23 15:44:26.3413 Info Manual search in The Pirate Bay, TheRARBG, YTS for Gunslingers 2025 => Found 15 releases (from cache) [0ms]
+2025-04-23 15:44:26.4116 Info Manual search in The Pirate Bay, TheRARBG, YTS for Gunslingers 2025 => Found 15 releases (from cache) [1ms]
+2025-04-23 15:51:51.1837 Info Manual search in The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 151 releases (from cache) [1ms]
+2025-04-23 15:51:51.2305 Info Manual search in The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 151 releases (from cache) [1ms]
+2025-04-23 15:51:57.4822 Info Manual search in The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 71 releases [439ms]
+2025-04-23 15:51:57.5206 Info Manual search in The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 71 releases (from cache) [1ms]
+2025-04-23 15:52:05.6114 Info Manual search in The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 71 releases (from cache) [2ms]
+2025-04-23 15:52:05.6489 Info Manual search in The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 71 releases (from cache) [1ms]
+2025-04-23 15:52:36.8777 Info Manual search in 1337x, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 92 releases (from cache) [7238ms]
+2025-04-23 15:52:38.4736 Info Manual search in 1337x, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 92 releases (from cache) [8303ms]
+2025-04-23 15:52:40.6091 Info Manual search in 1337x, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 92 releases (from cache) [8241ms]
+2025-04-23 15:52:40.7136 Info Manual search in 1337x, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 92 releases (from cache) [7813ms]
+2025-04-23 15:52:47.6672 Info Manual search in 1337x, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 92 releases (from cache) [1ms]
+2025-04-23 15:52:47.7060 Info Manual search in 1337x, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 92 releases (from cache) [1ms]
+2025-04-23 15:52:49.2866 Info Test search in 1337x => Found 80 releases [8426ms]
+2025-04-23 15:52:52.7192 Info Manual search in 1337x, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 92 releases (from cache) [1ms]
+2025-04-23 15:52:52.8165 Info Manual search in 1337x, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 92 releases (from cache) [1ms]
+2025-04-23 15:52:54.5905 Info Manual search in 1337x, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 92 releases (from cache) [1ms]
+2025-04-23 15:52:54.6277 Info Manual search in 1337x, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 92 releases (from cache) [1ms]
+2025-04-23 15:52:56.3540 Info Manual search in 1337x, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 92 releases (from cache) [6ms]
+2025-04-23 15:52:56.3949 Info Manual search in 1337x, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 92 releases (from cache) [1ms]
+2025-04-23 15:53:02.5049 Info Manual search in 1337x, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 92 releases (from cache) [1ms]
+2025-04-23 15:53:02.5450 Info Manual search in 1337x, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 92 releases (from cache) [1ms]
+2025-04-23 15:53:06.1753 Info Test search in 1337x => Found 80 releases [6663ms]
+2025-04-23 15:53:14.6429 Info Manual search in 1337x, The Pirate Bay, TheRARBG, YTS for In the Lost Lands 2025 => Found 41 releases [8202ms]
+2025-04-23 15:53:14.6505 Info Manual search in 1337x, The Pirate Bay, TheRARBG, YTS for In the Lost Lands 2025 => Found 41 releases (from cache) [7641ms]
+2025-04-23 15:53:15.2563 Info Manual search in The Pirate Bay, TheRARBG, YTS for G20 2025 => Found 51 releases [212ms]
+2025-04-23 15:53:15.3287 Info Manual search in The Pirate Bay, TheRARBG, YTS for G20 2025 => Found 51 releases (from cache) [0ms]
+2025-04-23 15:53:21.0551 Info Manual search in The Pirate Bay, TheRARBG, YTS for Moana 2 2024 => Found 105 releases [218ms]
+2025-04-23 15:53:21.1387 Info Manual search in The Pirate Bay, TheRARBG, YTS for Moana 2 2024 => Found 105 releases (from cache) [1ms]
+2025-04-23 15:53:39.1834 Info Manual search in The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 71 releases (from cache) [0ms]
+2025-04-23 15:53:39.2207 Info Manual search in The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 71 releases (from cache) [0ms]
+2025-04-23 15:55:06.4477 Info Manual search in The Pirate Bay, TheRARBG, YTS for In the Lost Lands 2025 => Found 32 releases (from cache) [0ms]
+2025-04-23 15:55:06.4808 Info Manual search in The Pirate Bay, TheRARBG, YTS for In the Lost Lands 2025 => Found 32 releases (from cache) [0ms]
+2025-04-23 16:01:35.3093 Info Manual search in The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 71 releases (from cache) [3ms]
+2025-04-23 16:01:35.3702 Info Manual search in The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 71 releases (from cache) [1ms]
+2025-04-23 16:02:51.7128 Info Manual search in The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 71 releases (from cache) [1ms]
+2025-04-23 16:02:51.7838 Info Manual search in The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 71 releases (from cache) [2ms]
+2025-04-23 16:07:52.9128 Info Manual search in The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 71 releases (from cache) [1ms]
+2025-04-23 16:07:52.9761 Info Manual search in The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 71 releases (from cache) [1ms]
+2025-04-23 16:07:58.2075 Info Manual search in The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 150 releases [482ms]
+2025-04-23 16:07:58.3134 Info Manual search in The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 150 releases (from cache) [5ms]
+2025-04-23 16:09:19.3382 Info Manual search in The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 71 releases (from cache) [2ms]
+2025-04-23 16:09:19.4108 Info Manual search in The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 71 releases (from cache) [2ms]
+2025-04-23 16:22:29.3885 Info Checking for updates... Jackett variant: CoreLinuxMuslAmdx64
+2025-04-23 16:22:29.5767 Info Jackett is already updated. Current version: v0.22.1815
+2025-04-23 16:26:34.4593 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases [438ms]
+2025-04-23 16:26:34.6062 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [1ms]
+2025-04-23 16:26:38.7474 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [1ms]
+2025-04-23 16:26:38.9023 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [2ms]
+2025-04-23 16:26:43.1983 Info Manual search in The Pirate Bay, TheRARBG, YTS for A Minecraft Movie 2025 => Found 14 releases [225ms]
+2025-04-23 16:26:43.2578 Info Manual search in The Pirate Bay, TheRARBG, YTS for A Minecraft Movie 2025 => Found 14 releases (from cache) [0ms]
+2025-04-23 16:26:48.2113 Info Manual search in The Pirate Bay, TheRARBG, YTS for Mufasa: The Lion King 2024 => Found 130 releases [578ms]
+2025-04-23 16:26:48.2381 Info Manual search in The Pirate Bay, TheRARBG, YTS for Mufasa: The Lion King 2024 => Found 130 releases (from cache) [3ms]
+2025-04-23 16:27:07.3244 Info Manual search in The Pirate Bay, TheRARBG, YTS for Amaran 2024 => Found 21 releases [888ms]
+2025-04-23 16:27:07.6165 Info Manual search in The Pirate Bay, TheRARBG, YTS for Amaran 2024 => Found 21 releases (from cache) [592ms]
+2025-04-23 16:28:58.0832 Info Manual search in The Pirate Bay, TheRARBG, YTS for Amaran 2024 => Found 21 releases (from cache) [0ms]
+2025-04-23 16:28:58.1206 Info Manual search in The Pirate Bay, TheRARBG, YTS for Amaran 2024 => Found 21 releases (from cache) [0ms]
+2025-04-23 16:29:08.9841 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:29:09.0162 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:29:13.5256 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:29:13.5676 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:29:17.4212 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:29:17.4649 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:29:18.6328 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:29:18.6672 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:29:29.5095 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:29:29.5494 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:29:30.6957 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:29:30.7310 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:29:32.8041 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:29:32.8376 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:29:39.8963 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:29:39.9370 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:29:41.4514 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:29:41.4843 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:31:13.9041 Info Manual search in The Pirate Bay, TheRARBG, YTS for Hindi Medium 2017 => Found 53 releases [683ms]
+2025-04-23 16:31:13.9779 Info Manual search in The Pirate Bay, TheRARBG, YTS for Hindi Medium 2017 => Found 53 releases (from cache) [1ms]
+2025-04-23 16:32:30.7192 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:32:30.7558 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:34:31.8652 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:34:31.8946 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:34:33.5596 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:34:33.5974 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:34:44.3281 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:34:44.3670 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:34:45.9422 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:34:45.9762 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:35:12.5087 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:35:12.5449 Info Manual search in The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:35:18.6995 Info Manual search in The Pirate Bay, TheRARBG, YTS for Novocaine 2025 => Found 49 releases [987ms]
+2025-04-23 16:35:18.7751 Info Manual search in The Pirate Bay, TheRARBG, YTS for Novocaine 2025 => Found 49 releases (from cache) [0ms]
+2025-04-23 16:35:21.9002 Info Manual search in The Pirate Bay, TheRARBG, YTS for Conclave 2024 => Found 82 releases [235ms]
+2025-04-23 16:35:21.9808 Info Manual search in The Pirate Bay, TheRARBG, YTS for Conclave 2024 => Found 82 releases (from cache) [2ms]
+2025-04-23 16:37:44.0379 Info Manual search in The Pirate Bay, TheRARBG, YTS for Sonic the Hedgehog 3 2024 => Found 117 releases [429ms]
+2025-04-23 16:37:44.1640 Info Manual search in The Pirate Bay, TheRARBG, YTS for Sonic the Hedgehog 3 2024 => Found 117 releases (from cache) [2ms]
+2025-04-23 16:37:48.2971 Info Manual search in The Pirate Bay, TheRARBG, YTS for The Codes of War 2025 => Found 0 releases [569ms]
+2025-04-23 16:37:48.3750 Info Manual search in The Pirate Bay, TheRARBG, YTS for The Codes of War 2025 => Found 0 releases (from cache) [0ms]
+2025-04-23 16:37:52.0609 Info Manual search in The Pirate Bay, TheRARBG, YTS for The Codes of War 2025 => Found 0 releases (from cache) [0ms]
+2025-04-23 16:37:52.1024 Info Manual search in The Pirate Bay, TheRARBG, YTS for The Codes of War 2025 => Found 0 releases (from cache) [0ms]
+2025-04-23 16:43:24.1853 Info Manual search in The Pirate Bay, TheRARBG, YTS for The Codes of War 2025 => Found 0 releases (from cache) [0ms]
+2025-04-23 16:43:24.2582 Info Manual search in The Pirate Bay, TheRARBG, YTS for The Codes of War 2025 => Found 0 releases (from cache) [0ms]
+2025-04-23 16:44:43.5938 Info Manual search in The Pirate Bay, TheRARBG, YTS for The Siege 2023 => Found 41 releases [1983ms]
+2025-04-23 16:44:43.6811 Info Manual search in The Pirate Bay, TheRARBG, YTS for The Siege 2023 => Found 41 releases (from cache) [0ms]
+2025-04-23 16:44:49.7210 Info Manual search in The Pirate Bay, TheRARBG, YTS for Amaran 2024 => Found 21 releases (from cache) [0ms]
+2025-04-23 16:44:49.7660 Info Manual search in The Pirate Bay, TheRARBG, YTS for Amaran 2024 => Found 21 releases (from cache) [0ms]
+2025-04-23 16:44:56.1234 Info Manual search in The Pirate Bay, TheRARBG, YTS for Popeye the Slayer Man 2025 => Found 13 releases [575ms]
+2025-04-23 16:44:56.2054 Info Manual search in The Pirate Bay, TheRARBG, YTS for Popeye the Slayer Man 2025 => Found 13 releases (from cache) [0ms]
+2025-04-23 16:45:01.7869 Info Manual search in The Pirate Bay, TheRARBG, YTS for Heart Eyes 2025 => Found 58 releases [228ms]
+2025-04-23 16:45:01.8752 Info Manual search in The Pirate Bay, TheRARBG, YTS for Heart Eyes 2025 => Found 58 releases (from cache) [0ms]
+2025-04-23 16:45:09.6726 Info Manual search in The Pirate Bay, TheRARBG, YTS for Robotia la película 2024 => Found 0 releases [594ms]
+2025-04-23 16:45:09.7531 Info Manual search in The Pirate Bay, TheRARBG, YTS for Robotia la película 2024 => Found 0 releases (from cache) [0ms]
+2025-04-23 16:47:02.5280 Info Test search in DivxTotal => Found 182 releases [2860ms]
+2025-04-23 16:48:43.8626 Error Exception in GetConfigurationForSetup (postman): System.Net.Http.HttpRequestException: Name does not resolve (tracker2.postman.i2p:80)
+ ---> System.Net.Sockets.SocketException (0xFFFDFFFF): Name does not resolve
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.DecompressionHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at FlareSolverrSharp.ClearanceHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Jackett.Common.Utils.Clients.HttpWebClient2.Run(WebRequest webRequest) in ./Jackett.Common/Utils/Clients/HttpWebClient2.cs:line 180
+   at Jackett.Common.Utils.Clients.WebClient.GetResultAsync(WebRequest request) in ./Jackett.Common/Utils/Clients/WebClient.cs:line 188
+   at Jackett.Common.Indexers.BaseWebIndexer.RequestWithCookiesAsync(String url, String cookieOverride, RequestType method, String referer, IEnumerable`1 data, Dictionary`2 headers, String rawbody, Nullable`1 emulateBrowser) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 617
+   at Jackett.Common.Indexers.Definitions.CardigannIndexer.GetConfigurationForSetup(Boolean automaticlogin, String cookies) in ./Jackett.Common/Indexers/Definitions/CardigannIndexer.cs:line 1002
+   at Jackett.Common.Indexers.Definitions.CardigannIndexer.GetConfigurationForSetup() in ./Jackett.Common/Indexers/Definitions/CardigannIndexer.cs:line 977
+2025-04-23 16:48:43.8881 Error System.Net.Http.HttpRequestException: Name does not resolve (tracker2.postman.i2p:80)
+
+[v0.22.1815.0] System.Net.Http.HttpRequestException: Name does not resolve (tracker2.postman.i2p:80)
+ ---> System.Net.Sockets.SocketException (0xFFFDFFFF): Name does not resolve
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.DecompressionHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at FlareSolverrSharp.ClearanceHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Jackett.Common.Utils.Clients.HttpWebClient2.Run(WebRequest webRequest) in ./Jackett.Common/Utils/Clients/HttpWebClient2.cs:line 180
+   at Jackett.Common.Utils.Clients.WebClient.GetResultAsync(WebRequest request) in ./Jackett.Common/Utils/Clients/WebClient.cs:line 188
+   at Jackett.Common.Indexers.BaseWebIndexer.RequestWithCookiesAsync(String url, String cookieOverride, RequestType method, String referer, IEnumerable`1 data, Dictionary`2 headers, String rawbody, Nullable`1 emulateBrowser) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 617
+   at Jackett.Common.Indexers.Definitions.CardigannIndexer.GetConfigurationForSetup(Boolean automaticlogin, String cookies) in ./Jackett.Common/Indexers/Definitions/CardigannIndexer.cs:line 1002
+   at Jackett.Common.Indexers.Definitions.CardigannIndexer.DoLogin(String cookies) in ./Jackett.Common/Indexers/Definitions/CardigannIndexer.cs:line 608
+   at Jackett.Common.Indexers.Definitions.CardigannIndexer.ApplyConfiguration(JToken configJson) in ./Jackett.Common/Indexers/Definitions/CardigannIndexer.cs:line 1079
+   at Jackett.Server.Controllers.IndexerApiController.UpdateConfig(ConfigItem[] config) in ./Jackett.Server/Controllers/IndexerApiController.cs:line 97
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Jackett.Server.Middleware.CustomExceptionHandler.Invoke(HttpContext httpContext) in ./Jackett.Server/Middleware/CustomExceptionHandler.cs:line 26
+
+2025-04-23 16:48:48.9300 Info Test search in The Pirate Bay => Found 50 releases [34ms]
+2025-04-23 16:48:48.9818 Info Test search in TheRARBG => Found 50 releases [50ms]
+2025-04-23 16:48:49.0901 Info Test search in BitSearch => Found 100 releases [197ms]
+2025-04-23 16:48:49.2525 Info Test search in GloDLS => Found 0 releases [359ms]
+2025-04-23 16:48:49.2525 Error System.Exception: Test search in GloDLS => Found no results while trying to browse this tracker. This may be an issue with the indexer, or other indexer settings such as search freeleech only etc.
+
+[v0.22.1815.0] System.Exception: Test search in GloDLS => Found no results while trying to browse this tracker. This may be an issue with the indexer, or other indexer settings such as search freeleech only etc.
+   at Jackett.Common.Services.IndexerManagerService.TestIndexer(String name) in ./Jackett.Common/Services/IndexerManagerService.cs:line 332
+   at Jackett.Server.Controllers.IndexerApiController.Test() in ./Jackett.Server/Controllers/IndexerApiController.cs:line 132
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Jackett.Server.Middleware.CustomExceptionHandler.Invoke(HttpContext httpContext) in ./Jackett.Server/Middleware/CustomExceptionHandler.cs:line 26
+
+2025-04-23 16:48:49.2525 Info Test search in kickasstorrents.ws => Found 50 releases [360ms]
+2025-04-23 16:48:49.2587 Info Test search in YTS => Found 104 releases [274ms]
+2025-04-23 16:48:52.8297 Info Test search in RuTracker.RU => Found 50 releases [3934ms]
+2025-04-23 16:48:55.1063 Info Test search in The Pirate Bay => Found 50 releases [11ms]
+2025-04-23 16:48:55.1354 Info Test search in TheRARBG => Found 50 releases [27ms]
+2025-04-23 16:48:55.2235 Info Test search in BitSearch => Found 100 releases [130ms]
+2025-04-23 16:48:55.3864 Info Test search in YTS => Found 104 releases [249ms]
+2025-04-23 16:48:55.4037 Info Test search in kickasstorrents.ws => Found 50 releases [310ms]
+2025-04-23 16:48:56.7357 Info Test search in RuTracker.RU => Found 50 releases [1641ms]
+2025-04-23 16:49:02.8819 Info Test search in The Pirate Bay => Found 50 releases [11ms]
+2025-04-23 16:49:02.9106 Info Test search in TheRARBG => Found 50 releases [26ms]
+2025-04-23 16:49:03.0126 Info Test search in BitSearch => Found 100 releases [143ms]
+2025-04-23 16:49:03.1627 Info Test search in YTS => Found 104 releases [249ms]
+2025-04-23 16:49:03.3017 Info Test search in kickasstorrents.to => Found 100 releases [14408ms]
+2025-04-23 16:49:03.3332 Info Test search in kickasstorrents.ws => Found 50 releases [463ms]
+2025-04-23 16:49:04.9864 Info Test search in RuTracker.RU => Found 50 releases [2116ms]
+2025-04-23 16:49:06.1373 Info Test search in The Pirate Bay => Found 50 releases [11ms]
+2025-04-23 16:49:06.1513 Info Test search in TheRARBG => Found 50 releases [24ms]
+2025-04-23 16:49:06.2544 Info Test search in BitSearch => Found 100 releases [129ms]
+2025-04-23 16:49:06.4219 Info Test search in YTS => Found 104 releases [282ms]
+2025-04-23 16:49:06.4335 Info Test search in kickasstorrents.ws => Found 50 releases [308ms]
+2025-04-23 16:49:07.2674 Info Test search in RuTracker.RU => Found 50 releases [1141ms]
+2025-04-23 16:49:08.2371 Info Test search in The Pirate Bay => Found 50 releases [13ms]
+2025-04-23 16:49:08.2494 Info Test search in TheRARBG => Found 50 releases [24ms]
+2025-04-23 16:49:08.3517 Info Test search in BitSearch => Found 100 releases [130ms]
+2025-04-23 16:49:08.5313 Info Test search in kickasstorrents.ws => Found 50 releases [309ms]
+2025-04-23 16:49:09.1547 Info Test search in YTS => Found 104 releases [915ms]
+2025-04-23 16:49:09.1987 Info Test search in RuTracker.RU => Found 50 releases [975ms]
+2025-04-23 16:49:09.9191 Info Test search in kickasstorrents.to => Found 100 releases [14826ms]
+2025-04-23 16:49:17.3927 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Alarum 2025 => Found 41 releases [2006ms]
+2025-04-23 16:49:17.4874 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Alarum 2025 => Found 41 releases (from cache) [0ms]
+2025-04-23 16:49:41.4544 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for My Fault: London 2025 => Found 38 releases [4622ms]
+2025-04-23 16:49:41.7472 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for My Fault: London 2025 => Found 38 releases (from cache) [1ms]
+2025-04-23 16:49:58.8640 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [4952ms]
+2025-04-23 16:49:58.9119 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:52:47.5740 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:52:47.6244 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:52:49.7358 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [1ms]
+2025-04-23 16:52:49.8002 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:53:37.0923 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:53:37.1414 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:53:38.5924 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:53:38.6381 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:54:03.4302 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:54:03.4799 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 16:54:15.7999 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Deva 2025 => Found 59 releases [454ms]
+2025-04-23 16:54:15.8895 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Deva 2025 => Found 59 releases (from cache) [1ms]
+2025-04-23 16:54:39.7180 Error Jackett.Common.IndexerException: Exception (kickasstorrents-ws): Request to https://kickass.ws/usearch/Quicksand%202023/?field=time_add&sorder=desc failed (Error 521) - The tracker seems to be down.
+
+[v0.22.1815.0] Jackett.Common.IndexerException: Exception (kickasstorrents-ws): Request to https://kickass.ws/usearch/Quicksand%202023/?field=time_add&sorder=desc failed (Error 521) - The tracker seems to be down.
+ ---> System.Exception: Request to https://kickass.ws/usearch/Quicksand%202023/?field=time_add&sorder=desc failed (Error 521) - The tracker seems to be down.
+   at Jackett.Common.Indexers.BaseWebIndexer.CheckSiteDown(WebResult response) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 684
+   at Jackett.Common.Indexers.BaseWebIndexer.RequestWithCookiesAsync(String url, String cookieOverride, RequestType method, String referer, IEnumerable`1 data, Dictionary`2 headers, String rawbody, Nullable`1 emulateBrowser) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 618
+   at Jackett.Common.Indexers.Definitions.CardigannIndexer.PerformQuery(TorznabQuery query) in ./Jackett.Common/Indexers/Definitions/CardigannIndexer.cs:line 1563
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 378
+   --- End of inner exception stack trace ---
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 403
+   at Jackett.Common.Indexers.BaseWebIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 816
+   at Jackett.Server.Controllers.ResultsController.Results(ApiSearch requestt) in ./Jackett.Server/Controllers/ResultsController.cs:line 256
+
+2025-04-23 16:54:39.7213 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Quicksand 2023 => Found 26 releases [4373ms]
+2025-04-23 16:54:39.9115 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Quicksand 2023 => Found 30 releases (from cache) [105ms]
+2025-04-23 16:55:33.2751 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Planes Trains and Automobiles 1987 => Found 111 releases (from cache) [14584ms]
+2025-04-23 16:55:38.7818 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Planes Trains and Automobiles 1987 => Found 111 releases (from cache) [1ms]
+2025-04-23 16:55:38.8889 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Planes Trains and Automobiles 1987 => Found 111 releases (from cache) [1ms]
+2025-04-23 16:55:41.3863 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Planes Trains and Automobiles 1987 => Found 111 releases (from cache) [1ms]
+2025-04-23 16:55:41.4347 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Planes Trains and Automobiles 1987 => Found 111 releases (from cache) [1ms]
+2025-04-23 16:55:43.3838 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Planes Trains and Automobiles 1987 => Found 111 releases (from cache) [1ms]
+2025-04-23 16:55:43.4373 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Planes Trains and Automobiles 1987 => Found 111 releases (from cache) [1ms]
+2025-04-23 16:55:48.0212 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Planes Trains and Automobiles 1987 => Found 111 releases [39489ms]
+2025-04-23 16:55:50.9403 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Planes Trains and Automobiles 1987 => Found 111 releases (from cache) [1ms]
+2025-04-23 16:55:50.9933 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Planes Trains and Automobiles 1987 => Found 111 releases (from cache) [1ms]
+2025-04-23 16:55:52.2377 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Planes Trains and Automobiles 1987 => Found 111 releases (from cache) [1ms]
+2025-04-23 16:55:52.2935 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Planes Trains and Automobiles 1987 => Found 111 releases (from cache) [1ms]
+2025-04-23 16:55:53.4438 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Planes Trains and Automobiles 1987 => Found 111 releases (from cache) [24709ms]
+2025-04-23 16:55:59.8230 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Planes Trains and Automobiles 1987 => Found 111 releases (from cache) [1ms]
+2025-04-23 16:55:59.8681 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Planes Trains and Automobiles 1987 => Found 111 releases (from cache) [1ms]
+2025-04-23 16:56:34.0997 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Planes Trains and Automobiles 1987 => Found 111 releases (from cache) [1ms]
+2025-04-23 16:56:34.1606 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for Planes Trains and Automobiles 1987 => Found 111 releases (from cache) [1ms]
+2025-04-23 16:57:01.0106 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for The Gorge 2025 => Found 86 releases [5078ms]
+2025-04-23 16:57:01.0973 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for The Gorge 2025 => Found 86 releases (from cache) [1ms]
+2025-04-23 16:57:11.9075 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 75 releases [6487ms]
+2025-04-23 16:57:11.9463 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 75 releases (from cache) [0ms]
+2025-04-23 16:57:11.9945 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 75 releases (from cache) [1ms]
+2025-04-23 16:57:21.2427 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 75 releases (from cache) [0ms]
+2025-04-23 16:57:21.2878 Info Manual search in BitSearch, kickasstorrents.ws, RuTracker.RU, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 75 releases (from cache) [0ms]
+2025-04-23 16:57:24.9953 Info Test search in The Pirate Bay => Found 50 releases [14ms]
+2025-04-23 16:57:25.0077 Info Test search in TheRARBG => Found 50 releases [26ms]
+2025-04-23 16:57:25.1443 Info Test search in BitSearch => Found 100 releases [163ms]
+2025-04-23 16:57:25.2328 Info Test search in YTS => Found 104 releases [251ms]
+2025-04-23 16:57:25.3152 Info Test search in kickasstorrents.ws => Found 50 releases [334ms]
+2025-04-23 16:57:29.0840 Info Test search in The Pirate Bay => Found 50 releases [12ms]
+2025-04-23 16:57:29.0946 Info Test search in TheRARBG => Found 50 releases [22ms]
+2025-04-23 16:57:29.2002 Info Test search in BitSearch => Found 100 releases [129ms]
+2025-04-23 16:57:29.3580 Info Test search in kickasstorrents.ws => Found 50 releases [286ms]
+2025-04-23 16:57:29.3800 Info Test search in YTS => Found 104 releases [294ms]
+2025-04-23 16:57:29.4836 Info Test search in The Pirate Bay => Found 50 releases [12ms]
+2025-04-23 16:57:29.5114 Info Test search in TheRARBG => Found 50 releases [26ms]
+2025-04-23 16:57:29.5889 Info Test search in BitSearch => Found 100 releases [118ms]
+2025-04-23 16:57:29.7749 Info Test search in kickasstorrents.ws => Found 50 releases [304ms]
+2025-04-23 16:57:30.5956 Info Test search in RuTracker.RU => Found 50 releases [5614ms]
+2025-04-23 16:57:30.7660 Info Test search in BitSearch => Found 100 releases [135ms]
+2025-04-23 16:57:30.7984 Info Test search in The Pirate Bay => Found 50 releases [29ms]
+2025-04-23 16:57:30.8227 Info Test search in TheRARBG => Found 50 releases [22ms]
+2025-04-23 16:57:30.9237 Info Test search in kickasstorrents.ws => Found 50 releases [293ms]
+2025-04-23 16:57:32.1199 Info Test search in YTS => Found 104 releases [1295ms]
+2025-04-23 16:57:32.1377 Info Test search in YTS => Found 104 releases [2624ms]
+2025-04-23 16:57:34.4977 Info Test search in The Pirate Bay => Found 50 releases [10ms]
+2025-04-23 16:57:34.5269 Info Test search in TheRARBG => Found 50 releases [27ms]
+2025-04-23 16:57:34.5269 Info Test search in RuTracker.RU => Found 50 releases [5057ms]
+2025-04-23 16:57:34.6111 Info Test search in BitSearch => Found 100 releases [124ms]
+2025-04-23 16:57:34.7813 Info Test search in kickasstorrents.ws => Found 50 releases [294ms]
+2025-04-23 16:57:34.8786 Info Test search in RuTracker.RU => Found 50 releases [5807ms]
+2025-04-23 16:57:34.9067 Info Test search in YTS => Found 104 releases [377ms]
+2025-04-23 16:57:35.1052 Info Test search in The Pirate Bay => Found 50 releases [10ms]
+2025-04-23 16:57:35.1201 Info Test search in TheRARBG => Found 50 releases [24ms]
+2025-04-23 16:57:35.2205 Info Test search in BitSearch => Found 100 releases [126ms]
+2025-04-23 16:57:35.4092 Info Test search in kickasstorrents.ws => Found 50 releases [314ms]
+2025-04-23 16:57:36.0876 Info Test search in RuTracker.RU => Found 50 releases [5456ms]
+2025-04-23 16:57:37.6381 Info Test search in YTS => Found 104 releases [2542ms]
+2025-04-23 16:57:37.6828 Info Test search in The Pirate Bay => Found 50 releases [11ms]
+2025-04-23 16:57:37.6947 Info Test search in TheRARBG => Found 50 releases [23ms]
+2025-04-23 16:57:37.8002 Info Test search in BitSearch => Found 100 releases [129ms]
+2025-04-23 16:57:37.9668 Info Test search in kickasstorrents.ws => Found 50 releases [296ms]
+2025-04-23 16:57:38.6758 Info Test search in The Pirate Bay => Found 50 releases [12ms]
+2025-04-23 16:57:38.6887 Info Test search in TheRARBG => Found 50 releases [25ms]
+2025-04-23 16:57:38.7893 Info Test search in BitSearch => Found 100 releases [126ms]
+2025-04-23 16:57:38.9719 Info Test search in kickasstorrents.ws => Found 50 releases [309ms]
+2025-04-23 16:57:39.6361 Info Test search in The Pirate Bay => Found 50 releases [12ms]
+2025-04-23 16:57:39.6476 Info Test search in TheRARBG => Found 50 releases [23ms]
+2025-04-23 16:57:39.7533 Info Test search in BitSearch => Found 100 releases [130ms]
+2025-04-23 16:57:39.9774 Info Test search in kickasstorrents.ws => Found 50 releases [353ms]
+2025-04-23 16:57:40.3671 Info Test search in YTS => Found 104 releases [2695ms]
+2025-04-23 16:57:40.3791 Info Test search in YTS => Found 104 releases [741ms]
+2025-04-23 16:57:40.6038 Info Test search in YTS => Found 104 releases [1939ms]
+2025-04-23 16:57:40.7412 Info Test search in The Pirate Bay => Found 50 releases [14ms]
+2025-04-23 16:57:40.7561 Info Test search in TheRARBG => Found 50 releases [28ms]
+2025-04-23 16:57:40.8514 Info Test search in BitSearch => Found 100 releases [124ms]
+2025-04-23 16:57:41.0322 Info Test search in kickasstorrents.ws => Found 50 releases [305ms]
+2025-04-23 16:57:42.1469 Info Test search in The Pirate Bay => Found 50 releases [11ms]
+2025-04-23 16:57:42.1610 Info Test search in TheRARBG => Found 50 releases [25ms]
+2025-04-23 16:57:42.2616 Info Test search in BitSearch => Found 100 releases [127ms]
+2025-04-23 16:57:42.4698 Info Test search in kickasstorrents.ws => Found 50 releases [335ms]
+2025-04-23 16:57:43.2666 Info Test search in The Pirate Bay => Found 50 releases [11ms]
+2025-04-23 16:57:43.2873 Info Test search in TheRARBG => Found 50 releases [31ms]
+2025-04-23 16:57:43.3623 Info Test search in BitSearch => Found 100 releases [107ms]
+2025-04-23 16:57:43.3663 Info Test search in YTS => Found 104 releases [2638ms]
+2025-04-23 16:57:43.3663 Info Test search in YTS => Found 104 releases [1231ms]
+2025-04-23 16:57:43.5387 Info Test search in YTS => Found 104 releases [270ms]
+2025-04-23 16:57:43.6201 Info Test search in kickasstorrents.ws => Found 50 releases [365ms]
+2025-04-23 16:57:44.4652 Info Test search in The Pirate Bay => Found 50 releases [9ms]
+2025-04-23 16:57:44.4829 Info Test search in TheRARBG => Found 50 releases [27ms]
+2025-04-23 16:57:44.5812 Info Test search in BitSearch => Found 100 releases [126ms]
+2025-04-23 16:57:44.8100 Info Test search in kickasstorrents.ws => Found 50 releases [355ms]
+2025-04-23 16:57:45.6024 Info Test search in The Pirate Bay => Found 50 releases [10ms]
+2025-04-23 16:57:45.6181 Info Test search in TheRARBG => Found 50 releases [25ms]
+2025-04-23 16:57:45.7179 Info Test search in BitSearch => Found 100 releases [126ms]
+2025-04-23 16:57:45.9269 Info Test search in kickasstorrents.ws => Found 50 releases [335ms]
+2025-04-23 16:57:46.2636 Info Test search in YTS => Found 104 releases [1807ms]
+2025-04-23 16:57:46.2859 Info Test search in YTS => Found 104 releases [693ms]
+2025-04-23 16:57:48.5546 Info Test search in The Pirate Bay => Found 50 releases [10ms]
+2025-04-23 16:57:48.5703 Info Test search in TheRARBG => Found 50 releases [25ms]
+2025-04-23 16:57:48.6687 Info Test search in BitSearch => Found 100 releases [125ms]
+2025-04-23 16:57:48.8380 Info Test search in kickasstorrents.ws => Found 50 releases [294ms]
+2025-04-23 16:57:49.0173 Info Test search in YTS => Found 104 releases [472ms]
+2025-04-23 16:57:53.3888 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 72 releases (from cache) [0ms]
+2025-04-23 16:57:53.4408 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 72 releases (from cache) [1ms]
+2025-04-23 16:57:54.6641 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 72 releases (from cache) [0ms]
+2025-04-23 16:57:54.7096 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 72 releases (from cache) [0ms]
+2025-04-23 16:57:56.1777 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 72 releases (from cache) [0ms]
+2025-04-23 16:57:56.2212 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 72 releases (from cache) [1ms]
+2025-04-23 17:00:46.9048 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Cleaner 2025 => Found 46 releases [271ms]
+2025-04-23 17:00:49.6744 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Cleaner => Found 133 releases [2764ms]
+2025-04-23 17:00:49.7724 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Cleaner 2025 => Found 46 releases (from cache) [0ms]
+2025-04-23 17:00:49.7791 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Cleaner => Found 133 releases (from cache) [3ms]
+2025-04-23 17:01:02.3880 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Hellhound 2024 => Found 28 releases [888ms]
+2025-04-23 17:01:04.4510 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Hellhound => Found 69 releases [2058ms]
+2025-04-23 17:01:04.5305 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Hellhound 2024 => Found 28 releases (from cache) [0ms]
+2025-04-23 17:01:04.5352 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Hellhound => Found 69 releases (from cache) [1ms]
+2025-04-23 17:01:19.6940 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 17:01:20.3408 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Night Shift => Found 80 releases [644ms]
+2025-04-23 17:01:20.3982 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 17:01:20.4018 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Night Shift => Found 80 releases (from cache) [1ms]
+2025-04-23 17:01:24.4235 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 17:01:24.4311 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Night Shift => Found 80 releases (from cache) [4ms]
+2025-04-23 17:01:24.4788 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 17:01:24.4821 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Night Shift => Found 80 releases (from cache) [1ms]
+2025-04-23 17:05:27.6346 Info Test search in The Pirate Bay => Found 50 releases [20ms]
+2025-04-23 17:05:27.6558 Info Test search in TheRARBG => Found 50 releases [42ms]
+2025-04-23 17:05:27.8102 Info Test search in BitSearch => Found 100 releases [199ms]
+2025-04-23 17:05:27.9801 Info Test search in kickasstorrents.ws => Found 50 releases [366ms]
+2025-04-23 17:05:28.0924 Info Test search in YTS => Found 104 releases [478ms]
+2025-04-23 17:05:28.7751 Info Test search in The Pirate Bay => Found 50 releases [10ms]
+2025-04-23 17:05:28.7871 Info Test search in TheRARBG => Found 50 releases [22ms]
+2025-04-23 17:05:28.8927 Info Test search in BitSearch => Found 100 releases [128ms]
+2025-04-23 17:05:29.1164 Info Test search in kickasstorrents.ws => Found 50 releases [352ms]
+2025-04-23 17:05:30.8431 Info Test search in YTS => Found 104 releases [2077ms]
+2025-04-23 17:05:31.4405 Info Test search in The Pirate Bay => Found 50 releases [11ms]
+2025-04-23 17:05:31.4521 Info Test search in TheRARBG => Found 50 releases [22ms]
+2025-04-23 17:05:31.5534 Info Test search in BitSearch => Found 100 releases [125ms]
+2025-04-23 17:05:31.7575 Info Test search in kickasstorrents.ws => Found 50 releases [329ms]
+2025-04-23 17:05:33.5709 Info Test search in YTS => Found 104 releases [2141ms]
+2025-04-23 17:05:34.2837 Info Test search in The Pirate Bay => Found 50 releases [15ms]
+2025-04-23 17:05:34.2928 Info Test search in TheRARBG => Found 50 releases [24ms]
+2025-04-23 17:05:34.3926 Info Test search in BitSearch => Found 100 releases [124ms]
+2025-04-23 17:05:34.5804 Info Test search in kickasstorrents.ws => Found 50 releases [312ms]
+2025-04-23 17:05:35.8424 Info Test search in The Pirate Bay => Found 50 releases [14ms]
+2025-04-23 17:05:35.8518 Info Test search in TheRARBG => Found 50 releases [23ms]
+2025-04-23 17:05:35.9633 Info Test search in BitSearch => Found 100 releases [135ms]
+2025-04-23 17:05:36.1321 Info Test search in kickasstorrents.ws => Found 50 releases [304ms]
+2025-04-23 17:05:36.3015 Info Test search in YTS => Found 104 releases [2032ms]
+2025-04-23 17:05:36.6011 Info Test search in YTS => Found 104 releases [771ms]
+2025-04-23 17:05:37.2523 Info Test search in The Pirate Bay => Found 50 releases [16ms]
+2025-04-23 17:05:37.2584 Info Test search in TheRARBG => Found 50 releases [21ms]
+2025-04-23 17:05:37.3682 Info Test search in BitSearch => Found 100 releases [132ms]
+2025-04-23 17:05:37.5310 Info Test search in kickasstorrents.ws => Found 50 releases [295ms]
+2025-04-23 17:05:38.0982 Info Test search in The Pirate Bay => Found 50 releases [13ms]
+2025-04-23 17:05:38.1085 Info Test search in TheRARBG => Found 50 releases [23ms]
+2025-04-23 17:05:38.2048 Info Test search in BitSearch => Found 100 releases [120ms]
+2025-04-23 17:05:38.4324 Info Test search in kickasstorrents.ws => Found 50 releases [348ms]
+2025-04-23 17:05:39.3748 Info Test search in YTS => Found 104 releases [1289ms]
+2025-04-23 17:05:39.3848 Info Test search in YTS => Found 104 releases [2147ms]
+2025-04-23 17:05:39.4795 Info Test search in The Pirate Bay => Found 50 releases [11ms]
+2025-04-23 17:05:39.4933 Info Test search in TheRARBG => Found 50 releases [24ms]
+2025-04-23 17:05:39.5925 Info Test search in BitSearch => Found 100 releases [124ms]
+2025-04-23 17:05:39.7720 Info Test search in kickasstorrents.ws => Found 50 releases [303ms]
+2025-04-23 17:05:40.1914 Info Test search in The Pirate Bay => Found 50 releases [10ms]
+2025-04-23 17:05:40.2053 Info Test search in TheRARBG => Found 50 releases [23ms]
+2025-04-23 17:05:40.3114 Info Test search in BitSearch => Found 100 releases [130ms]
+2025-04-23 17:05:40.4929 Info Test search in kickasstorrents.ws => Found 50 releases [312ms]
+2025-04-23 17:05:42.1457 Info Test search in YTS => Found 104 releases [2676ms]
+2025-04-23 17:05:42.1457 Info Test search in YTS => Found 104 releases [1964ms]
+2025-04-23 17:06:24.0910 Info Test search in 1337x => Found 80 releases [6710ms]
+2025-04-23 17:06:30.1816 Info Manual search in 1337x, BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for In the Lost Lands 2025 => Found 43 releases [7258ms]
+2025-04-23 17:06:30.4181 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for In the Lost Lands => Found 34 releases [231ms]
+2025-04-23 17:06:30.4671 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for In the Lost Lands 2025 => Found 34 releases (from cache) [0ms]
+2025-04-23 17:06:30.4744 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for In the Lost Lands => Found 34 releases (from cache) [0ms]
+2025-04-23 17:16:05.0539 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 72 releases (from cache) [0ms]
+2025-04-23 17:16:06.2355 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man => Found 83 releases [1176ms]
+2025-04-23 17:16:08.2786 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Working Man => Found 118 releases [2038ms]
+2025-04-23 17:16:11.0130 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Working Man 2025 => Found 84 releases [2728ms]
+2025-04-23 17:16:11.0637 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 72 releases (from cache) [0ms]
+2025-04-23 17:16:11.0683 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man => Found 83 releases (from cache) [0ms]
+2025-04-23 17:16:11.0739 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Working Man => Found 118 releases (from cache) [1ms]
+2025-04-23 17:16:11.0817 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Working Man 2025 => Found 84 releases (from cache) [1ms]
+2025-04-23 17:16:40.5567 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 198 releases [979ms]
+2025-04-23 17:16:50.6646 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 198 releases (from cache) [1ms]
+2025-04-23 17:16:55.1209 Info Test search in The Pirate Bay => Found 50 releases [24ms]
+2025-04-23 17:16:55.1209 Info Test search in TheRARBG => Found 50 releases [25ms]
+2025-04-23 17:16:55.2608 Info Test search in BitSearch => Found 100 releases [165ms]
+2025-04-23 17:16:55.3862 Info Test search in YTS => Found 104 releases [287ms]
+2025-04-23 17:16:55.4140 Info Test search in kickasstorrents.ws => Found 50 releases [317ms]
+2025-04-23 17:16:56.8851 Info Test search in The Pirate Bay => Found 50 releases [13ms]
+2025-04-23 17:16:56.8983 Info Test search in TheRARBG => Found 50 releases [26ms]
+2025-04-23 17:16:57.0060 Info Test search in BitSearch => Found 100 releases [135ms]
+2025-04-23 17:16:57.1651 Info Test search in kickasstorrents.ws => Found 50 releases [294ms]
+2025-04-23 17:16:58.1449 Info Test search in YTS => Found 104 releases [1272ms]
+2025-04-23 17:16:58.7618 Info Test search in The Pirate Bay => Found 50 releases [10ms]
+2025-04-23 17:16:58.7804 Info Test search in TheRARBG => Found 50 releases [28ms]
+2025-04-23 17:16:58.8887 Info Test search in BitSearch => Found 100 releases [138ms]
+2025-04-23 17:16:59.0705 Info Test search in kickasstorrents.ws => Found 50 releases [319ms]
+2025-04-23 17:16:59.8993 Info Test search in The Pirate Bay => Found 50 releases [11ms]
+2025-04-23 17:16:59.9133 Info Test search in TheRARBG => Found 50 releases [25ms]
+2025-04-23 17:17:00.0171 Info Test search in BitSearch => Found 100 releases [130ms]
+2025-04-23 17:17:00.2198 Info Test search in kickasstorrents.ws => Found 50 releases [332ms]
+2025-04-23 17:17:00.8910 Info Test search in YTS => Found 104 releases [2138ms]
+2025-04-23 17:17:00.9215 Info Test search in YTS => Found 104 releases [1032ms]
+2025-04-23 17:17:06.9491 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 198 releases (from cache) [1ms]
+2025-04-23 17:17:17.0137 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 198 releases (from cache) [2ms]
+2025-04-23 17:17:18.7670 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars => Found 144 releases (from cache) [1744ms]
+2025-04-23 17:17:20.9427 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars => Found 144 releases (from cache) [13983ms]
+2025-04-23 17:17:54.7499 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars => Found 144 releases [74183ms]
+2025-04-23 17:18:00.9070 Error Jackett.Common.IndexerException: Exception (thepiratebay): Request to https://apibay.org/q.php?q=star.wars&cat=200%2C201%2C202%2C204%2C207%2C209%2C210%2C211%2C299 failed (Error GatewayTimeout) - The tracker seems to be down.
+
+[v0.22.1815.0] Jackett.Common.IndexerException: Exception (thepiratebay): Request to https://apibay.org/q.php?q=star.wars&cat=200%2C201%2C202%2C204%2C207%2C209%2C210%2C211%2C299 failed (Error GatewayTimeout) - The tracker seems to be down.
+ ---> System.Exception: Request to https://apibay.org/q.php?q=star.wars&cat=200%2C201%2C202%2C204%2C207%2C209%2C210%2C211%2C299 failed (Error GatewayTimeout) - The tracker seems to be down.
+   at Jackett.Common.Indexers.BaseWebIndexer.CheckSiteDown(WebResult response) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 684
+   at Jackett.Common.Indexers.BaseWebIndexer.RequestWithCookiesAsync(String url, String cookieOverride, RequestType method, String referer, IEnumerable`1 data, Dictionary`2 headers, String rawbody, Nullable`1 emulateBrowser) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 618
+   at Jackett.Common.Indexers.Definitions.CardigannIndexer.PerformQuery(TorznabQuery query) in ./Jackett.Common/Indexers/Definitions/CardigannIndexer.cs:line 1563
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 378
+   --- End of inner exception stack trace ---
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 403
+   at Jackett.Common.Indexers.BaseWebIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 816
+   at Jackett.Server.Controllers.ResultsController.Results(ApiSearch requestt) in ./Jackett.Server/Controllers/ResultsController.cs:line 256
+
+2025-04-23 17:18:00.9195 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars => Found 127 releases (from cache) [70248ms]
+2025-04-23 17:31:39.6432 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 198 releases (from cache) [1ms]
+2025-04-23 17:31:39.6560 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars => Found 144 releases (from cache) [5ms]
+2025-04-23 17:31:39.7116 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 198 releases (from cache) [1ms]
+2025-04-23 17:31:39.7232 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars => Found 144 releases (from cache) [3ms]
+2025-04-23 17:31:43.7183 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 198 releases (from cache) [3ms]
+2025-04-23 17:31:43.7318 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars => Found 144 releases (from cache) [2ms]
+2025-04-23 17:31:43.7837 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 198 releases (from cache) [1ms]
+2025-04-23 17:31:43.7974 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars => Found 144 releases (from cache) [5ms]
+2025-04-23 17:34:06.7747 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases [477ms]
+2025-04-23 17:34:06.7792 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Night Shift => Found 80 releases (from cache) [1ms]
+2025-04-23 17:34:06.8297 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Night Shift 2024 => Found 10 releases (from cache) [0ms]
+2025-04-23 17:34:06.8335 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Night Shift => Found 80 releases (from cache) [1ms]
+2025-04-23 17:34:10.0662 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 184 releases [398ms]
+2025-04-23 17:34:12.6506 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo => Found 178 releases [2567ms]
+2025-04-23 17:34:12.7078 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 184 releases (from cache) [1ms]
+2025-04-23 17:34:12.7181 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo => Found 178 releases (from cache) [2ms]
+2025-04-23 17:37:30.4447 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 198 releases (from cache) [5ms]
+2025-04-23 17:37:30.4986 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars => Found 144 releases (from cache) [7ms]
+2025-04-23 17:37:30.7664 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 198 releases (from cache) [4ms]
+2025-04-23 17:37:30.8336 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars => Found 144 releases (from cache) [11ms]
+2025-04-23 17:43:19.3617 Info Starting Jackett v0.22.1815
+2025-04-23 17:43:19.6870 Info Environment version: 8.0.15 (/app/Jackett/)
+2025-04-23 17:43:19.6917 Info OS version: Unix 5.15.0.136 (64bit OS) (64bit process)
+2025-04-23 17:43:19.6917 Info Jackett variant: CoreLinuxMuslAmdx64
+2025-04-23 17:43:19.6917 Info File /etc/issue: Welcome to Alpine Linux 3.21
+2025-04-23 17:43:19.6917 Info Running in Docker: Yes (image build: v0.22.1815-ls7)
+2025-04-23 17:43:19.6917 Info ThreadPool MaxThreads: 32767 workerThreads, 1000 completionPortThreads
+2025-04-23 17:43:19.6949 Info App config/log directory: /config/Jackett
+2025-04-23 17:43:19.6949 Info Using proxy: Disabled
+2025-04-23 17:43:19.6949 Info Using FlareSolverr: No
+2025-04-23 17:43:19.6949 Info Using HTTP Client: HttpWebClient2
+2025-04-23 17:43:19.6997 Info Loading Native indexers ...
+2025-04-23 17:43:19.7150 Info Loaded 78 Native indexers.
+2025-04-23 17:43:19.7150 Info Loading Cardigann indexers from: /config/cardigann/definitions/, /etc/xdg/cardigan/definitions/, /app/Jackett/Definitions
+2025-04-23 17:43:21.2109 Info Loaded 533 Cardigann indexers.
+2025-04-23 17:43:21.2109 Info Loaded 611 indexers in total
+2025-04-23 17:43:21.2269 Info Adding aggregate indexer ('all' indexer) ...
+2025-04-23 17:43:21.2269 Info Adding filter indexer ('type:public' indexer) ...
+2025-04-23 17:43:21.2269 Info Adding filter indexer ('type:private' indexer) ...
+2025-04-23 17:43:21.2269 Info Adding filter indexer ('type:semi-public' indexer) ...
+2025-04-23 17:43:21.3240 Info Jackett startup finished in 2.157 s
+2025-04-23 17:52:48.2687 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 198 releases [1061ms]
+2025-04-23 17:52:50.5855 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars => Found 144 releases [2279ms]
+2025-04-23 17:53:37.1535 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Minecraft Movie 2025 => Found 15 releases [228ms]
+2025-04-23 17:53:39.8709 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Minecraft Movie => Found 15 releases [2714ms]
+2025-04-23 17:53:42.6236 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Minecraft Movie => Found 15 releases [2749ms]
+2025-04-23 17:53:45.3574 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Minecraft Movie 2025 => Found 15 releases [2729ms]
+2025-04-23 17:53:45.4243 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Minecraft Movie 2025 => Found 15 releases (from cache) [0ms]
+2025-04-23 17:53:45.4271 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Minecraft Movie => Found 15 releases (from cache) [0ms]
+2025-04-23 17:53:45.4271 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Minecraft Movie => Found 15 releases (from cache) [0ms]
+2025-04-23 17:53:45.4312 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Minecraft Movie 2025 => Found 15 releases (from cache) [0ms]
+2025-04-23 17:55:15.1078 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 184 releases [795ms]
+2025-04-23 17:55:17.4558 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo => Found 178 releases [2339ms]
+2025-04-23 17:55:17.5146 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 184 releases (from cache) [1ms]
+2025-04-23 17:55:17.5227 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo => Found 178 releases (from cache) [1ms]
+2025-04-23 17:55:26.5555 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 72 releases [262ms]
+2025-04-23 17:55:29.2443 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man => Found 83 releases [2684ms]
+2025-04-23 17:55:32.0145 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Working Man => Found 118 releases [2764ms]
+2025-04-23 17:55:34.7506 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Working Man 2025 => Found 84 releases [2728ms]
+2025-04-23 17:55:34.8247 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 72 releases (from cache) [2ms]
+2025-04-23 17:55:34.8323 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man => Found 83 releases (from cache) [0ms]
+2025-04-23 17:55:34.8387 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Working Man => Found 118 releases (from cache) [1ms]
+2025-04-23 17:55:34.8473 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Working Man 2025 => Found 84 releases (from cache) [1ms]
+2025-04-23 17:56:03.1419 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 184 releases (from cache) [1ms]
+2025-04-23 17:56:03.1526 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo => Found 178 releases (from cache) [1ms]
+2025-04-23 17:56:03.2185 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 184 releases (from cache) [1ms]
+2025-04-23 17:56:03.2286 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo => Found 178 releases (from cache) [1ms]
+2025-04-23 17:56:05.4532 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 184 releases (from cache) [1ms]
+2025-04-23 17:56:05.4622 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo => Found 178 releases (from cache) [1ms]
+2025-04-23 17:56:05.5299 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 184 releases (from cache) [1ms]
+2025-04-23 17:56:05.5385 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo => Found 178 releases (from cache) [1ms]
+2025-04-23 17:58:59.9696 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 184 releases (from cache) [6ms]
+2025-04-23 17:59:00.1165 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo => Found 178 releases (from cache) [8ms]
+2025-04-23 17:59:00.4873 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 184 releases (from cache) [11ms]
+2025-04-23 17:59:00.6654 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo => Found 178 releases (from cache) [7ms]
+2025-04-23 17:59:23.1737 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 72 releases (from cache) [22ms]
+2025-04-23 17:59:23.2048 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man => Found 83 releases (from cache) [3ms]
+2025-04-23 17:59:23.2433 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Working Man => Found 118 releases (from cache) [5ms]
+2025-04-23 17:59:23.2962 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Working Man 2025 => Found 84 releases (from cache) [3ms]
+2025-04-23 17:59:23.5636 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 72 releases (from cache) [2ms]
+2025-04-23 17:59:23.6058 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man => Found 83 releases (from cache) [2ms]
+2025-04-23 17:59:23.6427 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Working Man => Found 118 releases (from cache) [6ms]
+2025-04-23 17:59:23.7054 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Working Man 2025 => Found 84 releases (from cache) [9ms]
+2025-04-23 17:59:35.5404 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 198 releases (from cache) [11ms]
+2025-04-23 17:59:35.6644 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars => Found 144 releases (from cache) [16ms]
+2025-04-23 17:59:35.9428 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 198 releases (from cache) [10ms]
+2025-04-23 17:59:36.0379 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars => Found 144 releases (from cache) [10ms]
+2025-04-23 18:02:11.4417 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 198 releases (from cache) [1ms]
+2025-04-23 18:02:11.4539 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars => Found 144 releases (from cache) [2ms]
+2025-04-23 18:02:11.5100 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 198 releases (from cache) [1ms]
+2025-04-23 18:02:11.5209 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars => Found 144 releases (from cache) [2ms]
+2025-04-23 18:16:42.4284 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 198 releases (from cache) [1ms]
+2025-04-23 18:16:42.4507 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars => Found 144 releases (from cache) [2ms]
+2025-04-23 18:16:42.5060 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 198 releases (from cache) [1ms]
+2025-04-23 18:16:42.5219 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars => Found 144 releases (from cache) [6ms]
+2025-04-23 18:17:06.0206 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 198 releases (from cache) [1ms]
+2025-04-23 18:17:06.0417 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars => Found 144 releases (from cache) [2ms]
+2025-04-23 18:17:06.0982 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 198 releases (from cache) [1ms]
+2025-04-23 18:17:06.1083 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars => Found 144 releases (from cache) [3ms]
+2025-04-23 18:24:49.3900 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 198 releases (from cache) [2ms]
+2025-04-23 18:24:49.4028 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars => Found 144 releases (from cache) [3ms]
+2025-04-23 18:24:49.4960 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 198 releases (from cache) [2ms]
+2025-04-23 18:24:49.5155 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars => Found 144 releases (from cache) [5ms]

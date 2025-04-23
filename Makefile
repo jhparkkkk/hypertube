@@ -25,6 +25,11 @@ backend-makemigrations:
 backend-db:
 	docker-compose exec db psql -U hypertube_user -d hypertube_db
 
+backend-clean-movies:
+	docker-compose exec db psql -U hypertube_user -d hypertube_db -c "TRUNCATE TABLE streaming_moviefile CASCADE;"
+	docker-compose exec backend bash -c "rm -rf /app/downloads/* /app/downloads/.* 2>/dev/null || true"
+	docker-compose exec backend bash -c "rm -rf /app/conversions/* /app/conversions/.* 2>/dev/null || true"
+
 backend-shell:
 	docker-compose exec backend bash
 
@@ -43,6 +48,6 @@ frontend-shell:
 frontend-npm:
 	docker-compose exec frontend npm install
 
-clean:
+clean: backend-clean-movies
 	docker-compose down --volumes --remove-orphans
 	docker system prune -af

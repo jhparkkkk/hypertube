@@ -23,7 +23,7 @@ services:
       - TZ=Etc/UTC
       - AUTO_UPDATE=true
     volumes:
-      - ./jackett:/config
+      - ./backend:/config
     ports:
       - "9117:9117"
     restart: unless-stopped
