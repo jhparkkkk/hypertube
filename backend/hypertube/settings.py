@@ -34,37 +34,33 @@ os.environ["DJANGO_SETTINGS_MODULE"] = "hypertube.settings"
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'oauth2_provider',
-    'social_django',  # omniauth for django
-    'rest_framework',
-    'rest_framework_simplejwt',
-    'corsheaders',
-    'users',
-    'movies',
-
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "oauth2_provider",
+    "social_django",  # omniauth for django
+    "rest_framework",
+    "rest_framework_simplejwt",
+    "corsheaders",
+    "users",
+    "movies",
+    "streaming",
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
+    "DEFAULT_AUTHENTICATION_CLASSES": ("rest_framework_simplejwt.authentication.JWTAuthentication",),
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
-    'ROTATE_REFRESH_TOKENS': True,
-    'BLACKLIST_AFTER_ROTATION': True,
-    'AUTH_HEADER_TYPES': ('Bearer',),
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
+    "AUTH_HEADER_TYPES": ("Bearer",),
 }
 
 MIDDLEWARE = [
@@ -76,7 +72,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -84,29 +79,27 @@ CORS_ALLOWED_ORIGINS = [
 ]
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = [
-    'DELETE',
-    'GET',
-    'OPTIONS',
-    'PATCH',
-    'POST',
-    'PUT',
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
 ]
 CORS_ALLOW_HEADERS = [
-    'accept',
-    'accept-encoding',
-    'authorization',
-    'content-type',
-    'dnt',
-    'origin',
-    'user-agent',
-    'x-csrftoken',
-    'x-requested-with',
-    'range',
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+    "range",
 ]
 
-CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:3000"
-]
+CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"]
 
 SESSION_COOKIE_SAMESITE = "Lax"
 
@@ -115,18 +108,15 @@ ROOT_URLCONF = "hypertube.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            os.path.join(BASE_DIR, 'templates')
-        ],
-
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
@@ -140,15 +130,16 @@ WSGI_APPLICATION = "hypertube.wsgi.application"
 
 DB_USER = os.getenv("POSTGRES_USER")
 DB_PASSWORD = os.getenv("POSTGRES_PASSWORD")
+DB_HOST = os.getenv("DATABASE_HOST", "db")
 
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "hypertube_db",
-                "USER": DB_USER,
-                "PASSWORD": DB_PASSWORD,
-                "HOST": "db",
-                "PORT": "5432",
+        "USER": DB_USER,
+        "PASSWORD": DB_PASSWORD,
+        "HOST": DB_HOST,
+        "PORT": "5432",
     }
 }
 
@@ -156,7 +147,6 @@ AUTHENTICATION_BACKENDS = [
     "users.backends.FortyTwoOAuth2",  # custom backend 42
     "social_core.backends.github.GithubOAuth2",  # github
     "django.contrib.auth.backends.ModelBackend",  # email/pwd
-
 ]
 AUTH_USER_MODEL = "users.User"
 
@@ -175,7 +165,9 @@ print("[DEBUG] SOCIAL_AUTH_GITHUB_SECRET", SOCIAL_AUTH_GITHUB_SECRET)
 print("[DEBUG] SOCIAL_AUTH_42_KEY", SOCIAL_AUTH_FORTYTWO_KEY)
 print("[DEBUG] SOCIAL_AUTH_42_SECRET", SOCIAL_AUTH_FORTYTWO_SECRET)
 
-SOCIAL_AUTH_GITHUB_SCOPE = ["user:email",]
+SOCIAL_AUTH_GITHUB_SCOPE = [
+    "user:email",
+]
 
 SOCIAL_AUTH_PIPELINE = (
     "social_core.pipeline.social_auth.social_details",
@@ -190,15 +182,14 @@ SOCIAL_AUTH_PIPELINE = (
     "social_core.pipeline.social_auth.associate_user",
     "social_core.pipeline.social_auth.load_extra_data",
     "social_core.pipeline.user.user_details",
-
 )
 
 SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = ["provider", "auth_provider"]
 LOGIN_REDIRECT_URL = "http://localhost:3000/"
 LOGOUT_REDIRECT_URL = "http://localhost:3000/"
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 EMAIL_PORT = 465  # SMTP port
@@ -220,7 +211,6 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
-
 ]
 
 
@@ -246,9 +236,9 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-TMDB_API_KEY = os.getenv('TMDB_API_KEY')
-TMDB_API_TOKEN = os.getenv('TMDB_API_TOKEN')
+TMDB_API_KEY = os.getenv("TMDB_API_KEY")
+TMDB_API_TOKEN = os.getenv("TMDB_API_TOKEN")
 
 # Downloads path for movie files
-DOWNLOAD_PATH = '/app/downloads'
+DOWNLOAD_PATH = "/app/downloads"
 os.makedirs(DOWNLOAD_PATH, exist_ok=True)

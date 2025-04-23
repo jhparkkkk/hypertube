@@ -42,7 +42,7 @@ const MovieLibrary: React.FC = () => {
     try {
       const response = await api.get<MovieResponse>('/movies/', {
         params: {
-          search: searchTerm,
+          query: searchTerm,
           page: currentPage
         }
       });

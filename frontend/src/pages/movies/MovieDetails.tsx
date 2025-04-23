@@ -6,9 +6,22 @@ import {
   Grid,
   Paper,
   Rating,
+  List,
+  ListItem,
+  ListItemText,
+  Chip,
 } from '@mui/material';
 import { api } from '../../api/axiosConfig';
-import MoviePlayer from './MoviePlayer';
+import { MoviePlayer } from './MoviePlayer';
+
+interface Torrent {
+  title: string;
+  size: number;
+  seeders: number;
+  leechers: number;
+  magnet: string;
+  source: string;
+}
 
 interface Movie {
   id: number;
@@ -19,6 +32,8 @@ interface Movie {
   poster_path: string | null;
   backdrop_path: string | null;
   magnet_link?: string;
+  best_torrent?: Torrent;
+  available_torrents?: Torrent[];
 }
 
 const MovieDetails: React.FC = () => {
@@ -33,19 +48,6 @@ const MovieDetails: React.FC = () => {
       try {
         const response = await api.get(`/movies/${id}/`);
         setMovie(response.data);
-        
-        // If magnet link exists, start the stream automatically
-        if (response.data.magnet_link) {
-          setIsStartingStream(true);
-          try {
-            await api.post(`/movies/${id}/start_stream/`, {
-              magnet_link: response.data.magnet_link
-            });
-          } catch (error) {
-            console.error('Error starting stream:', error);
-          }
-          setIsStartingStream(false);
-        }
       } catch (error) {
         console.error('Error fetching movie details:', error);
         setError('Failed to load movie details');
@@ -184,7 +186,68 @@ const MovieDetails: React.FC = () => {
             >
               Watch Movie
             </Typography>
+
+            {movie.best_torrent && (
+              <Box sx={{ mb: 3 }}>
+                <Typography variant="subtitle1" sx={{ color: '#aaa', mb: 1 }}>
+                  Selected Version:
+                </Typography>
+                <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 2 }}>
+                  <Chip 
+                    label={`${movie.best_torrent.seeders} seeders`}
+                    sx={{ backgroundColor: '#388e3c', color: 'white' }}
+                  />
+                  <Chip 
+                    label={`${(movie.best_torrent.size / (1024 * 1024 * 1024)).toFixed(2)} GB`}
+                    sx={{ backgroundColor: '#1976d2', color: 'white' }}
+                  />
+                  <Chip 
+                    label={movie.best_torrent.source}
+                    sx={{ backgroundColor: '#424242', color: 'white' }}
+                  />
+                </Box>
+                <Typography variant="body2" sx={{ color: '#888' }}>
+                  {movie.best_torrent.title}
+                </Typography>
+              </Box>
+            )}
+
             <MoviePlayer movieId={Number(id)} />
+
+            {movie.available_torrents && movie.available_torrents.length > 1 && (
+              <Box sx={{ mt: 3 }}>
+                <Typography variant="subtitle1" sx={{ color: '#aaa', mb: 1 }}>
+                  Other Available Versions:
+                </Typography>
+                <List sx={{ bgcolor: '#222', borderRadius: 1 }}>
+                  {movie.available_torrents.slice(1).map((torrent, index) => (
+                    <ListItem key={index} sx={{ borderBottom: '1px solid #333' }}>
+                      <ListItemText
+                        primary={
+                          <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 1 }}>
+                            <Chip 
+                              label={`${torrent.seeders} seeders`}
+                              size="small"
+                              sx={{ backgroundColor: '#388e3c', color: 'white' }}
+                            />
+                            <Chip 
+                              label={`${(torrent.size / (1024 * 1024 * 1024)).toFixed(2)} GB`}
+                              size="small"
+                              sx={{ backgroundColor: '#1976d2', color: 'white' }}
+                            />
+                          </Box>
+                        }
+                        secondary={
+                          <Typography variant="body2" sx={{ color: '#888' }}>
+                            {torrent.title}
+                          </Typography>
+                        }
+                      />
+                    </ListItem>
+                  ))}
+                </List>
+              </Box>
+            )}
           </Paper>
         )}
       </Box>

@@ -3,11 +3,10 @@ import axios from "axios";
 const API_BASE_URL = "http://localhost:8000/api";
 
 const api = axios.create({
-  baseURL: API_BASE_URL,
-  headers: {
-    "Content-Type": "application/json",
+	baseURL: API_BASE_URL,
+	headers: {
+		"Content-Type": "application/json",
 	},
 });
 
-export { api };
-export { API_BASE_URL }
+export { api, API_BASE_URL };
