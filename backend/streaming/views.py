@@ -36,32 +36,36 @@ def convert_video(input_path, output_path):
         cmd = [
             "ffmpeg",
             "-y",  # Overwrite output file
-            "-i", input_path,
-            "-c:v", "libx264",  # Video codec
-            "-preset", "medium",  # Encoding speed preset (medium is a good balance)
-            "-crf", "23",  # Quality (lower is better, 18-28 is good)
-            "-c:a", "aac",  # Audio codec
-            "-b:a", "192k",  # Audio bitrate
-            "-movflags", "+faststart",  # Enable fast start for web playback
-            "-max_muxing_queue_size", "9999",  # Prevent muxing errors
-            "-f", "mp4",  # Force MP4 container format
-            output_path
+            "-i",
+            input_path,
+            "-c:v",
+            "libx264",  # Video codec
+            "-preset",
+            "medium",  # Encoding speed preset (medium is a good balance)
+            "-crf",
+            "23",  # Quality (lower is better, 18-28 is good)
+            "-c:a",
+            "aac",  # Audio codec
+            "-b:a",
+            "192k",  # Audio bitrate
+            "-movflags",
+            "+faststart",  # Enable fast start for web playback
+            "-max_muxing_queue_size",
+            "9999",  # Prevent muxing errors
+            "-f",
+            "mp4",  # Force MP4 container format
+            output_path,
         ]
 
         # Log the full command for debugging
         logging.info(f"Running FFmpeg command: {' '.join(cmd)}")
 
         # Run FFmpeg with proper pipe redirection
-        process = subprocess.Popen(
-            cmd,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            universal_newlines=True
-        )
+        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
 
         # Capture output in real-time
         stdout, stderr = process.communicate()
-        
+
         if process.returncode != 0:
             logging.error(f"FFmpeg conversion failed with return code {process.returncode}")
             logging.error(f"FFmpeg stderr: {stderr}")
@@ -155,57 +159,78 @@ def process_video_thread(video_id):
         movie_file.download_status = "DOWNLOADING"
         movie_file.save()
 
-        # Configure libtorrent parameters
-        params = lt.parse_magnet_uri(movie_file.magnet_link)
-        params.save_path = "/app/downloads"
+        # Ensure download directory exists
+        os.makedirs("/app/downloads", exist_ok=True)
+        logging.info(f"Using download path: /app/downloads")
 
-        session = lt.session()
-        handle = session.add_torrent(params)
+        # Add torrent to session manager
+        handle_id = torrent_manager.add_torrent(movie_file.magnet_link, "/app/downloads")
+        handle = torrent_manager.get_handle(handle_id)
+        handle_lock = torrent_manager.get_handle_lock(handle_id)
 
-        while not handle.has_metadata():
-            time.sleep(1)
-
-        torrent_info = handle.get_torrent_info()
-        largest_file = max(torrent_info.files(), key=lambda f: f.size)
-        video_file_path = os.path.join("/app/downloads", largest_file.path)
-
-        # Download until we have enough data (at least 20%)
-        while not handle.status().is_seeding:
-            status = handle.status()
-            movie_file.download_progress = status.progress * 100
+        if not handle:
+            logging.error(f"Failed to get torrent handle for movie {video_id}")
+            movie_file.download_status = "ERROR"
             movie_file.save()
-            logging.info(f"Download progress: {status.progress * 100:.2f}%")
-            
-            # Wait for at least 20% of the file to be downloaded before attempting conversion
-            if status.progress >= 0.20:
-                break
-            time.sleep(1)
+            return
 
-        # Ensure the download directory exists
-        os.makedirs(os.path.dirname(video_file_path), exist_ok=True)
+        with handle_lock:
+            while not handle.has_metadata():
+                time.sleep(1)
 
-        # Check if movie needs conversion
-        file_ext = os.path.splitext(video_file_path)[1].lower()
-        if file_ext in [".mkv", ".avi", ".wmv"]:
-            movie_file.download_status = "CONVERTING"
+            torrent_info = handle.get_torrent_info()
+            largest_file = max(torrent_info.files(), key=lambda f: f.size)
+            downloaded_path = os.path.join("/app/downloads", largest_file.path)
+
+            # Create subdirectories if needed
+            os.makedirs(os.path.dirname(downloaded_path), exist_ok=True)
+
+            # Set the file path immediately so streaming can start
+            movie_file.file_path = downloaded_path
             movie_file.save()
-            output_path = video_file_path.rsplit(".", 1)[0] + ".mp4"
-            
-            # Log the conversion attempt
-            logging.info(f"Starting conversion: {video_file_path} -> {output_path}")
-            
-            if convert_video(video_file_path, output_path):
-                logging.info("Conversion successful")
-                video_file_path = output_path
-            else:
-                logging.error("Conversion failed")
-                movie_file.download_status = "ERROR"
+
+            # Set sequential download and piece priorities
+            handle.set_sequential_download(True)
+            num_pieces = torrent_info.num_pieces()
+            piece_priorities = [7] * num_pieces  # High priority for all pieces
+            handle.prioritize_pieces(piece_priorities)
+
+            # Monitor download progress
+            while True:
+                status = handle.status()
+                progress = status.progress * 100
+                movie_file.download_progress = progress
                 movie_file.save()
-                return
 
-        movie_file.file_path = video_file_path
-        movie_file.download_status = "READY"
-        movie_file.save()
+                logging.info(f"Download progress: {progress:.2f}%")
+
+                if status.is_seeding:
+                    break
+
+                time.sleep(1)
+
+            # Once download is complete, convert to web-compatible format if needed
+            final_path = os.path.join("/app/downloads", f"{movie_file.tmdb_id}_{int(time.time())}.mp4")
+
+            logging.info(f"Converting video: {downloaded_path} -> {final_path}")
+            if convert_video(downloaded_path, final_path):
+                movie_file.file_path = final_path
+                movie_file.download_status = "READY"
+                # Remove the original file
+                if os.path.exists(downloaded_path):
+                    try:
+                        os.remove(downloaded_path)
+                    except Exception as e:
+                        logging.error(f"Error removing original file: {str(e)}")
+            else:
+                movie_file.download_status = "ERROR"
+                if os.path.exists(final_path):
+                    try:
+                        os.remove(final_path)
+                    except Exception as e:
+                        logging.error(f"Error removing failed conversion: {str(e)}")
+
+            movie_file.save()
 
     except Exception as e:
         logging.error(f"Error processing movie {video_id}: {str(e)}")
@@ -230,7 +255,9 @@ class StreamingViewSet(viewsets.ViewSet):
             return Response({"error": "Magnet link is required"}, status=status.HTTP_400_BAD_REQUEST)
 
         # Create or get existing movie file
-        movie_file, created = MovieFile.objects.get_or_create(tmdb_id=pk, defaults={"magnet_link": magnet_link})
+        movie_file, created = MovieFile.objects.get_or_create(
+            tmdb_id=pk, defaults={"magnet_link": magnet_link, "download_status": "PENDING", "download_progress": 0}
+        )
 
         # If already processing or ready, return current status
         if movie_file.download_status in ["DOWNLOADING", "CONVERTING", "READY"]:
@@ -263,62 +290,48 @@ class StreamingViewSet(viewsets.ViewSet):
         """Stream movie content using FFmpeg"""
         try:
             movie_file = MovieFile.objects.get(tmdb_id=pk)
-            
+
             if movie_file.download_status != "READY":
                 return Response(
                     {"error": f"Movie is not ready for streaming (status: {movie_file.download_status})"},
-                    status=status.HTTP_400_BAD_REQUEST
+                    status=status.HTTP_400_BAD_REQUEST,
                 )
 
             if not os.path.exists(movie_file.file_path):
-                return Response(
-                    {"error": "Video file not found"},
-                    status=status.HTTP_404_NOT_FOUND
-                )
+                return Response({"error": "Video file not found"}, status=status.HTTP_404_NOT_FOUND)
 
             # Get start time from query params (for seeking)
-            start_time = float(request.query_params.get('start', 0))
+            start_time = float(request.query_params.get("start", 0))
 
             # Initialize streaming service
             streaming_service = StreamingService()
-            
+
             # Stream the video
-            response = streaming_service.stream_video(
-                file_path=movie_file.file_path,
-                start_time=start_time
-            )
+            response = streaming_service.stream_video(file_path=movie_file.file_path, start_time=start_time)
 
             return response
 
         except MovieFile.DoesNotExist:
-            return Response(
-                {"error": "Movie not found"},
-                status=status.HTTP_404_NOT_FOUND
-            )
+            return Response({"error": "Movie not found"}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             logger.error(f"Streaming error: {str(e)}")
-            return Response(
-                {"error": "Internal server error"},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
+            return Response({"error": "Internal server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     @action(detail=True, methods=["get"], url_path="file-status")
     def file_status(self, request, pk=None):
         """Get movie file status including download progress"""
         try:
             movie_file = MovieFile.objects.get(tmdb_id=pk)
-            return Response({
-                "magnet_link": movie_file.magnet_link,
-                "download_status": movie_file.download_status,
-                "download_progress": movie_file.download_progress,
-                "file_path": movie_file.file_path if movie_file.download_status == "READY" else None
-            })
+            return Response(
+                {
+                    "magnet_link": movie_file.magnet_link,
+                    "download_status": movie_file.download_status,
+                    "download_progress": movie_file.download_progress,
+                    "file_path": movie_file.file_path if movie_file.download_status == "READY" else None,
+                }
+            )
         except MovieFile.DoesNotExist:
-            return Response({
-                "download_status": "NOT_FOUND",
-                "download_progress": 0,
-                "file_path": None
-            })
+            return Response({"download_status": "NOT_FOUND", "download_progress": 0, "file_path": None})
 
 
 class MovieFileViewSet(viewsets.ModelViewSet):
@@ -392,10 +405,7 @@ class MovieFileViewSet(viewsets.ModelViewSet):
             streaming_service = StreamingService()
 
             # Stream with FFmpeg
-            response = streaming_service.stream_video(
-                file_path=path,
-                range_header=range_header
-            )
+            response = streaming_service.stream_video(file_path=path, range_header=range_header)
 
             # Add CORS headers
             response["Access-Control-Allow-Origin"] = "*"
@@ -406,10 +416,7 @@ class MovieFileViewSet(viewsets.ModelViewSet):
 
         except Exception as e:
             logger.error(f"Streaming error: {str(e)}")
-            return Response(
-                {"error": "Streaming error occurred"},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
+            return Response({"error": "Streaming error occurred"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def range_iter(self, file_path, start, chunk_size):
         with open(file_path, "rb") as f:

@@ -23,8 +23,7 @@ services:
       - TZ=Etc/UTC
       - AUTO_UPDATE=true
     volumes:
-      - ./jackett/config:/config
-      - ./jackett/downloads:/downloads
+      - ./jackett:/config
     ports:
       - "9117:9117"
     restart: unless-stopped
@@ -74,7 +73,6 @@ services:
       - "8000:8000"
     volumes:
       - ./backend:/app
-      - ./downloads:/app/downloads
     env_file:
       - .env
     networks:

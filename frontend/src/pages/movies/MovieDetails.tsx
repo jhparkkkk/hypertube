@@ -10,6 +10,8 @@ import {
   ListItem,
   ListItemText,
   Chip,
+  Button,
+  CircularProgress,
 } from '@mui/material';
 import { api } from '../../api/axiosConfig';
 import { MoviePlayer } from './MoviePlayer';
@@ -42,6 +44,9 @@ const MovieDetails: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isStartingStream, setIsStartingStream] = useState(false);
+  const [downloadStatus, setDownloadStatus] = useState<string>('PENDING');
+  const [downloadProgress, setDownloadProgress] = useState<number>(0);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -58,6 +63,39 @@ const MovieDetails: React.FC = () => {
 
     fetchMovieDetails();
   }, [id]);
+
+  const startDownload = async () => {
+    if (!movie?.magnet_link) return;
+    
+    setIsDownloading(true);
+    try {
+      const response = await api.post(`/streaming/${id}/start/`, {
+        magnet_link: movie.magnet_link
+      });
+      
+      // Start polling for status
+      const statusInterval = setInterval(async () => {
+        try {
+          const statusResponse = await api.get(`/streaming/${id}/status/`);
+          const { status, progress } = statusResponse.data;
+          setDownloadStatus(status);
+          setDownloadProgress(progress);
+          
+          if (status === 'READY' || status === 'ERROR') {
+            clearInterval(statusInterval);
+            setIsDownloading(false);
+          }
+        } catch (error) {
+          console.error('Error checking download status:', error);
+          clearInterval(statusInterval);
+          setIsDownloading(false);
+        }
+      }, 1000);
+    } catch (error) {
+      console.error('Error starting download:', error);
+      setIsDownloading(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -184,7 +222,7 @@ const MovieDetails: React.FC = () => {
                 fontWeight: 500
               }}
             >
-              Watch Movie
+              Download Options
             </Typography>
 
             {movie.best_torrent && (
@@ -201,53 +239,41 @@ const MovieDetails: React.FC = () => {
                     label={`${(movie.best_torrent.size / (1024 * 1024 * 1024)).toFixed(2)} GB`}
                     sx={{ backgroundColor: '#1976d2', color: 'white' }}
                   />
-                  <Chip 
-                    label={movie.best_torrent.source}
-                    sx={{ backgroundColor: '#424242', color: 'white' }}
-                  />
                 </Box>
-                <Typography variant="body2" sx={{ color: '#888' }}>
-                  {movie.best_torrent.title}
-                </Typography>
               </Box>
             )}
 
-            <MoviePlayer movieId={Number(id)} />
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={startDownload}
+                disabled={isDownloading || downloadStatus === 'READY'}
+                sx={{
+                  backgroundColor: '#1976d2',
+                  '&:hover': {
+                    backgroundColor: '#1565c0',
+                  },
+                }}
+              >
+                {isDownloading ? (
+                  <>
+                    <CircularProgress size={20} sx={{ mr: 1, color: 'white' }} />
+                    Downloading... {downloadProgress.toFixed(1)}%
+                  </>
+                ) : downloadStatus === 'READY' ? (
+                  'Ready to Watch'
+                ) : (
+                  'Download Movie'
+                )}
+              </Button>
 
-            {movie.available_torrents && movie.available_torrents.length > 1 && (
-              <Box sx={{ mt: 3 }}>
-                <Typography variant="subtitle1" sx={{ color: '#aaa', mb: 1 }}>
-                  Other Available Versions:
+              {downloadStatus === 'ERROR' && (
+                <Typography color="error" variant="body2">
+                  Download failed. Please try again.
                 </Typography>
-                <List sx={{ bgcolor: '#222', borderRadius: 1 }}>
-                  {movie.available_torrents.slice(1).map((torrent, index) => (
-                    <ListItem key={index} sx={{ borderBottom: '1px solid #333' }}>
-                      <ListItemText
-                        primary={
-                          <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 1 }}>
-                            <Chip 
-                              label={`${torrent.seeders} seeders`}
-                              size="small"
-                              sx={{ backgroundColor: '#388e3c', color: 'white' }}
-                            />
-                            <Chip 
-                              label={`${(torrent.size / (1024 * 1024 * 1024)).toFixed(2)} GB`}
-                              size="small"
-                              sx={{ backgroundColor: '#1976d2', color: 'white' }}
-                            />
-                          </Box>
-                        }
-                        secondary={
-                          <Typography variant="body2" sx={{ color: '#888' }}>
-                            {torrent.title}
-                          </Typography>
-                        }
-                      />
-                    </ListItem>
-                  ))}
-                </List>
-              </Box>
-            )}
+              )}
+            </Box>
           </Paper>
         )}
       </Box>
