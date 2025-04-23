@@ -27,7 +27,6 @@ const Header = () => {
 	const open = Boolean(anchorEl);
 
 	const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-		alert();
 		navigate("/users/1");
 		setAnchorEl(event.currentTarget);
 	};

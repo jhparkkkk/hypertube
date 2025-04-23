@@ -91,3 +91,24 @@ class ResetPasswordSerializer(serializers.Serializer):
             self.initial_data.get("confirm_password"))
         if new_password != confirm_password:
             raise serializers.ValidationError("Passwords do not match")
+
+
+class UserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["email", "username", "first_name",
+                  "last_name", "preferred_language", "profile_picture"]
+
+    def validate_email(self, value):
+        user = self.instance
+        if User.objects.filter(email=value).exclude(id=user.id).exists():
+            raise serializers.ValidationError(
+                "User with this email already exists.")
+        return value
+
+    def validate_username(self, value):
+        user = self.instance
+        if User.objects.exclude(id=user.id).filter(username=value).exists():
+            raise serializers.ValidationError(
+                "This username is already used by another user.")
+        return value

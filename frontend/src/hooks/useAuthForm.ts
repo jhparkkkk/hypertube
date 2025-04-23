@@ -92,7 +92,6 @@ export const useAuthForm = (authType: AuthType, params="") => {
         
         const endpoint = endpointByAuthType[authType];
         try {
-            alert(endpoint)
             console.log("endpoint", endpoint);
 
             const response = await api.post(endpoint, formData);
@@ -109,12 +108,10 @@ export const useAuthForm = (authType: AuthType, params="") => {
             if (error.response) {
                 console.log("error login", error.response.data.error);
                 setErrors({"general": error.response.data.error});
-                alert(errors);
             }
             }
     }
 	const handleProviderLogin = (test: string) => {
-		alert("test");
 		window.location.replace(`${API_BASE_URL}/login/${test}`);
 	};
     

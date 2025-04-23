@@ -52,9 +52,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 		console.log("received token:", token);
 		localStorage.setItem("accessToken", token);
 		localStorage.setItem("userId", user_data.id.toString());
-		alert("login");
 		api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-		setUser({ token });
+		setUser({ token, ...user_data });
 
 		navigate("/home");
 	};

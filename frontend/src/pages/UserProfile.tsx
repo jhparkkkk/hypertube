@@ -9,15 +9,17 @@ import {
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
-
+import { api } from "../api/axiosConfig";
 interface User {
+	id: number;
 	username: string;
 	first_name: string;
 	last_name: string;
 	email: string;
 	language: string;
 	profile_picture: string;
-	preferredLanguage: string;
+	preferred_language: string;
+	auth_provider: string;
 }
 
 const UserProfile = ({ isOwnProfile = true }) => {
@@ -26,7 +28,6 @@ const UserProfile = ({ isOwnProfile = true }) => {
 	const [isEditing, setIsEditing] = useState(false);
 
 	useEffect(() => {
-		alert(user);
 		if (user && isOwnProfile) {
 			setForm(user);
 		}
@@ -44,11 +45,22 @@ const UserProfile = ({ isOwnProfile = true }) => {
 		} as User);
 	};
 
-	const handleSave = () => {
+	const handleSave = async () => {
 		if (!form) return;
-		// TODO: appel API pour update ici
-		console.log("Saving profile", form);
-		setIsEditing(false);
+
+		try {
+			console.log("Saving form data:", form);
+			const res = await api.post("/update-user", form);
+			setForm(res.data);
+			setIsEditing(false);
+			alert("profile updated!");
+		} catch (error: any) {
+			console.error(
+				"Erreur lors de la mise à jour :",
+				error.response?.data,
+			);
+			alert("Échec de la mise à jour du profil.");
+		}
 	};
 
 	if (!user) return null;
@@ -80,13 +92,13 @@ const UserProfile = ({ isOwnProfile = true }) => {
 					/>
 					<TextField
 						label="First Name"
-						name="firstName"
+						name="first_name"
 						value={form.first_name}
 						onChange={handleChange}
 					/>
 					<TextField
 						label="Last Name"
-						name="lastName"
+						name="last_name"
 						value={form.last_name}
 						onChange={handleChange}
 					/>
@@ -97,8 +109,9 @@ const UserProfile = ({ isOwnProfile = true }) => {
 						onChange={handleChange}
 					/>
 					<Select
-						name="language"
-						value={form.language}
+						label="Preferred Language"
+						name="preferred_language"
+						value={form.preferred_language}
 						onChange={handleChange}
 					>
 						<MenuItem value="en">English</MenuItem>
