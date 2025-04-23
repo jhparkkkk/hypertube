@@ -11,6 +11,7 @@ import Login from "./pages/Login";
 import RequestResetPassword from "./pages/RequestResetPassword";
 import ResetPassword from "./pages/ResetPassword";
 import UserProfile from "./pages/UserProfile";
+import OAuthCallback from "./pages/OAuthCallback";
 function App() {
 	return (
 		<AuthProvider>
@@ -19,6 +20,7 @@ function App() {
 					<Route index element={<Home />} />
 					<Route path="/signup" element={<Signup />} />
 					<Route path="/login" element={<Login />} />
+					<Route path="/oauth-callback" element={<OAuthCallback />} />
 					<Route
 						path="/request-reset-password"
 						element={<RequestResetPassword />}

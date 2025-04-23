@@ -15,6 +15,7 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
+from django.shortcuts import redirect
 
 User = get_user_model()
 
@@ -72,6 +73,30 @@ def oauth_token(request):
         }, status=status.HTTP_200_OK)
     print("PROBLEMO")
     return Response({"error": "Invalid credentials"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def oauth_success(request):
+    print("🍅🍅 [DEBUG] oauth_success", request)
+
+    user = request.user
+    print("🍅🍅 [DEBUG] user", user, user.id)
+    refresh = RefreshToken.for_user(user)
+    access_token = str(refresh.access_token)
+    refresh_token = str(refresh)
+
+    redirect_url = f"http://localhost:3000/oauth-callback?access_token={access_token}&refresh_token={refresh_token}"
+    return redirect(redirect_url)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def get_me(request):
+    print("🍅🍅 [DEBUG] user", request)
+
+    serializer = UserSerializer(request.user)
+    return Response(serializer.data)
 
 
 @api_view(["GET"])

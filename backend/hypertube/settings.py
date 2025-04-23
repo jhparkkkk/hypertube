@@ -169,7 +169,8 @@ SOCIAL_AUTH_FORTYTWO_KEY = os.getenv("SOCIAL_AUTH_42_KEY")
 SOCIAL_AUTH_FORTYTWO_SECRET = os.getenv("SOCIAL_AUTH_42_SECRET")
 SOCIAL_AUTH_FORTYTWO_REDIRECT_URI = os.getenv("SOCIAL_AUTH_42_REDIRECT_URI")
 SOCIAL_AUTH_URL_NAMESPACE = "social"
-
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/api/oauth/success/"
+SOCIAL_AUTH_LOGIN_REDIRECT_URL_IS_AUTHENTICATED = True
 print("[DEBUG] SOCIAL_AUTH_GITHUB_KEY", SOCIAL_AUTH_GITHUB_KEY)
 print("[DEBUG] SOCIAL_AUTH_GITHUB_SECRET", SOCIAL_AUTH_GITHUB_SECRET)
 print("[DEBUG] SOCIAL_AUTH_42_KEY", SOCIAL_AUTH_FORTYTWO_KEY)
@@ -190,11 +191,13 @@ SOCIAL_AUTH_PIPELINE = (
     "social_core.pipeline.social_auth.associate_user",
     "social_core.pipeline.social_auth.load_extra_data",
     "social_core.pipeline.user.user_details",
+    "users.pipeline.generate_jwt_and_redirect"
 
 )
 
 SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = ["provider", "auth_provider"]
-LOGIN_REDIRECT_URL = "http://localhost:3000/"
+# LOGIN_REDIRECT_URL = "http://localhost:3000/"
+LOGIN_REDIRECT_URL = "/api/oauth/success/"
 LOGOUT_REDIRECT_URL = "http://localhost:3000/"
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

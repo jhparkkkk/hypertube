@@ -15,7 +15,7 @@ interface User {
 
 interface AuthContextType {
 	user: any;
-	login: (token: string, user_data: any) => void;
+	login: (token: string, user_data?: any) => void;
 	logout: () => void;
 }
 
@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 		console.log("stored userId:", userId);
 		if (token) {
 			api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-			api.get(`/users/${userId}/`)
+			api.get(`/users/me/`)
 				.then((res) => {
 					setUser(res.data);
 				})
@@ -44,18 +44,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 		}
 	}, []);
 
-	const login = (token: string, user_data: any) => {
-		if (!token) {
-			console.error("No token provided");
-			return;
-		}
-		console.log("received token:", token);
-		localStorage.setItem("accessToken", token);
-		localStorage.setItem("userId", user_data.id.toString());
-		api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-		setUser({ token, ...user_data });
+	const login = async (token: string, user_data?: any) => {
+		if (!token) return;
 
-		navigate("/home");
+		localStorage.setItem("accessToken", token);
+		api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+		try {
+			const user =
+				user_data ||
+				(await api.get("/users/me/").then((res) => res.data));
+
+			setUser(user);
+			navigate("/home");
+		} catch (error) {
+			console.error("Erreur lors du login :", error);
+			logout();
+		}
 	};
 
 	const logout = () => {
