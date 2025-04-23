@@ -6,10 +6,13 @@ import {
 	TextField,
 	Select,
 	MenuItem,
+	IconButton,
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { api } from "../api/axiosConfig";
+import { Edit, Delete } from "@mui/icons-material";
+
 interface User {
 	id: number;
 	username: string;
@@ -53,7 +56,7 @@ const UserProfile = ({ isOwnProfile = true }) => {
 			const res = await api.post("/update-user", form);
 			setForm(res.data);
 			setIsEditing(false);
-			alert("profile updated!");
+			alert("Profile updated!");
 		} catch (error: any) {
 			console.error(
 				"Erreur lors de la mise à jour :",
@@ -69,18 +72,105 @@ const UserProfile = ({ isOwnProfile = true }) => {
 
 	return (
 		<Box maxWidth={500} mx="auto" mt={4} p={2}>
-			<Box display="flex" alignItems="center" gap={2} mb={3}>
+			{/* Avatar avec actions */}
+			<Box position="relative" display="inline-block" mb={2}>
 				<Avatar
-					src={
-						displayedUser?.profile_picture ||
-						"https://avatars.githubusercontent.com/u/79132132?v=4"
-					}
-					sx={{ width: 80, height: 80 }}
+					src={form?.profile_picture || ""}
+					sx={{
+						width: 80,
+						height: 80,
+						border:
+							isOwnProfile && isEditing
+								? "2px solid #4caf50"
+								: "none",
+					}}
 				/>
-				<Typography variant="h5">
-					{displayedUser?.firstName} {displayedUser?.lastName}
-				</Typography>
+
+				{isOwnProfile && isEditing && (
+					<Box
+						position="absolute"
+						bottom={-10}
+						left="50%"
+						display="flex"
+						alignItems="center"
+						sx={{ transform: "translateX(-50%)" }}
+					>
+						{/* Bouton Edit (importer image) */}
+						<IconButton
+							size="small"
+							onClick={() =>
+								document
+									.getElementById("avatar-upload")
+									?.click()
+							}
+							sx={{
+								bgcolor: "white",
+								borderRadius: "50%",
+								boxShadow: 2,
+								mr: 1,
+								"&:hover": { bgcolor: "#f0f0f0" },
+							}}
+						>
+							<Edit fontSize="small" color="primary" />
+						</IconButton>
+
+						{/* Bouton Delete (supprimer image) */}
+						{form?.profile_picture && (
+							<IconButton
+								size="small"
+								onClick={() =>
+									setForm((prev) =>
+										prev
+											? {
+													...prev,
+													profile_picture: "",
+												}
+											: prev,
+									)
+								}
+								sx={{
+									bgcolor: "white",
+									borderRadius: "50%",
+									boxShadow: 2,
+									"&:hover": { bgcolor: "#fce4e4" },
+								}}
+							>
+								<Delete fontSize="small" color="error" />
+							</IconButton>
+						)}
+					</Box>
+				)}
+
+				{/* Input image invisible */}
+				<input
+					id="avatar-upload"
+					type="file"
+					accept="image/*"
+					style={{ display: "none" }}
+					onChange={(e) => {
+						const file = e.target.files?.[0];
+						if (file) {
+							const reader = new FileReader();
+							reader.onloadend = () => {
+								setForm((prev) =>
+									prev
+										? {
+												...prev,
+												profile_picture:
+													reader.result as string,
+											}
+										: prev,
+								);
+							};
+							reader.readAsDataURL(file);
+						}
+					}}
+				/>
 			</Box>
+
+			<Typography variant="h5" mb={2}>
+				{displayedUser?.first_name} {displayedUser?.last_name}
+			</Typography>
 
 			{isEditing && form ? (
 				<Box display="flex" flexDirection="column" gap={2}>

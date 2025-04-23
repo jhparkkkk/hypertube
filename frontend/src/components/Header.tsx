@@ -27,11 +27,11 @@ const Header = () => {
 	const open = Boolean(anchorEl);
 
 	const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-		navigate("/users/1");
+		console.log("user", user);
+		if (user?.id) {
+			navigate(`/users/${user.id}`);
+		}
 		setAnchorEl(event.currentTarget);
-	};
-	const handleClose = () => {
-		setAnchorEl(null);
 	};
 
 	const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -106,7 +106,7 @@ const Header = () => {
 							>
 								<Avatar
 									alt=""
-									src={user.profilePicture || logo}
+									src={user.profile_picture || logo}
 									variant="rounded"
 									sx={{ width: 48, height: 48 }}
 								/>
