@@ -18,32 +18,34 @@ interface AuthContextType {
 	login: (token: string, user_data?: any) => void;
 	logout: () => void;
 	setUser: (user: any) => void;
+	loadingUser: any
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-	const [user, setUser] = useState<any>(null);
 
 	const navigate = useNavigate();
 
+	const [user, setUser] = useState<any>(null);
+	const [loadingUser, setLoadingUser] = useState(true);
+	
 	useEffect(() => {
 		const token = localStorage.getItem("accessToken");
 		const userId = localStorage.getItem("userId");
-		console.log("stored token:", token);
-		console.log("stored userId:", userId);
-		if (token) {
+	
+		if (token && userId) {
 			api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-			api.get(`/users/me/`)
-				.then((res) => {
-					setUser(res.data);
-				})
-				.catch((err) => {
-					console.error("Error fetching user:", err);
-					logout();
-				});
+		
+			api.get(`/users/${userId}/`)
+				.then((res) => setUser(res.data))
+				.catch(() => logout())
+				.finally(() => setLoadingUser(false)); 
+		} else {
+			setLoadingUser(false);
 		}
 	}, []);
+
 
 	const login = async (token: string, user_data?: any) => {
 		if (!token) return;
@@ -73,7 +75,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 	};
 
 	return (
-		<AuthContext.Provider value={{ user, login, logout, setUser }}>
+		<AuthContext.Provider value={{ user, login, logout, setUser, loadingUser }}>
 			{children}
 		</AuthContext.Provider>
 	);

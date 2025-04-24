@@ -1,6 +1,6 @@
 import "./App.css";
 import { Routes, Route, BrowserRouter, useLocation } from "react-router-dom";
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider, useAuth } from "./context/AuthContext";
 import Layout from "./components/Layout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import MovieLibrary from "./pages/movies/MovieLibrary";
@@ -14,10 +14,14 @@ import UserProfile from "./pages/UserProfile";
 import OAuthCallback from "./pages/OAuthCallback";
 
 import NotFound from "./pages/NotFound";
-
 function App() {
+	const { loadingUser } = useAuth();
+
+	if (loadingUser) {
+		return <p>Loading...</p>; 
+	}
+	
 	return (
-		<AuthProvider>
 			<Routes>
 				<Route path="/not-found" element={<NotFound />} />
 				<Route path="/" element={<Layout />}>
@@ -43,7 +47,6 @@ function App() {
 					</Route>
 				</Route>
 			</Routes>
-		</AuthProvider>
 	);
 }
 
