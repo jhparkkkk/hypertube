@@ -104,6 +104,13 @@ def users(request, id=None):
                 serializer = UserSerializer(user)
                 return Response(serializer.data, status=status.HTTP_200_OK)
 
+            # search user by username
+            search = request.query_params.get("search")
+            if search:
+                user = User.objects.filter(username__iexact=search).first()
+                serializer = UserSerializer(user)
+                return Response(serializer.data)
+
             users = User.objects.all()
             serializer = UserSerializer(users, many=True)
 
