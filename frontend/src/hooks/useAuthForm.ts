@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api, API_BASE_URL } from "../api/axiosConfig";
 import { useAuth } from "../context/AuthContext";
@@ -25,6 +25,11 @@ export const useAuthForm = (authType: AuthType, params="") => {
     const navigate = useNavigate();
     const { login } = useAuth();
 
+	useEffect(() => {
+		if (authType) {
+			validateForm(formData);
+		}
+	}, [formData, authType]);
     const validateForm = (data: typeof formData) => {
         const errors: { [key: string]: string } = {};
         let isValid = true;
@@ -58,18 +63,34 @@ export const useAuthForm = (authType: AuthType, params="") => {
             }
         }
 
-        if (data.password && data.password.length < 8) {
-            errors.password = "Password must be at least 8 characters";
-            isValid = false;
-        }
+		if (data.password) {
+			if (data.password.length < 8) {
+				errors.password = "Password must be at least 8 characters";
+				isValid = false;
+			} else if (data.password.length > 50) {
+				errors.password = "Password must be at most 50 characters";
+				isValid = false;
+			} else if (!/\d/.test(data.password)) {
+				errors.password = "Password must contain at least one digit";
+				isValid = false;
+			} else if (!/[A-Za-z]/.test(data.password)) {
+				errors.password = "Password must contain at least one letter";
+				isValid = false;
+			}
+		}
+		
 
         if (authType === "request-reset") {
+			console.log(data)
             if (data.email && !/\S+@\S+\.\S+/.test(data.email)) {
+				console.log('error email')
                 errors.email = "Invalid email format";
                 isValid = false;
+				
             }
         }
         
+		console.log(errors, isValid)
         setErrors(errors);
         setIsFormValid(isValid);
         return isValid;
@@ -77,12 +98,12 @@ export const useAuthForm = (authType: AuthType, params="") => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
-        validateForm({ ...formData, [e.target.name]: e.target.value });
+        // validateForm({ ...formData, [e.target.name]: e.target.value });
     };
 
     const handleSubmit = async () => {
         if (!isFormValid) return;
-
+		console.log('handle submit')
         const endpointByAuthType = {
             'login': '/oauth/token',
             'register': '/register',

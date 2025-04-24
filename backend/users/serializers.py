@@ -36,9 +36,20 @@ class UserSerializer(serializers.ModelSerializer):
         return value
 
     def validate_last_name(self, value):
-        if not value.isalpha():
+        if not re.match(r"^[A-Za-zÀ-ÿ\-]+$", value):
             raise serializers.ValidationError(
-                "Last name must contain only letters.")
+                "Last name must contain only letters and hyphens."
+            )
+        if len(value) < 2 or len(value) > 30:
+            raise serializers.ValidationError(
+                "Last name must be between 2 and 30 characters long.")
+        return value
+
+    def validate_first_name(self, value):
+        if not re.match(r"^[A-Za-zÀ-ÿ\-]+$", value):
+            raise serializers.ValidationError(
+                "Last name must contain only letters and hyphens."
+            )
         if len(value) < 2 or len(value) > 30:
             raise serializers.ValidationError(
                 "Last name must be between 2 and 30 characters long.")
@@ -69,13 +80,16 @@ class ResetPasswordRequestSerializer(serializers.Serializer):
 
 
 class ResetPasswordSerializer(serializers.Serializer):
-    def validate_password(self, value):
+    new_password = serializers.CharField(write_only=True)
+    confirm_password = serializers.CharField(write_only=True)
+
+    def validate_new_password(self, value):
         if len(value) < 8:
             raise serializers.ValidationError(
                 "Password must be at least 8 characters long.")
         if len(value) > 50:
             raise serializers.ValidationError(
-                "Password must be at most 50 characters long")
+                "Password must be at most 50 characters long.")
         if not any(char.isdigit() for char in value):
             raise serializers.ValidationError(
                 "Password must contain at least one digit.")
@@ -84,13 +98,10 @@ class ResetPasswordSerializer(serializers.Serializer):
                 "Password must contain at least one letter.")
         return value
 
-    def validate(self, attributes):
-        new_password = self.validate_password(
-            self.initial_data.get("new_password"))
-        confirm_password = self.validate_password(
-            self.initial_data.get("confirm_password"))
-        if new_password != confirm_password:
-            raise serializers.ValidationError("Passwords do not match")
+    def validate(self, attrs):
+        if attrs["new_password"] != attrs["confirm_password"]:
+            raise serializers.ValidationError("Passwords do not match.")
+        return attrs
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):

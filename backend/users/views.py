@@ -126,7 +126,9 @@ def users(request, id=None):
 @permission_classes([AllowAny])
 def request_reset_password(request):
     email = request.data.get("email")
-    serializer = ResetPasswordRequestSerializer()
+    if not email:
+        return Response({"error": "Email is required"}, status=400)
+    # serializer = ResetPasswordRequestSerializer()
     try:
         user = User.objects.get(email=email)
     except User.DoesNotExist:
@@ -155,13 +157,9 @@ def request_reset_password(request):
 def reset_password(request, token=''):
     print("[DEBUG] token", token)
     # token = request.query_params.get('token')
-
+    print("[DEBUG] payload:", request.data)
     serializer = ResetPasswordSerializer(data=request.data)
-    try:
-        serializer.is_valid(raise_exception=True)
-    except Exception as e:
-        # TODO: parse  serializer.errors and return a proper response
-        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    serializer.is_valid(raise_exception=True)
     data = serializer.validated_data
     new_password = data.get("new_password")
     confirm_password = data.get("confirm_password")
