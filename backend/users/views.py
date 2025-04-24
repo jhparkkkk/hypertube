@@ -78,10 +78,7 @@ def oauth_token(request):
 @api_view(["GET"])
 @permission_classes([AllowAny])
 def oauth_success(request):
-    print("🍅🍅 [DEBUG] oauth_success", request)
-
     user = request.user
-    print("🍅🍅 [DEBUG] user", user, user.id)
     refresh = RefreshToken.for_user(user)
     access_token = str(refresh.access_token)
     refresh_token = str(refresh)
@@ -93,8 +90,6 @@ def oauth_success(request):
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_me(request):
-    print("🍅🍅 [DEBUG] user", request)
-
     serializer = UserSerializer(request.user)
     return Response(serializer.data)
 
@@ -128,7 +123,6 @@ def request_reset_password(request):
     email = request.data.get("email")
     if not email:
         return Response({"error": "Email is required"}, status=400)
-    # serializer = ResetPasswordRequestSerializer()
     try:
         user = User.objects.get(email=email)
     except User.DoesNotExist:
@@ -155,9 +149,6 @@ def request_reset_password(request):
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def reset_password(request, token=''):
-    print("[DEBUG] token", token)
-    # token = request.query_params.get('token')
-    print("[DEBUG] payload:", request.data)
     serializer = ResetPasswordSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
     data = serializer.validated_data

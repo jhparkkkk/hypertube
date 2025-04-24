@@ -26,7 +26,7 @@ interface User {
 }
 
 const UserProfile = ({ isOwnProfile = true }) => {
-	const { user, setUser } = useAuth();
+	const { user, setUser, logout } = useAuth();
 	const [form, setForm] = useState<User | null>(null);
 	const [isEditing, setIsEditing] = useState(false);
 
@@ -232,13 +232,65 @@ const UserProfile = ({ isOwnProfile = true }) => {
 						</Typography>
 					)}
 					{isOwnProfile && (
+						<Box display="flex" flexDirection="column" gap={2} mt={3}>
 						<Button
 							variant="outlined"
-							sx={{ mt: 2 }}
+							fullWidth
+							sx={{
+								borderColor: "white",
+								color: "white",
+								"&:hover": {
+									borderColor: "#4caf50",
+									color: "#4caf50",
+								},
+							}}
 							onClick={() => setIsEditing(true)}
 						>
 							Edit Profile
 						</Button>
+					
+						<Button
+							variant="outlined"
+							fullWidth
+							sx={{
+								borderColor: "#888",
+								color: "white",
+								"&:hover": {
+									borderColor: "#aaa",
+									color: "#aaa",
+								},
+							}}
+							onClick={() => {
+								window.location.href = "/request-reset-password";
+							}}
+						>
+							Reset Password
+						</Button>
+					
+						<Button
+							variant="outlined"
+							fullWidth
+							sx={{
+								borderColor: "#cc4c4c",
+								color: "#cc4c4c",
+								"&:hover": {
+									backgroundColor: "rgba(255, 0, 0, 0.1)",
+								},
+							}}
+							onClick={async () => {
+								const confirmed = window.confirm(
+									"This action is irreversible. Delete your account?",
+								);
+								if (confirmed) {
+									await api.post("/delete-user");
+									logout();
+								}
+							}}
+						>
+							Delete Account
+						</Button>
+					</Box>
+					
 					)}
 				</Box>
 			)}
