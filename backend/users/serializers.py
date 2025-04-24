@@ -70,6 +70,13 @@ class UserSerializer(serializers.ModelSerializer):
                 "Password must contain at least one letter.")
         return value
 
+    def validate_preferred_language(self, value):
+        allowed_languages = ["en", "fr", "es", "de",
+                             "it", "pt", "ru", "ja", "ko", "zh"]
+        if value not in allowed_languages:
+            raise serializers.ValidationError("Invalid language")
+        return value
+
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
         return user

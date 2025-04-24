@@ -239,8 +239,16 @@ const UserProfile = () => {
 						onChange={handleChange}
 					>
 						<MenuItem value="en">English</MenuItem>
-						<MenuItem value="fr">Français</MenuItem>
+						<MenuItem value="fr">French</MenuItem>
 						<MenuItem value="es">Español</MenuItem>
+						<MenuItem value="de">Deutsch</MenuItem>
+						<MenuItem value="it">Italiano</MenuItem>
+						<MenuItem value="pt">Portuguese</MenuItem>
+						<MenuItem value="ru">Russian</MenuItem>
+						<MenuItem value="ja">Japanese</MenuItem>
+						<MenuItem value="ko">Korean</MenuItem>
+						<MenuItem value="zh">Chinese</MenuItem>
+
 					</Select>
 					<Button variant="contained" onClick={handleSave}>
 						Save
