@@ -37,7 +37,7 @@ const UserProfile = () => {
 	const [isEditing, setIsEditing] = useState(false);
 
 	const { id } = useParams();
-
+	console.log(id, user.id)
 	const isOwnProfile = !id || Number(id) === user?.id;
 	const navigate = useNavigate();
 
@@ -86,7 +86,8 @@ const UserProfile = () => {
 
 		try {
 			console.log("Saving form data:", form);
-			const res = await api.post("/update-user", form);
+			const res = await api.patch(`/users/${user.id}/`, form);
+			console.log(res.data)
 			setForm(res.data);
 			setUser(res.data);
 			setIsEditing(false);

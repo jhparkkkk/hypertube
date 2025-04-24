@@ -94,27 +94,37 @@ def get_me(request):
     return Response(serializer.data)
 
 
-@api_view(["GET"])
+@api_view(["GET", "PATCH"])
 @permission_classes([IsAuthenticated])
 def users(request, id=None):
-    try:
-        if id:
-            user = User.objects.get(id=id)
-            serializer = UserSerializer(user)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+    if request.method == "GET":
+        try:
+            if id:
+                user = User.objects.get(id=id)
+                serializer = UserSerializer(user)
+                return Response(serializer.data, status=status.HTTP_200_OK)
 
-        users = User.objects.all()
-        serializer = UserSerializer(users, many=True)
+            users = User.objects.all()
+            serializer = UserSerializer(users, many=True)
 
-        users_list = []
-        for user in serializer.data:
-            users_list.append({
-                "id": user["id"],
-                "username": user["username"],
-            })
-        return Response(users_list, status=status.HTTP_200_OK)
-    except User.DoesNotExist:
-        return Response({"error": "User does not exist"}, status=status.HTTP_404_NOT_FOUND)
+            users_list = []
+            for user in serializer.data:
+                users_list.append({
+                    "id": user["id"],
+                    "username": user["username"],
+                })
+            return Response(users_list, status=status.HTTP_200_OK)
+        except User.DoesNotExist:
+            return Response({"error": "User does not exist"}, status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == "PATCH":
+        user = User.objects.get(id=id)
+        if request.user != user:
+            return Response({"error": "You are not allowed this profile"}, status=status.HTTP_403_FORBIDDEN)
+    serializer = UserUpdateSerializer(user, data=request.data, partial=True)
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(["POST"])

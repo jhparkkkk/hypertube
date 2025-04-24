@@ -114,7 +114,7 @@ class ResetPasswordSerializer(serializers.Serializer):
 class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["email", "username", "first_name",
+        fields = ["id", "email", "username", "first_name",
                   "last_name", "preferred_language", "profile_picture"]
 
     def validate_email(self, value):

@@ -13,5 +13,4 @@ urlpatterns = [
     path("reset-password/<str:token>/",
          reset_password, name="reset-password"),
     path("delete-user", delete_user, name="delete-user"),
-    path("update-user", update_user, name="update-user"),
 ]
