@@ -62,7 +62,7 @@ class MovieViewSet(viewsets.ViewSet):
         if not movie:
             return Response({"error": "Movie not found"}, status=status.HTTP_404_NOT_FOUND)
 
-        logger.info(f"Fetching details for movie: {movie['title']} ({pk})")
+        # logger.info(f"Fetching details for movie: {movie['title']} ({pk})")
 
         # Get IMDB ID from TMDB for better torrent search
         try:
@@ -70,7 +70,7 @@ class MovieViewSet(viewsets.ViewSet):
                 f"https://api.themoviedb.org/3/movie/{pk}/external_ids", params={"api_key": settings.TMDB_API_KEY}
             ).json()
             tmdb_id = external_ids.get("tmdb_id")
-            logger.info(f"Got external IDs for movie: {external_ids}")
+            # logger.info(f"Got external IDs for movie: {external_ids}")
         except requests.RequestException as e:
             logger.error(f"Error fetching external IDs: {str(e)}")
             tmdb_id = None
@@ -81,10 +81,9 @@ class MovieViewSet(viewsets.ViewSet):
             "title": movie["title"],
             "year": int(movie["release_date"][:4]) if movie.get("release_date") else None,
         }
-        logger.info(f"Searching torrents with params: {search_params}")
-        
+        # logger.info(f"Searching torrents with params: {search_params}")
         torrents = self.torrent_service.search_movie_torrents(**search_params)
-        logger.info(f"Found {len(torrents)} torrents")
+        # logger.info(f"Found {len(torrents)} torrents")
 
         if torrents:
             # Sort torrents by quality and seeders
@@ -99,11 +98,7 @@ class MovieViewSet(viewsets.ViewSet):
                 return 0  # unknown quality
 
             # First sort by seeders to ensure reliability
-            sorted_by_seeders = sorted(
-                torrents,
-                key=lambda t: t["seeders"],
-                reverse=True
-            )
+            sorted_by_seeders = sorted(torrents, key=lambda t: t["seeders"], reverse=True)
 
             # Get top 25% of torrents with most seeders, minimum 1
             top_seeded_count = max(1, len(sorted_by_seeders) // 4)
@@ -114,21 +109,21 @@ class MovieViewSet(viewsets.ViewSet):
                 top_seeded,
                 key=lambda t: (
                     get_quality_score(t["title"]),  # First by quality
-                    t["seeders"],                   # Then by number of seeders
-                    -t["size"]                      # Then prefer smaller size
+                    t["seeders"],  # Then by number of seeders
+                    -t["size"],  # Then prefer smaller size
                 ),
-                reverse=True
+                reverse=True,
             )
 
             if best_torrents:
                 best_torrent = best_torrents[0]
-                logger.info(
-                    "Selected torrent - Title: %s, Seeders: %d, Size: %.2f GB, Quality Score: %d",
-                    best_torrent["title"],
-                    best_torrent["seeders"],
-                    best_torrent["size"] / (1024 * 1024 * 1024),  # Convert to GB
-                    get_quality_score(best_torrent["title"])
-                )
+                # logger.info(
+                #     "Selected torrent - Title: %s, Seeders: %d, Size: %.2f GB, Quality Score: %d",
+                #     best_torrent["title"],
+                #     best_torrent["seeders"],
+                #     best_torrent["size"] / (1024 * 1024 * 1024),  # Convert to GB
+                #     get_quality_score(best_torrent["title"])
+                # )
                 movie["magnet_link"] = best_torrent["magnet"]
                 movie["available_torrents"] = best_torrents[:5]
                 movie["best_torrent"] = best_torrent
@@ -143,5 +138,5 @@ class MovieViewSet(viewsets.ViewSet):
             movie["magnet_link"] = None
             logger.warning("No suitable torrents found")
 
-        logger.info(f"Returning movie details with {len(movie.get('available_torrents', []))} available torrents")
+        # logger.info(f"Returning movie details with {len(movie.get('available_torrents', []))} available torrents")
         return Response(movie)

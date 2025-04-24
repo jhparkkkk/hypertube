@@ -2,15 +2,16 @@ import logging
 import os
 import subprocess
 from typing import Optional
+from django.http import StreamingHttpResponse
 
 logger = logging.getLogger(__name__)
 
 
 class StreamingService:
     def __init__(self):
-        self.chunk_size = 8192
+        self.chunk_size = 1024
         self.supported_formats = {".mp4", ".mkv", ".avi", ".mov", ".wmv"}
-        self.chunk_duration = 10
+        self.total_chunks = 32
 
     def _get_duration(self, file_path: str) -> Optional[float]:
         """Get video duration using ffprobe"""
@@ -30,6 +31,17 @@ class StreamingService:
         except Exception as e:
             logger.error(f"Error getting duration: {e}")
             return None
+
+    def is_file_readable(self, file_path: str) -> bool:
+        """Check if a file is partially readable by attempting to get its duration"""
+        if not os.path.exists(file_path):
+            return False
+
+        try:
+            duration = self._get_duration(file_path)
+            return duration is not None
+        except Exception:
+            return False
 
     def _convert_chunk(self, input_file: str, start_time: float, duration: float, output_file: str) -> bool:
         """Convert a chunk of video"""
@@ -94,25 +106,26 @@ class StreamingService:
         Process the next chunk of video
         Returns: (success, new_last_processed_time)
         """
-        if self.is_mp4(input_file):
-            return False, last_processed_time
 
         current_duration = self._get_duration(input_file)
         if current_duration is None:
             return False, last_processed_time
 
-        if last_processed_time >= current_duration:
+        # Calculate chunk duration based on total duration and number of chunks
+        chunk_duration = current_duration / self.total_chunks
+        chunk_index = int(last_processed_time / chunk_duration)
+
+        if chunk_index >= self.total_chunks:
             return False, last_processed_time
 
-        next_chunk_end = min(last_processed_time + self.chunk_duration, current_duration)
-        chunk_index = int(last_processed_time / self.chunk_duration)
+        next_chunk_end = min((chunk_index + 1) * chunk_duration, current_duration)
 
         self.ensure_chunk_directory(input_file)
         output_file = self.get_chunk_path(input_file, chunk_index)
 
         logger.info(f"Converting chunk {chunk_index} from {last_processed_time} to {next_chunk_end}")
 
-        if self._convert_chunk(input_file, last_processed_time, self.chunk_duration, output_file):
+        if self._convert_chunk(input_file, last_processed_time, chunk_duration, output_file):
             return True, next_chunk_end
         else:
             return False, last_processed_time
@@ -147,5 +160,60 @@ class StreamingService:
             return False
 
         chunks = self.get_available_chunks(file_path)
-        expected_chunks = int((total_duration + self.chunk_duration - 1) / self.chunk_duration)
-        return len(chunks) >= expected_chunks
+        return len(chunks) >= self.total_chunks
+
+    def stream_video(self, file_path: str, start_time: float = 0) -> StreamingHttpResponse:
+        """Stream video content using FFmpeg"""
+        if not os.path.exists(file_path):
+            raise FileNotFoundError("Video file not found")
+
+        def generate():
+            cmd = [
+                "ffmpeg",
+                "-i",
+                file_path,
+                "-ss",
+                str(start_time),
+                "-c:v",
+                "libx264",
+                "-preset",
+                "fast",
+                "-crf",
+                "23",
+                "-vf",
+                "format=yuv420p",
+                "-c:a",
+                "aac",
+                "-b:a",
+                "128k",
+                "-ac",
+                "2",
+                "-movflags",
+                "+faststart",
+                "-f",
+                "mp4",
+                "-",
+            ]
+
+            process = subprocess.Popen(
+                cmd,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                bufsize=10**8
+            )
+
+            while True:
+                chunk = process.stdout.read(self.chunk_size)
+                if not chunk:
+                    break
+                yield chunk
+
+            process.wait()
+
+        content_type = 'video/mp4'
+        response = StreamingHttpResponse(
+            generate(),
+            content_type=content_type
+        )
+        response['Accept-Ranges'] = 'bytes'
+        return response

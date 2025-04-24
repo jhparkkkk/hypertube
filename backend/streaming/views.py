@@ -10,7 +10,6 @@ import threading
 import libtorrent as lt
 import logging
 import time
-from concurrent.futures import ThreadPoolExecutor
 
 range_re = re.compile(r"bytes\s*=\s*(\d+)\s*-\s*(\d*)", re.I)
 
@@ -111,58 +110,27 @@ def process_video_thread(video_id):
             movie_file.file_path = downloaded_path
             movie_file.save()
 
+            streaming_service = StreamingService()
+            last_processed_time = 0
+
             while True:
                 status = handle.status()
                 progress = status.progress * 100
                 movie_file.download_progress = progress
                 movie_file.save()
 
-                logging.info(f"Download progress: {progress:.2f}%")
+                # Check if file is readable and process next chunk
+                if streaming_service.is_file_readable(downloaded_path):
+                    success, new_time = streaming_service.process_next_chunk(downloaded_path, last_processed_time)
+                    if success:
+                        last_processed_time = new_time
+                        movie_file.download_status = "CONVERTING"
+                        movie_file.save()
 
                 if status.is_seeding:
                     break
 
                 time.sleep(1)
-
-            movie_file.download_status = "CONVERTING"
-            movie_file.save()
-
-            streaming_service = StreamingService()
-            streaming_service.ensure_chunk_directory(downloaded_path)
-
-            if streaming_service.is_mp4(downloaded_path):
-                movie_file.download_status = "READY"
-                movie_file.save()
-                return
-
-            total_duration = streaming_service._get_duration(downloaded_path)
-            if not total_duration:
-                raise Exception("Could not get video duration")
-
-            num_chunks = int((total_duration + streaming_service.chunk_duration - 1) / streaming_service.chunk_duration)
-
-            with ThreadPoolExecutor(max_workers=4) as executor:
-                futures = []
-                for i in range(num_chunks):
-                    start_time = i * streaming_service.chunk_duration
-                    futures.append(
-                        executor.submit(
-                            streaming_service._convert_chunk,
-                            downloaded_path,
-                            start_time,
-                            streaming_service.chunk_duration,
-                            streaming_service.get_chunk_path(downloaded_path, i),
-                        )
-                    )
-
-                completed = 0
-                for future in futures:
-                    if future.result():
-                        completed += 1
-                        progress = (completed / num_chunks) * 100
-                        movie_file.download_progress = progress
-                        movie_file.save()
-                        logging.info(f"Chunk conversion progress: {progress:.2f}%")
 
             movie_file.download_status = "READY"
             movie_file.save()
@@ -225,7 +193,7 @@ class StreamingViewSet(viewsets.ViewSet):
         try:
             movie_file = MovieFile.objects.get(tmdb_id=pk)
 
-            if movie_file.download_status != "READY":
+            if movie_file.download_status not in ["DOWNLOADING", "CONVERTING", "READY"]:
                 return Response(
                     {"error": f"Movie is not ready for streaming (status: {movie_file.download_status})"},
                     status=status.HTTP_400_BAD_REQUEST,
@@ -237,21 +205,11 @@ class StreamingViewSet(viewsets.ViewSet):
             # Initialize streaming service
             streaming_service = StreamingService()
 
-            # If it's an MP4 file, return the full file path
-            if streaming_service.is_mp4(movie_file.file_path):
-                mp4_path = streaming_service.get_mp4_path(movie_file.file_path)
-                if not os.path.exists(mp4_path):
-                    # Copy the original MP4 file to the conversions directory
-                    os.makedirs(os.path.dirname(mp4_path), exist_ok=True)
-                    import shutil
-
-                    shutil.copy2(movie_file.file_path, mp4_path)
-                return Response({"file_path": mp4_path})
-
-            # For non-MP4 files, stream using FFmpeg
+            # Get start time from query params
             start_time = float(request.query_params.get("start", 0))
-            response = streaming_service.stream_video(file_path=movie_file.file_path, start_time=start_time)
-            return response
+
+            # Stream the video
+            return streaming_service.stream_video(movie_file.file_path, start_time)
 
         except MovieFile.DoesNotExist:
             return Response({"error": "Movie not found"}, status=status.HTTP_404_NOT_FOUND)

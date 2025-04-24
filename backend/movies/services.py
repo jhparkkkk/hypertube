@@ -1,4 +1,5 @@
 import logging
+import sys
 import requests
 from typing import Dict, Any, List
 from django.conf import settings
@@ -6,7 +7,10 @@ import os
 from urllib.parse import quote_plus
 import re
 
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+logger.addHandler(logging.StreamHandler(sys.stdout))
 
 
 class TMDBService:
@@ -75,7 +79,7 @@ class TorrentService:
         self.min_seeders = 3
         self.language_names = {}
         self._init_language_names()
-        logger.info("TorrentService initialized with URL: %s", self.jackett_url)
+        # logger.info("TorrentService initialized with URL: %s", self.jackett_url)
 
     def _init_language_names(self):
         """Initialize language names from TMDB configuration"""
@@ -103,7 +107,7 @@ class TorrentService:
 
                     self.language_names[iso] = variations
 
-            logger.info(f"Initialized {len(self.language_names)} language mappings")
+            # logger.info(f"Initialized {len(self.language_names)} language mappings")
         except Exception as e:
             logger.error(f"Error initializing language names: {str(e)}")
             self.language_names = {}
@@ -115,18 +119,52 @@ class TorrentService:
         """
         title = title.lower()
 
-        dub_keywords = ["dubbed", "dub", "dublado", "doblado", "doublé", "doublage"]
-        if any(kw in title for kw in dub_keywords):
-            return False
+        dubbed_patterns = {
+            "es": ["latino", "latin0", "español", "castellano", "spanish"],
+            "fr": ["french", "français", "vf", "truefrench", "doublage"],
+            "de": ["german", "deutsch", "ger"],
+            "it": ["italian", "italiano", "ita"],
+            "pt": ["portuguese", "português", "dublado"],
+            "ru": ["russian", "русский"],
+            "ja": ["japanese", "日本語"],
+            "ko": ["korean", "한국어"],
+            "zh": ["chinese", "中文"],
+            "general": ["dubbed", "dub", "dual", "multi"],
+        }
 
-        if original_language == "en":
+        if not original_language:
+            # logger.info("No original language info from TMDB, checking common patterns")
+            all_dub_patterns = [p for patterns in dubbed_patterns.values() for p in patterns]
+            if any(pattern in title for pattern in all_dub_patterns):
+                # logger.info(f"Found dubbed pattern in title: {title}")
+                return False
             return True
 
-        language_variations = self.language_names.get(original_language, set())
-        if language_variations:
-            return any(variation in title for variation in language_variations)
+        if original_language == "en":
+            all_dub_patterns = [p for patterns in dubbed_patterns.values() for p in patterns]
+            if any(pattern in title for pattern in all_dub_patterns):
+                # logger.info(f"Found dubbed pattern in English content: {title}")
+                return False
+            return True
 
-        return True
+        else:
+            for lang, patterns in dubbed_patterns.items():
+                if lang != original_language and any(pattern in title for pattern in patterns):
+                    # logger.info(f"Found {lang} dub pattern in {original_language} content: {title}")
+                    return False
+
+            multi_patterns = ["multi", "dual", "multi-audio", "dual-audio"]
+            if any(pattern in title for pattern in multi_patterns):
+                # logger.info(f"Found multi-language pattern: {title}")
+                return False
+
+            if original_language in dubbed_patterns:
+                if any(pattern in title for pattern in dubbed_patterns[original_language]):
+                    # logger.info(f"Found original language ({original_language}) pattern: {title}")
+                    return True
+
+            # logger.info(f"No language indicators found, assuming original for: {title}")
+            return True
 
     def _clean_title(self, title: str) -> str:
         """Clean title by removing special characters and extra spaces"""
@@ -165,16 +203,22 @@ class TorrentService:
         Returns a list of available torrents with quality and size information
         """
         try:
+            # logger.info("=== Starting torrent search ===")
             original_language = None
             original_title = None
+
             if tmdb_id:
                 try:
                     tmdb_url = f"https://api.themoviedb.org/3/movie/{tmdb_id}"
                     headers = {"Authorization": f"Bearer {settings.TMDB_API_TOKEN}"}
                     movie_info = requests.get(tmdb_url, headers=headers).json()
+
                     original_language = movie_info.get("original_language")
                     original_title = movie_info.get("original_title")
-                    logger.info(f"Original language: {original_language}, Original title: {original_title}")
+
+                    # logger.info(f"TMDB info - Original language: {original_language}")
+                    # logger.info(f"Original title: {original_title}")
+
                 except Exception as e:
                     logger.error(f"Error fetching TMDB info: {str(e)}")
 
@@ -183,11 +227,11 @@ class TorrentService:
                 search_terms.extend(self._generate_search_terms(original_title, year))
             search_terms.extend(self._generate_search_terms(title, year))
 
-            logger.info(f"Searching with terms: {search_terms}")
+            # logger.info(f"Generated search terms: {search_terms}")
 
             all_results = []
             for search_term in search_terms:
-                logger.info(f"Searching for: {search_term}")
+                # logger.info(f"Searching Jackett for term: {search_term}")
 
                 search_url = f"{self.jackett_url}/api/v2.0/indexers/all/results"
                 params = {
@@ -204,19 +248,23 @@ class TorrentService:
                     continue
 
                 try:
-                    results = response.json().get("Results", [])
-                    all_results.extend(results)
+                    current_results = response.json().get("Results", [])
+                    # logger.info(f"Found {len(current_results)} results for term: {search_term}")
+                    all_results.extend(current_results)
                 except Exception as e:
                     logger.error(f"Failed to parse Jackett response: {str(e)}")
                     continue
 
+            # logger.info(f"Total results found: {len(all_results)}")
             torrent_list = []
             valid_results = 0
             invalid_results = 0
+            dubbed_results = 0
 
-            for result in results:
+            for result in all_results:
                 try:
                     title = result.get("Title", "Unknown")
+                    # logger.info(f"\nProcessing torrent: {title}")
 
                     magnet_uri = result.get("MagnetUri")
                     if not magnet_uri:
@@ -228,15 +276,23 @@ class TorrentService:
                             if info_hash:
                                 magnet_uri = self._create_magnet_link(info_hash, title)
                             else:
+                                # logger.info(f"Skipping torrent without magnet: {title}")
                                 invalid_results += 1
                                 continue
 
                     seeders = safe_int(result.get("Seeders"))
                     if seeders < 1:
+                        # logger.info(f"Skipping torrent with no seeders: {title}")
                         invalid_results += 1
                         continue
 
-                    if original_language and not self._detect_language_in_title(title, original_language):
+                    # logger.info(f"Checking language for: {title}")
+                    is_original = self._detect_language_in_title(title, original_language)
+                    # logger.info(f"Language check result for {title}: {'original' if is_original else 'dubbed'}")
+
+                    if not is_original:
+                        # logger.info(f"Skipping dubbed version: {title}")
+                        dubbed_results += 1
                         continue
 
                     peers = safe_int(result.get("Peers"))
@@ -249,17 +305,44 @@ class TorrentService:
                         "leechers": max(0, peers - seeders),
                         "magnet": magnet_uri,
                         "source": result.get("Tracker", "Unknown"),
+                        "original_language": original_language,
+                        "is_original": is_original,
                     }
 
                     valid_results += 1
                     torrent_list.append(torrent)
+                    # logger.info(f"Added valid torrent: {title}")
 
                 except Exception as e:
                     invalid_results += 1
                     logger.error(f"Error processing result: {str(e)} - {result}")
                     continue
 
-            torrent_list.sort(key=lambda x: (x["seeders"], x["size"]), reverse=True)
+            # Sort by quality and language match
+            def get_sort_score(t):
+                quality_score = 0
+                title = t["title"].lower()
+
+                # Quality scoring
+                if "1080p" in title or "fhd" in title:
+                    quality_score = 3
+                elif "720p" in title or "hd" in title:
+                    quality_score = 2
+                elif "480p" in title or "sd" in title:
+                    quality_score = 1
+
+                # Prioritize original language versions
+                language_score = 2 if t["is_original"] else 1
+
+                return (language_score, quality_score, t["seeders"], -t["size"])
+
+            torrent_list.sort(key=get_sort_score, reverse=True)
+
+            # logger.info(f"\n=== Search complete ===")
+            # logger.info(f"Valid torrents: {valid_results}")
+            # logger.info(f"Invalid torrents: {invalid_results}")
+            # logger.info(f"Dubbed versions skipped: {dubbed_results}")
+            # logger.info(f"Total torrents found: {len(torrent_list)}")
 
             return torrent_list
 
