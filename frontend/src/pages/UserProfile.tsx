@@ -8,10 +8,14 @@ import {
 	MenuItem,
 	IconButton,
 } from "@mui/material";
+
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { api } from "../api/axiosConfig";
 import { Edit, Delete } from "@mui/icons-material";
+import { useParams } from "react-router-dom";
+
+import { useNavigate } from "react-router-dom";
 
 interface User {
 	id: number;
@@ -25,23 +29,52 @@ interface User {
 	auth_provider: string;
 }
 
-const UserProfile = ({ isOwnProfile = true }) => {
+const UserProfile = () => {
+
+
 	const { user, setUser, logout } = useAuth();
 	const [form, setForm] = useState<User | null>(null);
 	const [isEditing, setIsEditing] = useState(false);
 
+	const { id } = useParams();
+
+	const isOwnProfile = !id || Number(id) === user?.id;
+	const navigate = useNavigate();
+
+	console.log('id', id)
+	console.log("is my own profile", isOwnProfile)
+
 	useEffect(() => {
-		if (user && isOwnProfile) {
+		console.log("user id is:", id)
+		if (!id || Number(id) === user?.id) {
+			console.log('ici')
+
 			setForm(user);
+			return;
 		}
-	}, [user, isOwnProfile]);
+
+		// else fetch other user data
+		const fetchUser = async () => {
+			try {
+				const res = await api.get(`/users/${id}/`);
+				setForm(res.data);
+			} catch (err: any) {
+				console.error("error loading user profile", err);
+				if (err.response?.status === 404) {
+					navigate("/not-found");
+				}
+			}
+		};
+
+		fetchUser();
+	}, [id, user]);
 
 	const handleChange = (
 		e: React.ChangeEvent<
 			HTMLInputElement | { name?: string; value: unknown }
 		>,
 	) => {
-		if (!form) return;
+		if (!form) return <Typography>Loading profile...</Typography>;
 		setForm({
 			...form,
 			[e.target.name as keyof User]: e.target.value,
@@ -49,7 +82,7 @@ const UserProfile = ({ isOwnProfile = true }) => {
 	};
 
 	const handleSave = async () => {
-		if (!form) return;
+		if (!form) return <Typography>Loading profile...</Typography>;
 
 		try {
 			console.log("Saving form data:", form);
@@ -67,9 +100,9 @@ const UserProfile = ({ isOwnProfile = true }) => {
 		}
 	};
 
-	if (!user) return null;
+	// if (!user) return null;
 
-	const displayedUser = isOwnProfile ? form : user;
+	const displayedUser = form;
 
 	return (
 		<Box maxWidth={500} mx="auto" mt={4} p={2}>
@@ -178,31 +211,31 @@ const UserProfile = ({ isOwnProfile = true }) => {
 					<TextField
 						label="Username"
 						name="username"
-						value={form.username}
+						value={form.username || ""}
 						onChange={handleChange}
 					/>
 					<TextField
 						label="First Name"
 						name="first_name"
-						value={form.first_name}
+						value={form.first_name || ""}
 						onChange={handleChange}
 					/>
 					<TextField
 						label="Last Name"
 						name="last_name"
-						value={form.last_name}
+						value={form.last_name || ""}
 						onChange={handleChange}
 					/>
 					<TextField
 						label="Email"
 						name="email"
-						value={form.email}
+						value={form.email || ""}
 						onChange={handleChange}
 					/>
 					<Select
 						label="Preferred Language"
 						name="preferred_language"
-						value={form.preferred_language}
+						value={form.preferred_language || ""}
 						onChange={handleChange}
 					>
 						<MenuItem value="en">English</MenuItem>
@@ -299,3 +332,7 @@ const UserProfile = ({ isOwnProfile = true }) => {
 };
 
 export default UserProfile;
+// function useParams(): { id: any; } {
+// 	throw new Error("Function not implemented.");
+// }
+

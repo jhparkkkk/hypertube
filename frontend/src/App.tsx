@@ -12,10 +12,14 @@ import RequestResetPassword from "./pages/RequestResetPassword";
 import ResetPassword from "./pages/ResetPassword";
 import UserProfile from "./pages/UserProfile";
 import OAuthCallback from "./pages/OAuthCallback";
+
+import NotFound from "./pages/NotFound";
+
 function App() {
 	return (
 		<AuthProvider>
 			<Routes>
+				<Route path="/not-found" element={<NotFound />} />
 				<Route path="/" element={<Layout />}>
 					<Route index element={<Home />} />
 					<Route path="/signup" element={<Signup />} />
