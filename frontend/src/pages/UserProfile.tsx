@@ -47,7 +47,8 @@ const UserProfile = () => {
 	}
 	
 	useEffect(() => {
-		if (loadingUser) return;
+		if (loadingUser || !id) return;
+	
 		if (!id || Number(id) === user?.id) {
 
 			setForm(user);
@@ -83,12 +84,16 @@ const UserProfile = () => {
 	};
 
 	const handleSave = async () => {
-		if (!form) return <Typography>Loading profile...</Typography>;
-
+		if (!form || !user) return <Typography>Loading profile...</Typography>;
+		if (Number(user.id) !== Number(form.id)) {
+			alert("You can only update your own profile!");
+			return;
+		}
+		console.log("handleSave", form);
+		console.log("user", user);
 		try {
 			console.log("Saving form data:", form);
 			const res = await api.patch(`/users/${user.id}/`, form);
-			console.log(res.data)
 			setForm(res.data);
 			setUser(res.data);
 			setIsEditing(false);
