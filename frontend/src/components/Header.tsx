@@ -32,17 +32,12 @@ const Header = () => {
 	const open = Boolean(anchorEl);
 
 	const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-		console.log("user", user);
 		if (user?.id) {
 			navigate(`/users/${user.id}`);
 		}
 		setAnchorEl(event.currentTarget);
 	};
 
-	const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		// Handle search input change
-		console.log(event.target.value);
-	};
 	return (
 		<AppBar
 			position="fixed"
@@ -66,7 +61,7 @@ const Header = () => {
 						justifyContent: "space-between",
 					}}
 				>
-								{/* Logo */}
+				{/* Logo */}
 				<Typography
 					variant="h6"
 					component={Link}
@@ -158,7 +153,7 @@ const Header = () => {
 							>
 								<Avatar
 									alt=""
-									src={user.profile_picture || logo}
+									src={user.profile_picture || ""}
 									variant="rounded"
 									sx={{ width: 48, height: 48 }}
 								/>

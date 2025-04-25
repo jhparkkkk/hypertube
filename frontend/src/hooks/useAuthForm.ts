@@ -20,50 +20,54 @@ export const useAuthForm = (authType: AuthType, params="") => {
         ...(authType === "request-reset" && { email: "" }),
         ...(authType === "reset" && { new_password: "", confirm_password: "" }),
     });
+		const [touchedFields, setTouchedFields] = useState<{ [key: string]: boolean }>({});
+
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
-    const [isFormValid, setIsFormValid] = useState(false);
+    const [isFormValid, setIsFormValid] = useState(true);
     const navigate = useNavigate();
     const { login } = useAuth();
 
 	useEffect(() => {
 		if (authType) {
-			validateForm(formData);
+			validateForm(formData, touchedFields);
 		}
 	}, [formData, authType]);
-    const validateForm = (data: typeof formData) => {
-        const errors: { [key: string]: string } = {};
-        let isValid = true;
-
-        const requiredFields = [];
-        if (authType === "register") {
-            requiredFields.push("username", "password", "email", "first_name", "last_name");
-        }
-        if (authType === "login") {
-            requiredFields.push("username", "password");
-        }
-        if (authType === "request-reset") {
-            requiredFields.push("email");
-        }
-        if (authType === "reset") {
-            requiredFields.push("new_password", "confirm_password");
-        }
-        
-
-        requiredFields.forEach((key) => {
-            if (!(key in data) || !data[key as keyof FormData]) {
-                errors[key] = `${key.replace("_", " ")} is required`;
-                isValid = false;
-            }
-        });
-
-        if (authType === "register") {
-            if (data.email && !/\S+@\S+\.\S+/.test(data.email)) {
-                errors.email = "Invalid email format";
-                isValid = false;
-            }
-        }
-
-		if (data.password) {
+	const validateForm = (data: typeof formData, touchedFields: { [key: string]: boolean }) => {
+		const errors: { [key: string]: string } = {};
+		let isValid = true;
+	
+		const requiredFields = [];
+		if (authType === "register") {
+			requiredFields.push("username", "password", "email", "first_name", "last_name");
+		}
+		if (authType === "login") {
+			requiredFields.push("username", "password");
+		}
+		if (authType === "request-reset") {
+			requiredFields.push("email");
+		}
+		if (authType === "reset") {
+			requiredFields.push("new_password", "confirm_password");
+		}
+	
+		requiredFields.forEach((key) => {
+			if (touchedFields[key] && (!data[key as keyof FormData] || data[key as keyof FormData] === "")) {
+				errors[key] = `${key.replace("_", " ")} is required`;
+				isValid = false;
+			}
+		});
+	
+		if (authType === "register" && touchedFields.email && data.email && !/\S+@\S+\.\S+/.test(data.email)) {
+			errors.email = "Invalid email format";
+			isValid = false;
+		}
+	
+		if (authType === "request-reset" && touchedFields.email && data.email && !/\S+@\S+\.\S+/.test(data.email)) {
+			errors.email = "Invalid email format";
+			isValid = false;
+		}
+	
+		if (touchedFields.password && data.password) {
 			if (data.password.length < 8) {
 				errors.password = "Password must be at least 8 characters";
 				isValid = false;
@@ -78,28 +82,21 @@ export const useAuthForm = (authType: AuthType, params="") => {
 				isValid = false;
 			}
 		}
-		
-
-        if (authType === "request-reset") {
-			console.log(data)
-            if (data.email && !/\S+@\S+\.\S+/.test(data.email)) {
-				console.log('error email')
-                errors.email = "Invalid email format";
-                isValid = false;
-				
-            }
-        }
-        
-		console.log(errors, isValid)
-        setErrors(errors);
-        setIsFormValid(isValid);
-        return isValid;
-    };
+	
+		setErrors(errors);
+		setIsFormValid(isValid);
+		return isValid;
+	};
+	
+    
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-        // validateForm({ ...formData, [e.target.name]: e.target.value });
-    };
+			const { name, value } = e.target;
+			setFormData(prev => ({ ...prev, [name]: value }));
+		
+			setTouchedFields(prev => ({ ...prev, [name]: true }));
+		};
+		
 
     const handleSubmit = async () => {
         if (!isFormValid) return;

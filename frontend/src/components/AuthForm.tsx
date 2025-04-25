@@ -9,6 +9,7 @@ import {
 	Link,
 } from "@mui/material";
 import { GitHub, School } from "@mui/icons-material";
+import AvatarUploader from "../components/AvatarUploader"; // ajuste le chemin selon ton projet
 
 type AuthType = "login" | "register" | "request-reset" | "reset";
 
@@ -78,6 +79,23 @@ const AuthForm = ({
 				>
 					{authType == "register" && (
 						<>
+							<AvatarUploader
+								image={formData.profile_picture}
+								onChange={(base64) =>
+								handleChange({
+									target: {
+										name: "profile_picture",
+										value: base64,
+									},
+								} as React.ChangeEvent<HTMLInputElement>)}
+								onRemove={() =>
+								handleChange({
+									target: {
+										name: "profile_picture",
+										value: "",
+									},
+								} as React.ChangeEvent<HTMLInputElement>)}
+							/>
 							<TextField
 								label="Email"
 								name="email"
@@ -129,6 +147,9 @@ const AuthForm = ({
 								helperText={errors.password || ""}
 								InputProps={{ sx: { color: "white" } }}
 							/>
+							
+
+
 						</>
 					)}
 					{authType == "request-reset" && (

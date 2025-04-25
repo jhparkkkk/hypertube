@@ -44,6 +44,7 @@ function App() {
 						<Route path="/home" element={<div>Dashboard</div>} />
 						<Route path="/profile" element={<div>Settings</div>} />
 						<Route path="/users/:id" element={<UserProfile />} />
+						
 					</Route>
 				</Route>
 			</Routes>

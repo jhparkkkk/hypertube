@@ -16,6 +16,7 @@ import { Edit, Delete } from "@mui/icons-material";
 import { useParams } from "react-router-dom";
 
 import { useNavigate } from "react-router-dom";
+import AvatarUploader from "../components/AvatarUploader"; // ajuste le chemin si besoin
 
 interface User {
 	id: number;
@@ -29,25 +30,25 @@ interface User {
 	auth_provider: string;
 }
 
+
+
 const UserProfile = () => {
 
 
-	const { user, setUser, logout } = useAuth();
+	const { user, setUser, logout, loadingUser} = useAuth();
 	const [form, setForm] = useState<User | null>(null);
 	const [isEditing, setIsEditing] = useState(false);
 
 	const { id } = useParams();
-	console.log(id, user.id)
 	const isOwnProfile = !id || Number(id) === user?.id;
 	const navigate = useNavigate();
-
-	console.log('id', id)
-	console.log("is my own profile", isOwnProfile)
-
+	if (loadingUser) {
+		return <Typography>Loading...</Typography>;
+	}
+	
 	useEffect(() => {
-		console.log("user id is:", id)
+		if (loadingUser) return;
 		if (!id || Number(id) === user?.id) {
-			console.log('ici')
 
 			setForm(user);
 			return;
@@ -67,7 +68,7 @@ const UserProfile = () => {
 		};
 
 		fetchUser();
-	}, [id, user]);
+	}, [id, user, loadingUser]);
 
 	const handleChange = (
 		e: React.ChangeEvent<
@@ -107,106 +108,37 @@ const UserProfile = () => {
 
 	return (
 		<Box maxWidth={500} mx="auto" mt={4} p={2}>
-			{/* Avatar avec actions */}
-			<Box position="relative" display="inline-block" mb={2}>
+			{isOwnProfile && isEditing ? (
+				<AvatarUploader
+					image={form?.profile_picture || ""}
+					onChange={(base64) =>
+						setForm((prev) =>
+							prev ? { ...prev, profile_picture: base64 } : prev
+						)
+					}
+					onRemove={() =>
+						setForm((prev) =>
+							prev ? { ...prev, profile_picture: "" } : prev
+						)
+					}
+				/>
+			) : (
 				<Avatar
 					src={form?.profile_picture || ""}
 					sx={{
 						width: 80,
 						height: 80,
+						mb: 2,
+						alignSelf: "center",
 						border:
 							isOwnProfile && isEditing
 								? "2px solid #4caf50"
-								: "none",
+								: "2px solid rgba(255,255,255,0.2)",
 					}}
 				/>
+			)}
 
-				{isOwnProfile && isEditing && (
-					<Box
-						position="absolute"
-						bottom={-10}
-						left="50%"
-						display="flex"
-						alignItems="center"
-						sx={{ transform: "translateX(-50%)" }}
-					>
-						{/* Bouton Edit (importer image) */}
-						<IconButton
-							size="small"
-							onClick={() =>
-								document
-									.getElementById("avatar-upload")
-									?.click()
-							}
-							sx={{
-								bgcolor: "white",
-								borderRadius: "50%",
-								boxShadow: 2,
-								mr: 1,
-								"&:hover": { bgcolor: "#f0f0f0" },
-							}}
-						>
-							<Edit fontSize="small" color="primary" />
-						</IconButton>
-
-						{/* Bouton Delete (supprimer image) */}
-						{form?.profile_picture && (
-							<IconButton
-								size="small"
-								onClick={() =>
-									setForm((prev) =>
-										prev
-											? {
-													...prev,
-													profile_picture: "",
-												}
-											: prev,
-									)
-								}
-								sx={{
-									bgcolor: "white",
-									borderRadius: "50%",
-									boxShadow: 2,
-									"&:hover": { bgcolor: "#fce4e4" },
-								}}
-							>
-								<Delete fontSize="small" color="error" />
-							</IconButton>
-						)}
-					</Box>
-				)}
-
-				{/* Input image invisible */}
-				<input
-					id="avatar-upload"
-					type="file"
-					accept="image/*"
-					style={{ display: "none" }}
-					onChange={(e) => {
-						const file = e.target.files?.[0];
-						if (file) {
-							const reader = new FileReader();
-							reader.onloadend = () => {
-								setForm((prev) =>
-									prev
-										? {
-												...prev,
-												profile_picture:
-													reader.result as string,
-											}
-										: prev,
-								);
-							};
-							reader.readAsDataURL(file);
-						}
-					}}
-				/>
-			</Box>
-
-			<Typography variant="h5" mb={2}>
-				{displayedUser?.first_name} {displayedUser?.last_name}
-			</Typography>
-
+			
 			{isEditing && form ? (
 				<Box display="flex" flexDirection="column" gap={2}>
 					<TextField
@@ -341,7 +273,4 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
-// function useParams(): { id: any; } {
-// 	throw new Error("Function not implemented.");
-// }
 
