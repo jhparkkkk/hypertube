@@ -21,17 +21,20 @@ export const useAuthForm = (authType: AuthType, params="") => {
         ...(authType === "reset" && { new_password: "", confirm_password: "" }),
     });
 		const [touchedFields, setTouchedFields] = useState<{ [key: string]: boolean }>({});
-
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
     const [isFormValid, setIsFormValid] = useState(true);
     const navigate = useNavigate();
     const { login } = useAuth();
+
+		const [successMessage, setSuccessMessage] = useState("");
+
 
 	useEffect(() => {
 		if (authType) {
 			validateForm(formData, touchedFields);
 		}
 	}, [formData, authType]);
+
 	const validateForm = (data: typeof formData, touchedFields: { [key: string]: boolean }) => {
 		const errors: { [key: string]: string } = {};
 		let isValid = true;
@@ -119,7 +122,11 @@ export const useAuthForm = (authType: AuthType, params="") => {
             if (authType === "login") {
                 login(response.data.tokens.access, response.data.user);
                 navigate("/home");
-            } else {
+            }
+						else if (authType === "request-reset") {
+							console.log("🔴 request-reset response", response.data);
+							setSuccessMessage("Password reset email sent. Please check your inbox."); }
+						else {
                 navigate("/home");
             }
         } catch (error: any) {
@@ -133,7 +140,7 @@ export const useAuthForm = (authType: AuthType, params="") => {
 		window.location.replace(`${API_BASE_URL}/login/${test}`);
 	};
     
-    return { formData, errors, isFormValid, handleChange, handleSubmit, handleProviderLogin, authType, params};
+    return { formData, errors, isFormValid, handleChange, handleSubmit, handleProviderLogin, authType, params, successMessage, setSuccessMessage};
     };
 
     

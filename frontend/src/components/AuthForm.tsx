@@ -23,6 +23,7 @@ interface AuthFormProps {
 	authType?: AuthType;
 	handleProviderLogin?: (provider: string) => void;
 	params?: any;
+	successMessage?: string;
 }
 
 const AuthForm = ({
@@ -35,6 +36,7 @@ const AuthForm = ({
 	authType,
 	handleProviderLogin,
 	params,
+	successMessage
 }: AuthFormProps) => {
 	console.log("params", params);
 
@@ -165,6 +167,11 @@ const AuthForm = ({
 								InputProps={{ sx: { color: "white" } }}
 							/>
 						</>
+					)}
+					{successMessage && (
+						<Typography color="success.main" sx={{ mt: 2 }}>
+							{successMessage}
+						</Typography>
 					)}
 					{authType == "reset" && (
 						<>
