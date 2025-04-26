@@ -17,6 +17,9 @@ import { useParams } from "react-router-dom";
 
 import { useNavigate } from "react-router-dom";
 import AvatarUploader from "../components/AvatarUploader"; // ajuste le chemin si besoin
+import { validateField } from "../utils/validators";
+
+
 
 interface User {
 	id: number;
@@ -91,6 +94,15 @@ const UserProfile = () => {
 		}
 		console.log("handleSave", form);
 		console.log("user", user);
+
+		const fieldsToValidate = ["username", "first_name", "last_name", "email", "preferred_language"];
+		for (const field of fieldsToValidate) {
+			const value = form[field as keyof User] as string;
+			if (!validateField(field, value)) {
+				alert(`Invalid value for ${field.replace("_", " ")}.`);
+				return;
+			}
+		}
 		try {
 			console.log("Saving form data:", form);
 			const res = await api.patch(`/users/${user.id}/`, form);
@@ -106,6 +118,7 @@ const UserProfile = () => {
 			alert("Error updating profile.");
 		}
 	};
+
 
 	// if (!user) return null;
 

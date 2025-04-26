@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api, API_BASE_URL } from "../api/axiosConfig";
 import { useAuth } from "../context/AuthContext";
+import { validateField } from "../utils/validators";
+
 type AuthType = "login" | "register" | "request-reset" | "reset";
 
 
@@ -52,40 +54,14 @@ export const useAuthForm = (authType: AuthType, params="") => {
 		if (authType === "reset") {
 			requiredFields.push("new_password", "confirm_password");
 		}
-	
+
 		requiredFields.forEach((key) => {
-			if (touchedFields[key] && (!data[key as keyof FormData] || data[key as keyof FormData] === "")) {
-				errors[key] = `${key.replace("_", " ")} is required`;
+			if (touchedFields[key] && (!data[key as keyof FormData] || !validateField(key, data[key as keyof FormData] || ""))) {
+				errors[key] = `${key.replace("_", " ")} is invalid`;
 				isValid = false;
 			}
 		});
-	
-		if (authType === "register" && touchedFields.email && data.email && !/\S+@\S+\.\S+/.test(data.email)) {
-			errors.email = "Invalid email format";
-			isValid = false;
-		}
-	
-		if (authType === "request-reset" && touchedFields.email && data.email && !/\S+@\S+\.\S+/.test(data.email)) {
-			errors.email = "Invalid email format";
-			isValid = false;
-		}
-	
-		if (touchedFields.password && data.password) {
-			if (data.password.length < 8) {
-				errors.password = "Password must be at least 8 characters";
-				isValid = false;
-			} else if (data.password.length > 50) {
-				errors.password = "Password must be at most 50 characters";
-				isValid = false;
-			} else if (!/\d/.test(data.password)) {
-				errors.password = "Password must contain at least one digit";
-				isValid = false;
-			} else if (!/[A-Za-z]/.test(data.password)) {
-				errors.password = "Password must contain at least one letter";
-				isValid = false;
-			}
-		}
-	
+		
 		setErrors(errors);
 		setIsFormValid(isValid);
 		return isValid;
