@@ -107,8 +107,12 @@ def users(request, id=None):
             # search user by username
             search = request.query_params.get("search")
             if search:
+                print("[DEBUG] search", search)
                 user = User.objects.filter(username__iexact=search).first()
+                if not user:
+                    return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
                 serializer = UserSerializer(user)
+                print("🌸[DEBUG] serializer.data", serializer.data)
                 return Response(serializer.data)
 
             users = User.objects.all()

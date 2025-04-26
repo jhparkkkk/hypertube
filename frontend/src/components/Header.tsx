@@ -26,6 +26,7 @@ const Header = () => {
 	const navigate = useNavigate();
 	const [showSearch, setShowSearch] = useState(false);
 	const [searchValue, setSearchValue] = useState("");
+	const [searchError, setSearchError] = useState<string | null>(null);
 
 	const { user, logout } = useAuth();
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -36,6 +37,22 @@ const Header = () => {
 			navigate(`/users/${user.id}`);
 		}
 		setAnchorEl(event.currentTarget);
+	};
+
+	const handleSearchSubmit = async () => {
+		try {
+			const res = await api.get(`/users/?search=${searchValue}`);
+			navigate(`/users/${res.data.id}`);
+			setSearchValue("");
+			setShowSearch(false);
+			setSearchError(null);
+		} catch (err: any) {
+			if (err.response?.status === 404) {
+				setSearchError("User not found.");
+			} else {
+				setSearchError("Unexpected error occurred.");
+			}
+		}
 	};
 
 	return (
@@ -99,21 +116,20 @@ const Header = () => {
 							>
 								{showSearch ? (
 									<Fade in={showSearch}>
+										<Box sx={{ position: "relative", width: showSearch ? { xs: 160, sm: 200, md: 240 } : "auto" }}>
 										<TextField
 											size="small"
 											autoFocus
+											fullWidth
 											value={searchValue}
-											onChange={(e: any) => setSearchValue(e.target.value)}
-											onKeyDown={async (e: any) => {
+											error={!!searchError}
+											onChange={(e: any) => {
+												setSearchValue(e.target.value);
+												setSearchError(null);
+											}}
+											onKeyDown={(e) => {
 												if (e.key === "Enter") {
-													try {
-														const res = await api.get(`/users/?search=${searchValue}`);
-														navigate(`/users/${res.data.id}`);
-														setSearchValue("");
-														setShowSearch(false);
-													} catch (err) {
-														alert("User not found");
-													}
+													handleSearchSubmit();
 												}
 											}}
 											placeholder="Search users..."
@@ -122,11 +138,27 @@ const Header = () => {
 												bgcolor: "#2a2a2a",
 												color: "white",
 												input: { color: "white" },
-												"& fieldset": { borderColor: "#666" },
-												"&:hover fieldset": { borderColor: "#888" },
-												"&.Mui-focused fieldset": { borderColor: "#ccc" },
+												"& fieldset": { borderColor: searchError ? "#ff4c4c" : "#666" },
+												"&:hover fieldset": { borderColor: searchError ? "#ff4c4c" : "#888" },
+												"&.Mui-focused fieldset": { borderColor: searchError ? "#ff4c4c" : "#ccc" },
 											}}
 										/>
+										{searchError && (
+											<Typography
+												variant="caption"
+												sx={{
+													color: "#ff4c4c",
+													position: "absolute",
+													top: "100%", // juste sous l'input
+													left: 0,
+													mt: "2px", // petite marge
+													fontSize: "0.75rem",
+												}}
+											>
+												{searchError}
+											</Typography>
+										)}
+									</Box>
 									</Fade>
 								) : (
 									<IconButton

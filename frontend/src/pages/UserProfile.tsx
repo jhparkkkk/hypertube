@@ -66,6 +66,7 @@ const UserProfile = () => {
 			} catch (err: any) {
 				console.error("error loading user profile", err);
 				if (err.response?.status === 404) {
+					console.log('ici')
 					navigate("/not-found");
 				}
 			}
