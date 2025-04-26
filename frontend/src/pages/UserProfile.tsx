@@ -129,7 +129,7 @@ const UserProfile = () => {
 			display="flex"
 			flexDirection="column"
 			alignItems="center"
-			justifyContent="center"
+			// justifyContent="center"
 			mb={4}
 			mt={4}
 			sx={{ mx: "auto" }}
