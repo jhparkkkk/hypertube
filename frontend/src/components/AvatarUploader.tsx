@@ -13,16 +13,19 @@ const AvatarUploader = ({ image, onChange, onRemove }: AvatarUploaderProps) => {
 			position="relative"
 			display="inline-block"
 			mb={2}
-			sx={{ mx: "auto" }} // centre l'avatar horizontalement
+			sx={{ mx: "auto" }}
 		>
 			<Avatar
 				src={image || ""}
-				sx={{
-					width: 80,
-					height: 80,
-					border: "2px solid rgba(255,255,255,0.2)",
-				}}
-			/>
+		  	variant="rounded"
+		  	sx={{
+		  	  width: 80,
+		  	  height: 80,
+		  	  borderRadius: 2, // ou 8px
+		  	  border: "2px solid rgba(255,255,255,0.2)",
+		  	  objectFit: "cover",
+		  	}}
+		/>
 
 			{/* Zone des icônes */}
 			<Box

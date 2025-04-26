@@ -45,6 +45,7 @@ const Header = () => {
 				background: "rgba(0,0,0,0.8)",
 				backdropFilter: "blur(10px)",
 				padding: "10px 20px",
+				transition: "all 0.3s ease",
 			}}
 		>
 				<Toolbar
@@ -60,6 +61,7 @@ const Header = () => {
 						gap: 2,
 						justifyContent: "space-between",
 					}}
+
 				>
 				{/* Logo */}
 				<Typography
@@ -79,7 +81,7 @@ const Header = () => {
 				<Box
 					display="flex"
 					alignItems="center"
-					gap={1.5}
+					gap={2}
 					flexDirection={{ xs: "column", sm: "row" }}
 				>
 					{user && (
@@ -133,7 +135,7 @@ const Header = () => {
 											"&:hover": { color: "green" },
 										}}
 									>
-										<Search />
+										<Search fontSize="medium" />
 									</IconButton>
 								)}
 							</Box>
@@ -168,11 +170,12 @@ const Header = () => {
 									color: "white",
 									textTransform: "none",
 									"&:hover": {
-										borderColor: "green",
-										color: "green",
+										borderColor: "red",
+										color: "red",
+										backgroundColor: "rgba(133, 60, 60, 0.2)",
 									},
 								}}
-								startIcon={<Logout />}
+								startIcon={<Logout fontSize="medium" sx={{ width: 20 , height: 20  }} />}
 							></Button>
 						</Box>
 					)}

@@ -125,7 +125,17 @@ const UserProfile = () => {
 	const displayedUser = form;
 
 	return (
-		<Box maxWidth={500} mx="auto" mt={4} p={2}>
+		<Box
+			display="flex"
+			flexDirection="column"
+			alignItems="center"
+			justifyContent="center"
+			mb={4}
+			mt={4}
+			sx={{ mx: "auto" }}
+			gap={2}
+
+		>
 			{isOwnProfile && isEditing ? (
 				<AvatarUploader
 					image={form?.profile_picture || ""}
@@ -142,17 +152,16 @@ const UserProfile = () => {
 				/>
 			) : (
 				<Avatar
+					variant="rounded"
 					src={form?.profile_picture || ""}
 					sx={{
 						width: 80,
 						height: 80,
-						mb: 2,
-						alignSelf: "center",
-						border:
-							isOwnProfile && isEditing
-								? "2px solid #4caf50"
-								: "2px solid rgba(255,255,255,0.2)",
+						borderRadius: 2,
+						border: "2px solid rgba(255,255,255,0.2)",
+						objectFit: "cover",	
 					}}
+
 				/>
 			)}
 
