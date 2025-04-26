@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.core.validators import validate_email
-
+from django.core.exceptions import ValidationError
 import re
 
 User = get_user_model()
@@ -55,20 +55,29 @@ class UserSerializer(serializers.ModelSerializer):
                 "Last name must be between 2 and 30 characters long.")
         return value
 
-    def validate_password(self, value):
-        if len(value) < 8:
-            raise serializers.ValidationError(
-                "Password must be at least 8 characters long.")
-        if len(value) > 50:
-            raise serializers.ValidationError(
-                "Password must be at most 50 characters long")
-        if not any(char.isdigit() for char in value):
-            raise serializers.ValidationError(
+    def validate_password(self, password):
+        FORBIDDEN_WORDS = [
+            "password", "motdepasse", "admin", "azerty", "qwerty",
+            "123456", "abcdef", "welcome", "monkey", "dragon"
+        ]
+
+        if len(password) < 8 or len(password) > 50:
+            raise ValidationError(
+                "Password must be between 8 and 50 characters.")
+
+        if not re.search(r"[A-Za-z]", password):
+            raise ValidationError("Password must contain at least one letter.")
+        if not re.search(r"\d", password):
+            raise ValidationError(
                 "Password must contain at least one digit.")
-        if not any(char.isalpha() for char in value):
-            raise serializers.ValidationError(
-                "Password must contain at least one letter.")
-        return value
+        if not re.search(r"[^A-Za-z0-9]", password):
+            raise ValidationError(
+                "Password must contain at least one special character.")
+        for word in FORBIDDEN_WORDS:
+            if word in password.lower():
+                raise ValidationError(
+                    "Password is too common or insecure.")
+        return password
 
     def validate_preferred_language(self, value):
         allowed_languages = ["en", "fr", "es", "de",
@@ -90,20 +99,29 @@ class ResetPasswordSerializer(serializers.Serializer):
     new_password = serializers.CharField(write_only=True)
     confirm_password = serializers.CharField(write_only=True)
 
-    def validate_new_password(self, value):
-        if len(value) < 8:
-            raise serializers.ValidationError(
-                "Password must be at least 8 characters long.")
-        if len(value) > 50:
-            raise serializers.ValidationError(
-                "Password must be at most 50 characters long.")
-        if not any(char.isdigit() for char in value):
-            raise serializers.ValidationError(
+    def validate_new_password(self, password):
+        FORBIDDEN_WORDS = [
+            "password", "motdepasse", "admin", "azerty", "qwerty",
+            "123456", "abcdef", "welcome", "monkey", "dragon"
+        ]
+
+        if len(password) < 8 or len(password) > 50:
+            raise ValidationError(
+                "Password must be between 8 and 50 characters.")
+
+        if not re.search(r"[A-Za-z]", password):
+            raise ValidationError("Password must contain at least one letter.")
+        if not re.search(r"\d", password):
+            raise ValidationError(
                 "Password must contain at least one digit.")
-        if not any(char.isalpha() for char in value):
-            raise serializers.ValidationError(
-                "Password must contain at least one letter.")
-        return value
+        if not re.search(r"[^A-Za-z0-9]", password):
+            raise ValidationError(
+                "Password must contain at least one special character.")
+        for word in FORBIDDEN_WORDS:
+            if word in password.lower():
+                raise ValidationError(
+                    "Password is too common or insecure.")
+        return password
 
     def validate(self, attrs):
         if attrs["new_password"] != attrs["confirm_password"]:

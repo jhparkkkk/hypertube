@@ -1,4 +1,17 @@
 export const validateField = (name: string, value: string) => {
+	const forbiddenWords = [
+		"password",
+		"motdepasse",
+		"admin",
+		"azerty",
+		"qwerty",
+		"123456",
+		"abcdef",
+		"ouioui",
+		"pwd",
+		"pass"
+	];
+
 	switch (name) {
 		case "username":
 			return value.length >= 3 && value.length <= 30;
@@ -13,8 +26,10 @@ export const validateField = (name: string, value: string) => {
 			return (
 				value.length >= 8 &&
 				value.length <= 50 &&
-				/\d/.test(value) &&
-				/[A-Za-z]/.test(value)
+				/\d/.test(value) &&                         
+				/[A-Za-z]/.test(value) &&                   
+				/[^A-Za-z0-9]/.test(value) &&                
+				!forbiddenWords.some(word => value.toLowerCase().includes(word)) 
 			);
 		default:
 			return true;

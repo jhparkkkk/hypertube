@@ -78,9 +78,11 @@ export const useAuthForm = (authType: AuthType, params="") => {
 		
 
     const handleSubmit = async () => {
-        if (!isFormValid) return;
-		console.log('handle submit')
-        const endpointByAuthType = {
+			// const manualCheck = validateForm(formData, touchedFields);
+    		// if (!manualCheck) return;
+      if (!isFormValid) return;
+			console.log('handle submit')
+      const endpointByAuthType = {
             'login': '/oauth/token',
             'register': '/register',
             'request-reset': '/request-reset-password',
