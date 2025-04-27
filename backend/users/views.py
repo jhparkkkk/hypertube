@@ -175,18 +175,24 @@ def reset_password(request, token=''):
     data = serializer.validated_data
     new_password = data.get("new_password")
     confirm_password = data.get("confirm_password")
+
     if new_password != confirm_password:
         return Response({"error": "Passwords do not match"}, status=status.HTTP_400_BAD_REQUEST)
 
-    reset_obj = PasswordReset.objects.get(token=token)
+    try:
+        reset_obj = PasswordReset.objects.get(token=token)
+    except PasswordReset.DoesNotExist:
+        return Response({"error": "Invalid or expired token"}, status=status.HTTP_400_BAD_REQUEST)
+
     try:
         user = User.objects.get(email=reset_obj.email)
     except User.DoesNotExist:
-        return Response({"error": "User with email not found"}, status=status.HTTP_404_NOT
-                        )
-    user.password = make_password(new_password)
+        return Response({"error": "User with email not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    user.set_password(new_password)
     user.save()
     reset_obj.delete()
+
     return Response({"success": "Password reset successful"}, status=status.HTTP_200_OK)
 
 
