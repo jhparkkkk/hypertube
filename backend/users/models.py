@@ -16,7 +16,7 @@ class User(AbstractBaseUser):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     password = models.CharField(max_length=128)
-    profile_picture = models.URLField(max_length=500, blank=True, null=True)
+    profile_picture = models.TextField(blank=True, null=True)
     preferred_language = models.CharField(max_length=5, default="en")
     auth_provider = models.CharField(max_length=50, choices=[
         (AuthProvider.EMAIL, "Email"),

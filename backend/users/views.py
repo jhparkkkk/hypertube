@@ -7,7 +7,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth.hashers import make_password
 
-from .serializers import UserSerializer, ResetPasswordRequestSerializer, ResetPasswordSerializer
+from .serializers import UserSerializer, ResetPasswordRequestSerializer, ResetPasswordSerializer, UserUpdateSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 from users.models import PasswordReset
@@ -15,6 +15,7 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
+from django.shortcuts import redirect
 
 User = get_user_model()
 
@@ -75,33 +76,74 @@ def oauth_token(request):
 
 
 @api_view(["GET"])
+@permission_classes([AllowAny])
+def oauth_success(request):
+    user = request.user
+    refresh = RefreshToken.for_user(user)
+    access_token = str(refresh.access_token)
+    refresh_token = str(refresh)
+
+    redirect_url = f"http://localhost:3000/oauth-callback?access_token={access_token}&refresh_token={refresh_token}"
+    return redirect(redirect_url)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def get_me(request):
+    serializer = UserSerializer(request.user)
+    return Response(serializer.data)
+
+
+@api_view(["GET", "PATCH"])
 @permission_classes([IsAuthenticated])
 def users(request, id=None):
-    try:
-        if id:
-            user = User.objects.get(id=id)
-            serializer = UserSerializer(user)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+    if request.method == "GET":
+        try:
+            if id:
+                user = User.objects.get(id=id)
+                serializer = UserSerializer(user)
+                return Response(serializer.data, status=status.HTTP_200_OK)
 
-        users = User.objects.all()
-        serializer = UserSerializer(users, many=True)
+            # search user by username
+            search = request.query_params.get("search")
+            if search:
+                print("[DEBUG] search", search)
+                user = User.objects.filter(username__iexact=search).first()
+                if not user:
+                    return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+                serializer = UserSerializer(user)
+                print("🌸[DEBUG] serializer.data", serializer.data)
+                return Response(serializer.data)
 
-        users_list = []
-        for user in serializer.data:
-            users_list.append({
-                "id": user["id"],
-                "username": user["username"],
-            })
-        return Response(users_list, status=status.HTTP_200_OK)
-    except User.DoesNotExist:
-        return Response({"error": "User does not exist"}, status=status.HTTP_404_NOT_FOUND)
+            users = User.objects.all()
+            serializer = UserSerializer(users, many=True)
+
+            users_list = []
+            for user in serializer.data:
+                users_list.append({
+                    "id": user["id"],
+                    "username": user["username"],
+                })
+            return Response(users_list, status=status.HTTP_200_OK)
+        except User.DoesNotExist:
+            return Response({"error": "User does not exist"}, status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == "PATCH":
+        user = User.objects.get(id=id)
+        if request.user != user:
+            return Response({"error": "You are not allowed this profile"}, status=status.HTTP_403_FORBIDDEN)
+    serializer = UserUpdateSerializer(user, data=request.data, partial=True)
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def request_reset_password(request):
     email = request.data.get("email")
-    serializer = ResetPasswordRequestSerializer()
+    if not email:
+        return Response({"error": "Email is required"}, status=400)
     try:
         user = User.objects.get(email=email)
     except User.DoesNotExist:
@@ -128,30 +170,29 @@ def request_reset_password(request):
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def reset_password(request, token=''):
-    print("[DEBUG] token", token)
-    # token = request.query_params.get('token')
-
     serializer = ResetPasswordSerializer(data=request.data)
-    try:
-        serializer.is_valid(raise_exception=True)
-    except Exception as e:
-        # TODO: parse  serializer.errors and return a proper response
-        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    serializer.is_valid(raise_exception=True)
     data = serializer.validated_data
     new_password = data.get("new_password")
     confirm_password = data.get("confirm_password")
+
     if new_password != confirm_password:
         return Response({"error": "Passwords do not match"}, status=status.HTTP_400_BAD_REQUEST)
 
-    reset_obj = PasswordReset.objects.get(token=token)
+    try:
+        reset_obj = PasswordReset.objects.get(token=token)
+    except PasswordReset.DoesNotExist:
+        return Response({"error": "Invalid or expired token"}, status=status.HTTP_400_BAD_REQUEST)
+
     try:
         user = User.objects.get(email=reset_obj.email)
     except User.DoesNotExist:
-        return Response({"error": "User with email not found"}, status=status.HTTP_404_NOT
-                        )
-    user.password = make_password(new_password)
+        return Response({"error": "User with email not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    user.set_password(new_password)
     user.save()
     reset_obj.delete()
+
     return Response({"success": "Password reset successful"}, status=status.HTTP_200_OK)
 
 
@@ -165,9 +206,9 @@ def delete_user(request):
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
-def update_user(request): 
+def update_user(request):
     user = request.user
-    serializer = UserSerializer(user, data=request.data, partial=True)
+    serializer = UserUpdateSerializer(user, data=request.data, partial=True)
     serializer.is_valid(raise_exception=True)
     serializer.save()
     return Response(serializer.data, status=status.HTTP_200_OK)
