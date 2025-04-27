@@ -45,6 +45,8 @@ const UserProfile = () => {
 	const { id } = useParams();
 	const isOwnProfile = !id || Number(id) === user?.id;
 	const navigate = useNavigate();
+	const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
 	if (loadingUser) {
 		return <Typography>Loading...</Typography>;
 	}
@@ -66,7 +68,6 @@ const UserProfile = () => {
 			} catch (err: any) {
 				console.error("error loading user profile", err);
 				if (err.response?.status === 404) {
-					console.log('ici')
 					navigate("/not-found");
 				}
 			}
@@ -76,16 +77,29 @@ const UserProfile = () => {
 	}, [id, user, loadingUser]);
 
 	const handleChange = (
-		e: React.ChangeEvent<
-			HTMLInputElement | { name?: string; value: unknown }
-		>,
+		e: React.ChangeEvent<HTMLInputElement | { name?: string; value: unknown }>
 	) => {
-		if (!form) return <Typography>Loading profile...</Typography>;
-		setForm({
-			...form,
-			[e.target.name as keyof User]: e.target.value,
-		} as User);
+		if (!form) return;
+	
+		const { name, value } = e.target;
+	
+		setForm((prev) => ({
+			...prev!,
+			[name as keyof User]: value,
+		}));
+	
+		setErrors((prevErrors) => {
+			const newErrors = { ...prevErrors };
+			if (!validateField(name, value as string)) {
+				newErrors[name] = `${name.replace("_", " ")} is invalid`;
+			} else {
+				delete newErrors[name];
+			}
+			return newErrors;
+		});
 	};
+	
+	
 
 	const handleSave = async () => {
 		if (!form || !user) return <Typography>Loading profile...</Typography>;
@@ -97,13 +111,19 @@ const UserProfile = () => {
 		console.log("user", user);
 
 		const fieldsToValidate = ["username", "first_name", "last_name", "email", "preferred_language"];
+		const newErrors: { [key: string]: string } = {};
 		for (const field of fieldsToValidate) {
 			const value = form[field as keyof User] as string;
 			if (!validateField(field, value)) {
-				alert(`Invalid value for ${field.replace("_", " ")}.`);
-				return;
+				newErrors[field] = `${field.replace("_", " ")} is invalid`;
 			}
 		}
+
+		if (Object.keys(newErrors).length > 0) {
+			setErrors(newErrors);
+			return;
+		}
+
 		try {
 			console.log("Saving form data:", form);
 			const res = await api.patch(`/users/${user.id}/`, form);
@@ -112,16 +132,23 @@ const UserProfile = () => {
 			setIsEditing(false);
 			alert("Profile updated!");
 		} catch (error: any) {
-			console.error(
-				"Erreur lors de la mise à jour :",
-				error.response?.data,
-			);
-			alert("Error updating profile.");
+			
+			if (error.response?.data) {
+				const newErrors: { [key: string]: string } = {};
+
+				for (const field in error.response.data) {
+					if (Array.isArray(error.response.data[field])) {
+						newErrors[field] = error.response.data[field][0];
+					} else {
+						newErrors[field] = error.response.data[field];
+					}
+				}
+				setErrors(newErrors);
+			} else {
+				console.error("Error updating profile:", error);
+			}
 		}
 	};
-
-
-	// if (!user) return null;
 
 	const displayedUser = form;
 
@@ -130,7 +157,6 @@ const UserProfile = () => {
 			display="flex"
 			flexDirection="column"
 			alignItems="center"
-			// justifyContent="center"
 			mb={4}
 			mt={4}
 			sx={{ mx: "auto" }}
@@ -174,30 +200,43 @@ const UserProfile = () => {
 						name="username"
 						value={form.username || ""}
 						onChange={handleChange}
+						error={!!errors.username}
+  					helperText={errors.username}
+
 					/>
 					<TextField
 						label="First Name"
 						name="first_name"
 						value={form.first_name || ""}
 						onChange={handleChange}
+						error={!!errors.first_name}
+  					helperText={errors.first_name}
+
 					/>
 					<TextField
 						label="Last Name"
 						name="last_name"
 						value={form.last_name || ""}
 						onChange={handleChange}
+						error={!!errors.last_name}
+  					helperText={errors.last_name}
+
 					/>
 					<TextField
 						label="Email"
 						name="email"
 						value={form.email || ""}
 						onChange={handleChange}
+						error={!!errors.email}
+  					helperText={errors.email}
 					/>
 					<Select
 						label="Preferred Language"
 						name="preferred_language"
 						value={form.preferred_language || ""}
 						onChange={handleChange}
+						error={!!errors.preferred_language}
+						helperText={errors.preferred_language}
 					>
 						<MenuItem value="en">English</MenuItem>
 						<MenuItem value="fr">French</MenuItem>
@@ -211,9 +250,14 @@ const UserProfile = () => {
 						<MenuItem value="zh">Chinese</MenuItem>
 
 					</Select>
-					<Button variant="contained" onClick={handleSave}>
-						Save
+					<Button
+					  variant="contained"
+					  onClick={handleSave}
+					  disabled={Object.keys(errors).length > 0}
+					>
+					  Save
 					</Button>
+
 				</Box>
 			) : (
 				<Box display="flex" flexDirection="column" gap={1}>
@@ -263,7 +307,7 @@ const UserProfile = () => {
 								},
 							}}
 							onClick={() => {
-								window.location.href = "/request-reset-password";
+								navigate("/request-reset-password");
 							}}
 						>
 							Reset Password
