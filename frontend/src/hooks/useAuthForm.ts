@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { api } from "../api/axiosConfig";
+import { api, API_BASE_URL } from "../api/axiosConfig";
 import { useAuth } from "../context/AuthContext";
+import { validateField } from "../utils/validators";
 
 type AuthType = "login" | "register" | "request-reset" | "reset";
 
@@ -21,70 +22,67 @@ export const useAuthForm = (authType: AuthType, params="") => {
         ...(authType === "request-reset" && { email: "" }),
         ...(authType === "reset" && { new_password: "", confirm_password: "" }),
     });
+		const [touchedFields, setTouchedFields] = useState<{ [key: string]: boolean }>({});
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
-    const [isFormValid, setIsFormValid] = useState(false);
+    const [isFormValid, setIsFormValid] = useState(true);
     const navigate = useNavigate();
     const { login } = useAuth();
 
-    const validateForm = (data: typeof formData) => {
-        const errors: { [key: string]: string } = {};
-        let isValid = true;
+		const [successMessage, setSuccessMessage] = useState("");
 
-        const requiredFields = [];
-        if (authType === "register") {
-            requiredFields.push("username", "password", "email", "first_name", "last_name");
-        }
-        if (authType === "login") {
-            requiredFields.push("username", "password");
-        }
-        if (authType === "request-reset") {
-            requiredFields.push("email");
-        }
-        if (authType === "reset") {
-            requiredFields.push("new_password", "confirm_password");
-        }
-        
 
-        requiredFields.forEach((key) => {
-            if (!(key in data) || !data[key as keyof FormData]) {
-                errors[key] = `${key.replace("_", " ")} is required`;
-                isValid = false;
-            }
-        });
+	useEffect(() => {
+		if (authType) {
+			validateForm(formData, touchedFields);
+		}
+	}, [formData, authType]);
 
-        if (authType === "register") {
-            if (data.email && !/\S+@\S+\.\S+/.test(data.email)) {
-                errors.email = "Invalid email format";
-                isValid = false;
-            }
-        }
+	const validateForm = (data: typeof formData, touchedFields: { [key: string]: boolean }) => {
+		const errors: { [key: string]: string } = {};
+		let isValid = true;
+	
+		const requiredFields = [];
+		if (authType === "register") {
+			requiredFields.push("username", "password", "email", "first_name", "last_name");
+		}
+		if (authType === "login") {
+			requiredFields.push("username", "password");
+		}
+		if (authType === "request-reset") {
+			requiredFields.push("email");
+		}
+		if (authType === "reset") {
+			requiredFields.push("new_password", "confirm_password");
+		}
 
-        if (data.password && data.password.length < 8) {
-            errors.password = "Password must be at least 8 characters";
-            isValid = false;
-        }
-
-        if (authType === "request-reset") {
-            if (data.email && !/\S+@\S+\.\S+/.test(data.email)) {
-                errors.email = "Invalid email format";
-                isValid = false;
-            }
-        }
-        
-        setErrors(errors);
-        setIsFormValid(isValid);
-        return isValid;
-    };
+		requiredFields.forEach((key) => {
+			if (touchedFields[key] && (!data[key as keyof FormData] || !validateField(key, data[key as keyof FormData] || ""))) {
+				errors[key] = `${key.replace("_", " ")} is invalid`;
+				isValid = false;
+			}
+		});
+		
+		setErrors(errors);
+		setIsFormValid(isValid);
+		return isValid;
+	};
+	
+    
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-        validateForm({ ...formData, [e.target.name]: e.target.value });
-    };
+			const { name, value } = e.target;
+			setFormData(prev => ({ ...prev, [name]: value }));
+		
+			setTouchedFields(prev => ({ ...prev, [name]: true }));
+		};
+		
 
     const handleSubmit = async () => {
-        if (!isFormValid) return;
-
-        const endpointByAuthType = {
+			// const manualCheck = validateForm(formData, touchedFields);
+    		// if (!manualCheck) return;
+      if (!isFormValid) return;
+			console.log('handle submit')
+      const endpointByAuthType = {
             'login': '/oauth/token',
             'register': '/register',
             'request-reset': '/request-reset-password',
@@ -93,7 +91,6 @@ export const useAuthForm = (authType: AuthType, params="") => {
         
         const endpoint = endpointByAuthType[authType];
         try {
-            alert(endpoint)
             console.log("endpoint", endpoint);
 
             const response = await api.post(endpoint, formData);
@@ -101,21 +98,27 @@ export const useAuthForm = (authType: AuthType, params="") => {
             console.log(`User succesfully ${authType}ed in:`, response.data);
 
             if (authType === "login") {
-                login(response.data.tokens.access);
+                login(response.data.tokens.access, response.data.user);
                 navigate("/home");
-            } else {
-                navigate("/login");
+            }
+						else if (authType === "request-reset") {
+							console.log("🔴 request-reset response", response.data);
+							setSuccessMessage("Password reset email sent. Please check your inbox."); }
+						else {
+                navigate("/home");
             }
         } catch (error: any) {
             if (error.response) {
                 console.log("error login", error.response.data.error);
                 setErrors({"general": error.response.data.error});
-                alert(errors);
             }
             }
     }
+	const handleProviderLogin = (test: string) => {
+		window.location.replace(`${API_BASE_URL}/login/${test}`);
+	};
     
-    return { formData, errors, isFormValid, handleChange, handleSubmit };
+    return { formData, errors, isFormValid, handleChange, handleSubmit, handleProviderLogin, authType, params, successMessage, setSuccessMessage};
     };
 
     

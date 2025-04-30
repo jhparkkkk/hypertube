@@ -75,8 +75,7 @@ services:
       - ./backend:/app
     env_file:
       - .env
-    networks:
-      - hypertube_default
+    restart: always
 
   frontend:
     build: ./frontend

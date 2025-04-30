@@ -6,13 +6,16 @@ import App from "./App";
 import CssBaseline from "@mui/material/CssBaseline";
 import theme from "./theme";
 import { ThemeProvider } from "@mui/material/styles";
+import { AuthProvider } from "./context/AuthContext";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <BrowserRouter>
+			<AuthProvider>
         <App />
+			</AuthProvider>
       </BrowserRouter>
     </ThemeProvider>
   </React.StrictMode>
