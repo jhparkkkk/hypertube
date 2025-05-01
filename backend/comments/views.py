@@ -59,3 +59,12 @@ def comment_detail(request, id):
     if request.method == "DELETE":
         comment.delete()
         return Response({"success": "Comment deleted"}, status=200)
+
+
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def movie_comments(request, movie_id):
+    comments = Comment.objects.filter(movie__id=movie_id).select_related(
+        "user").order_by("-created_at")
+    serializer = CommentSerializer(comments, many=True)
+    return Response(serializer.data)
