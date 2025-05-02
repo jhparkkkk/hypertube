@@ -19,6 +19,8 @@ def comments_list_create(request):
         return Response(serializer.data)
 
     if request.method == "POST":
+        print("Request data:", request.data)
+        print("User:", request.user)
         if not request.user.is_authenticated:
             return Response({"error": "Authentication required"}, status=401)
 
