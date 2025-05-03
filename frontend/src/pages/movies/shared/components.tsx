@@ -11,7 +11,7 @@ import {
 import { MovieCardProps } from './types';
 import { movieCardStyles } from './styles';
 
-export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
+export const MovieCard: React.FC<MovieCardProps> = ({ movie, watched }) => {
   const navigate = useNavigate();
   const [imageError, setImageError] = useState(false);
   const year = movie.release_date ? new Date(movie.release_date).getFullYear() : '';
@@ -21,7 +21,12 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
 
   return (
     <Card 
-      sx={movieCardStyles.card}
+      sx={{
+        ...movieCardStyles.card,
+        position: 'relative',
+        overflow: 'hidden',
+        cursor: 'pointer',
+      }}
       onClick={() => navigate(`/movies/${movie.id}`)}
     >
       <Box sx={movieCardStyles.mediaContainer}>
@@ -37,7 +42,31 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
             }
           }}
         />
+
+        {watched && (
+          <Box
+            sx={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'white',
+              fontWeight: 700,
+              fontSize: '1.1rem',
+              letterSpacing: 1,
+              zIndex: 2,
+            }}
+          >
+            Watched
+          </Box>
+        )}
       </Box>
+
       <CardContent sx={{ p: 2 }}>
         <Typography variant="h6" noWrap sx={{ color: 'white', fontSize: '1.1rem' }}>
           {movie.title}
@@ -60,4 +89,4 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
       </CardContent>
     </Card>
   );
-}; 
+};

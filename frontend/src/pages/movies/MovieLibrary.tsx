@@ -26,6 +26,20 @@ const MovieLibrary: React.FC = () => {
   const [totalResults, setTotalResults] = useState<number>(0);
   const observer = useRef<IntersectionObserver>();
 
+	const [watchedMovieIds, setWatchedMovieIds] = useState<number[]>([]);
+
+	const fetchWatchHistory = async () => {
+    try {
+      const response = await api.get('/history/');
+      const ids = response.data.map((entry: any) => entry.tmdb_id);
+			console.log('Fetched watched movie IDs:', ids);
+			console.log('Fetched watch history:', response.data);
+      setWatchedMovieIds(ids);
+    } catch (error) {
+      console.error('Error fetching watch history:', error);
+    }
+  };
+
   const lastMovieElementRef = useCallback((node: HTMLElement | null) => {
     if (loading) return;
     if (observer.current) observer.current.disconnect();
@@ -56,6 +70,7 @@ const MovieLibrary: React.FC = () => {
         setMovies((prev: Movie[]) => 
           currentPage === 1 ? validMovies : [...prev, ...validMovies]
         );
+				console.log('Fetched movies:', validMovies);
         setHasMore(currentPage < totalPages);
         setTotalResults(validMovies.length);
       } else {
@@ -90,6 +105,10 @@ const MovieLibrary: React.FC = () => {
       fetchMovies(search, page);
     }
   }, [page, search]);
+
+	useEffect(() => {
+    fetchWatchHistory();
+  }, []);
 
   return (
     <Box sx={{ p: 3, backgroundColor: '#1a1a1a', minHeight: '100vh' }}>
@@ -139,7 +158,8 @@ const MovieLibrary: React.FC = () => {
             key={`${movie.id}-${index}`}
             ref={index === movies.length - 1 ? lastMovieElementRef : null}
           >
-            <MovieCard movie={movie} />
+            <MovieCard movie={movie} watched={watchedMovieIds.includes(movie.id)} />
+
           </Grid>
         ))}
       </Grid>

@@ -42,6 +42,7 @@ const MovieDetails: React.FC = () => {
             await api.post(`/movies/${id}/start_stream/`, {
               magnet_link: response.data.magnet_link
             });
+						await api.post(`/history/${id}/`);
           } catch (error) {
             console.error('Error starting stream:', error);
           }
