@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404
 from .models import Comment
 from .serializers import CommentSerializer
 from movies.models import MovieFile
+from users.models import User
 
 
 @api_view(["GET", "POST"])
@@ -30,7 +31,10 @@ def comments_list_create(request):
         if not movie_id or not content:
             return Response({"error": "movie_id and content are required"}, status=400)
 
-        movie = get_object_or_404(MovieFile, id=movie_id)
+        movie = MovieFile.objects.get(tmdb_id=movie_id)
+        user = User.objects.get(id=request.user.id)
+        print("user is:", user)
+        print("Movie:", movie)
         comment = Comment.objects.create(
             user=request.user, movie=movie, content=content)
         serializer = CommentSerializer(comment)
@@ -66,7 +70,7 @@ def comment_detail(request, id):
 @api_view(["GET"])
 @permission_classes([AllowAny])
 def movie_comments(request, movie_id):
-    comments = Comment.objects.filter(movie__id=movie_id).select_related(
+    comments = Comment.objects.filter(movie__tmdb_id=movie_id).select_related(
         "user").order_by("-created_at")
     serializer = CommentSerializer(comments, many=True)
     return Response(serializer.data)

@@ -6,7 +6,7 @@ interface Comment {
   id: number;
   content: string;
   created_at: string;
-  user: { username: string };
+  username: string;
 }
 
 interface Props {
@@ -20,7 +20,8 @@ const MovieComments: React.FC<Props> = ({ movieId }) => {
 
   const fetchComments = async () => {
     try {
-      const res = await api.get(`/movies/${movieId}/comments`);
+      const res = await api.get(`/movies/${movieId}/comments/`);
+			console.log('Fetched comments:', res.data);
       setComments(res.data);
     } catch (err) {
       console.error('Error fetching comments:', err);
@@ -33,7 +34,7 @@ const MovieComments: React.FC<Props> = ({ movieId }) => {
     try {
 			console.log('Posting comment:', newComment);
 			console.log('Movie ID:', movieId);
-      await api.post(`/comments`, { movie_id: movieId, content: newComment });
+      await api.post(`/comments/`, { movie_id: movieId, content: newComment });
       setNewComment('');
       fetchComments();
     } catch (err) {
@@ -83,7 +84,7 @@ const MovieComments: React.FC<Props> = ({ movieId }) => {
       {comments.map((comment) => (
         <Box key={comment.id} sx={{ mb: 2 }}>
           <Typography variant="subtitle2" color="white">
-            {comment.user.username} — {new Date(comment.created_at).toLocaleDateString()}
+            {comment.username || 'Anonymous'} — {new Date(comment.created_at).toLocaleString()}
           </Typography>
           <Typography variant="body2" color="#ccc">
             {comment.content}

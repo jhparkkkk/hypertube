@@ -36,17 +36,17 @@ const MovieDetails: React.FC = () => {
         setMovie(response.data);
         
         // If magnet link exists, start the stream automatically
-        // if (response.data.magnet_link) {
-        //   setIsStartingStream(true);
-        //   try {
-        //     await api.post(`/movies/${id}/start_stream/`, {
-        //       magnet_link: response.data.magnet_link
-        //     });
-        //   } catch (error) {
-        //     console.error('Error starting stream:', error);
-        //   }
-        //   setIsStartingStream(false);
-        // }
+        if (response.data.magnet_link) {
+          // setIsStartingStream(true);
+          try {
+            await api.post(`/movies/${id}/start_stream/`, {
+              magnet_link: response.data.magnet_link
+            });
+          } catch (error) {
+            console.error('Error starting stream:', error);
+          }
+          // setIsStartingStream(false);
+        }
       } catch (error) {
         console.error('Error fetching movie details:', error);
         setError('Failed to load movie details');
