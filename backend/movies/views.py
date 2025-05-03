@@ -359,11 +359,11 @@ class MovieViewSet(viewsets.ViewSet):
             tmdb_id=pk,
             defaults={"magnet_link": magnet_link}
         )
-        if created:
-            return Response({
-                "status": "CREATED",
-                "message": "MovieFile created without starting download"
-            }, status=status.HTTP_201_CREATED)
+        # if created:
+        #     return Response({
+        #         "status": "CREATED",
+        #         "message": "MovieFile created without starting download"
+        #     }, status=status.HTTP_201_CREATED)
 
         # If already processing or ready, return current status
         if movie_file.download_status in ["DOWNLOADING", "CONVERTING", "READY"]:
