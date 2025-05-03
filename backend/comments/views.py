@@ -20,8 +20,6 @@ def comments_list_create(request):
         return Response(serializer.data)
 
     if request.method == "POST":
-        print("Request data:", request.data)
-        print("User:", request.user)
         if not request.user.is_authenticated:
             return Response({"error": "Authentication required"}, status=401)
 
@@ -32,9 +30,6 @@ def comments_list_create(request):
             return Response({"error": "movie_id and content are required"}, status=400)
 
         movie = MovieFile.objects.get(tmdb_id=movie_id)
-        user = User.objects.get(id=request.user.id)
-        print("user is:", user)
-        print("Movie:", movie)
         comment = Comment.objects.create(
             user=request.user, movie=movie, content=content)
         serializer = CommentSerializer(comment)
