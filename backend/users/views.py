@@ -37,7 +37,6 @@ def create_user(request):
             "user": serializer.data,
             "tokens": tokens,
         }, status=status.HTTP_201_CREATED)
-    print("[DEBUG] serializer.errors", serializer.errors)
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -47,8 +46,6 @@ def create_user(request):
 def oauth_token(request):
     client_id = request.data.get("client_id")
     client_secret = request.data.get("client_secret")
-    print("[DEBUG] client_id", client_id)
-    print("[DEBUG] client_secret", client_secret)
     if client_id != settings.VITE_CLIENT_ID or client_secret != settings.VITE_CLIENT_SECRET:
         return Response({"error": "Invalid client_id or client_secret"}, status=status.HTTP_400_BAD)
 
@@ -60,7 +57,6 @@ def oauth_token(request):
         return Response({"error": "User does not exist"}, status=status.HTTP_404_NOT_FOUND)
 
     user = authenticate(email=email, password=password)
-    print("[DEBUG] user", user)
     if user:
         refresh = RefreshToken.for_user(user)
         tokens = {
@@ -71,7 +67,6 @@ def oauth_token(request):
             "user": UserSerializer(user).data,
             "tokens": tokens,
         }, status=status.HTTP_200_OK)
-    print("PROBLEMO")
     return Response({"error": "Invalid credentials"}, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -107,12 +102,10 @@ def users(request, id=None):
             # search user by username
             search = request.query_params.get("search")
             if search:
-                print("[DEBUG] search", search)
                 user = User.objects.filter(username__iexact=search).first()
                 if not user:
                     return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
                 serializer = UserSerializer(user)
-                print("🌸[DEBUG] serializer.data", serializer.data)
                 return Response(serializer.data)
 
             users = User.objects.all()
@@ -154,7 +147,6 @@ def request_reset_password(request):
     reset.save()
 
     reset_url = f"http://localhost:3000/reset-password/param?reset-token={token}"
-    print("[DEBUG] reset_url", reset)
     subject = 'Password Reset Request'
     message = render_to_string('password_reset_email.html', {
         'user': user,

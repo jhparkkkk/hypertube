@@ -24,7 +24,6 @@ class User(AbstractBaseUser):
         (AuthProvider.FORTYTWO, "fortytwo"),
     ],
         default=AuthProvider.EMAIL)
-    print("[DEBUG] User model: auth_provider", auth_provider)
     objects = UserManager()
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
