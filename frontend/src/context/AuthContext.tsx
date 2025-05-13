@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 				(await api.get("/users/me/").then((res) => res.data));
 
 			setUser(user);
-			navigate("/home");
+			navigate("/movies");
 		} catch (error) {
 			console.error("Erreur lors du login :", error);
 			logout();

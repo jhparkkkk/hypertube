@@ -37,13 +37,14 @@ function App() {
 						path="/reset-password/:reset-token"
 						element={<ResetPassword />}
 					/>
-					<Route path="/movies" element={<MovieLibrary />} />
-					<Route path="/movies/:id" element={<MovieDetails />} />
 
 					<Route element={<ProtectedRoute />}>
 						<Route path="/home" element={<div>Dashboard</div>} />
 						<Route path="/profile" element={<div>Settings</div>} />
 						<Route path="/users/:id" element={<UserProfile />} />
+						<Route path="/movies" element={<MovieLibrary />} />
+						<Route path="/movies/:id" element={<MovieDetails />} />
+
 						
 					</Route>
 				</Route>
