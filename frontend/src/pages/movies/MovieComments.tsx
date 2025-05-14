@@ -47,7 +47,7 @@ const MovieComments: React.FC<Props> = ({ movieId }) => {
 		if (!newComment.trim()) return;
 		
 		const trimmed = newComment.trim();
-		if (trimmed.length > 50) {
+		if (trimmed.length > 500) {
 			showMessage("Comment is too long (500 characters max)", "error");
     	return;
   	}
