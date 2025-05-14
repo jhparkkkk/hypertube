@@ -10,6 +10,7 @@ export interface Movie {
 
 export interface MovieCardProps {
 	movie: Movie;
+	watched?: boolean;
 }
 
 export enum DownloadStatus {
