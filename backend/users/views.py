@@ -7,7 +7,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth.hashers import make_password
 
-from .serializers import UserSerializer, ResetPasswordRequestSerializer, ResetPasswordSerializer, UserUpdateSerializer
+from .serializers import UserSerializer, ResetPasswordSerializer, UserUpdateSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 from users.models import PasswordReset
