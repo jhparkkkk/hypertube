@@ -39,7 +39,7 @@ const MovieDetails: React.FC = () => {
         if (response.data.magnet_link) {
           // setIsStartingStream(true);
           try {
-            await api.post(`/movies/${id}/start_stream/`, {
+            await api.post(`/video/${id}/start/`, {
               magnet_link: response.data.magnet_link
             });
 						await api.post(`/history/${id}/`);
@@ -186,7 +186,7 @@ const MovieDetails: React.FC = () => {
             >
               Watch Movie
             </Typography>
-            <MoviePlayer movieId={Number(id)} />
+            <MoviePlayer movieId={Number(id)} magnet={movie.magnet_link} />
           </Paper>
         )}
 				<MovieComments movieId={Number(id)} />

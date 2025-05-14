@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'movies',
     'comments',
     'history',
+    'video',
 
 ]
 

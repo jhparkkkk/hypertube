@@ -28,6 +28,10 @@ backend-db:
 backend-shell:
 	docker-compose exec backend bash
 
+backend-clean-movies:
+	docker-compose exec db psql -U hypertube_user -d hypertube_db -c "TRUNCATE TABLE movies_moviefile CASCADE;"
+	docker-compose exec backend bash -c "rm -rf /app/downloads/* /app/downloads/.* 2>/dev/null || true"
+
 frontend-up:
 	docker-compose up --build -d frontend
 
@@ -42,6 +46,9 @@ frontend-shell:
 
 frontend-npm:
 	docker-compose exec frontend npm install
+
+jackett-restart:
+	docker-compose restart jackett
 
 clean:
 	docker-compose down --volumes --remove-orphans

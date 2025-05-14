@@ -1,0 +1,303 @@
+2025-05-14 11:42:21.5669 Info Starting Jackett v0.22.1895
+2025-05-14 11:42:21.8751 Info Environment version: 8.0.16 (/app/Jackett/)
+2025-05-14 11:42:21.8798 Info OS version: Unix 5.15.0.139 (64bit OS) (64bit process)
+2025-05-14 11:42:21.8798 Info Jackett variant: CoreLinuxMuslAmdx64
+2025-05-14 11:42:21.8798 Info File /etc/issue: Welcome to Alpine Linux 3.21
+2025-05-14 11:42:21.8822 Info Running in Docker: Yes (image build: v0.22.1895-ls28)
+2025-05-14 11:42:21.8822 Info ThreadPool MaxThreads: 32767 workerThreads, 1000 completionPortThreads
+2025-05-14 11:42:21.8822 Info App config/log directory: /config/Jackett
+2025-05-14 11:42:21.8822 Info Using proxy: Disabled
+2025-05-14 11:42:21.8822 Info Using FlareSolverr: No
+2025-05-14 11:42:21.8822 Info Using HTTP Client: HttpWebClient2
+2025-05-14 11:42:21.8868 Info Loading Native indexers ...
+2025-05-14 11:42:21.9015 Info Loaded 77 Native indexers.
+2025-05-14 11:42:21.9027 Info Loading Cardigann indexers from: /config/cardigann/definitions/, /etc/xdg/cardigan/definitions/, /app/Jackett/Definitions
+2025-05-14 11:42:23.7283 Info Loaded 528 Cardigann indexers.
+2025-05-14 11:42:23.7283 Info Loaded 605 indexers in total
+2025-05-14 11:42:23.7393 Info Adding aggregate indexer ('all' indexer) ...
+2025-05-14 11:42:23.7439 Info Adding filter indexer ('type:public' indexer) ...
+2025-05-14 11:42:23.7439 Info Adding filter indexer ('type:private' indexer) ...
+2025-05-14 11:42:23.7439 Info Adding filter indexer ('type:semi-public' indexer) ...
+2025-05-14 11:42:23.8208 Warn No XML encryptor configured. Key {a07d38e5-d710-46cb-b928-b13dfa9e56db} may be persisted to storage in unencrypted form.
+2025-05-14 11:42:23.8427 Info Jackett startup finished in 2.413 s
+2025-05-14 11:44:40.1812 Info Jackett stopped
+2025-05-14 11:46:18.0294 Info Starting Jackett v0.22.1895
+2025-05-14 11:46:18.3535 Info Environment version: 8.0.16 (/app/Jackett/)
+2025-05-14 11:46:18.3577 Info OS version: Unix 5.15.0.139 (64bit OS) (64bit process)
+2025-05-14 11:46:18.3592 Info Jackett variant: CoreLinuxMuslAmdx64
+2025-05-14 11:46:18.3592 Info File /etc/issue: Welcome to Alpine Linux 3.21
+2025-05-14 11:46:18.3592 Info Running in Docker: Yes (image build: v0.22.1895-ls28)
+2025-05-14 11:46:18.3592 Info ThreadPool MaxThreads: 32767 workerThreads, 1000 completionPortThreads
+2025-05-14 11:46:18.3592 Info App config/log directory: /config/Jackett
+2025-05-14 11:46:18.3592 Info Using proxy: Disabled
+2025-05-14 11:46:18.3592 Info Using FlareSolverr: No
+2025-05-14 11:46:18.3623 Info Using HTTP Client: HttpWebClient2
+2025-05-14 11:46:18.3623 Info Loading Native indexers ...
+2025-05-14 11:46:18.3784 Info Loaded 77 Native indexers.
+2025-05-14 11:46:18.3784 Info Loading Cardigann indexers from: /config/cardigann/definitions/, /etc/xdg/cardigan/definitions/, /app/Jackett/Definitions
+2025-05-14 11:46:19.8992 Info Loaded 528 Cardigann indexers.
+2025-05-14 11:46:19.8992 Info Loaded 605 indexers in total
+2025-05-14 11:46:19.9092 Info Adding aggregate indexer ('all' indexer) ...
+2025-05-14 11:46:19.9135 Info Adding filter indexer ('type:public' indexer) ...
+2025-05-14 11:46:19.9135 Info Adding filter indexer ('type:private' indexer) ...
+2025-05-14 11:46:19.9135 Info Adding filter indexer ('type:semi-public' indexer) ...
+2025-05-14 11:46:19.9969 Info Jackett startup finished in 2.096 s
+2025-05-14 11:49:19.2100 Info Jackett stopped
+2025-05-14 11:49:22.7695 Info Starting Jackett v0.22.1895
+2025-05-14 11:49:23.0560 Info Environment version: 8.0.16 (/app/Jackett/)
+2025-05-14 11:49:23.0604 Info OS version: Unix 5.15.0.139 (64bit OS) (64bit process)
+2025-05-14 11:49:23.0604 Info Jackett variant: CoreLinuxMuslAmdx64
+2025-05-14 11:49:23.0604 Info File /etc/issue: Welcome to Alpine Linux 3.21
+2025-05-14 11:49:23.0623 Info Running in Docker: Yes (image build: v0.22.1895-ls28)
+2025-05-14 11:49:23.0623 Info ThreadPool MaxThreads: 32767 workerThreads, 1000 completionPortThreads
+2025-05-14 11:49:23.0623 Info App config/log directory: /config/Jackett
+2025-05-14 11:49:23.0623 Info Using proxy: Disabled
+2025-05-14 11:49:23.0623 Info Using FlareSolverr: No
+2025-05-14 11:49:23.0623 Info Using HTTP Client: HttpWebClient2
+2025-05-14 11:49:23.0667 Info Loading Native indexers ...
+2025-05-14 11:49:23.0814 Info Loaded 77 Native indexers.
+2025-05-14 11:49:23.0826 Info Loading Cardigann indexers from: /config/cardigann/definitions/, /etc/xdg/cardigan/definitions/, /app/Jackett/Definitions
+2025-05-14 11:49:24.5595 Info Loaded 528 Cardigann indexers.
+2025-05-14 11:49:24.5595 Info Loaded 605 indexers in total
+2025-05-14 11:49:24.5730 Info Adding aggregate indexer ('all' indexer) ...
+2025-05-14 11:49:24.5758 Info Adding filter indexer ('type:public' indexer) ...
+2025-05-14 11:49:24.5758 Info Adding filter indexer ('type:private' indexer) ...
+2025-05-14 11:49:24.5758 Info Adding filter indexer ('type:semi-public' indexer) ...
+2025-05-14 11:49:24.6600 Info Jackett startup finished in 2.019 s
+2025-05-14 12:49:24.6443 Info Checking for updates... Jackett variant: CoreLinuxMuslAmdx64
+2025-05-14 12:49:25.1059 Info Jackett is already updated. Current version: v0.22.1895
+2025-05-14 13:05:45.9724 Info Jackett stopped
+2025-05-14 13:07:46.4126 Info Starting Jackett v0.22.1895
+2025-05-14 13:07:46.6933 Info Environment version: 8.0.16 (/app/Jackett/)
+2025-05-14 13:07:46.6975 Info OS version: Unix 5.15.0.139 (64bit OS) (64bit process)
+2025-05-14 13:07:46.6991 Info Jackett variant: CoreLinuxMuslAmdx64
+2025-05-14 13:07:46.6991 Info File /etc/issue: Welcome to Alpine Linux 3.21
+2025-05-14 13:07:46.6991 Info Running in Docker: Yes (image build: v0.22.1895-ls28)
+2025-05-14 13:07:46.6991 Info ThreadPool MaxThreads: 32767 workerThreads, 1000 completionPortThreads
+2025-05-14 13:07:46.6991 Info App config/log directory: /config/Jackett
+2025-05-14 13:07:46.6991 Info Using proxy: Disabled
+2025-05-14 13:07:46.6991 Info Using FlareSolverr: No
+2025-05-14 13:07:46.7023 Info Using HTTP Client: HttpWebClient2
+2025-05-14 13:07:46.7023 Info Loading Native indexers ...
+2025-05-14 13:07:46.7185 Info Loaded 77 Native indexers.
+2025-05-14 13:07:46.7185 Info Loading Cardigann indexers from: /config/cardigann/definitions/, /etc/xdg/cardigan/definitions/, /app/Jackett/Definitions
+2025-05-14 13:07:48.3833 Info Loaded 528 Cardigann indexers.
+2025-05-14 13:07:48.3833 Info Loaded 605 indexers in total
+2025-05-14 13:07:48.3968 Info Adding aggregate indexer ('all' indexer) ...
+2025-05-14 13:07:48.3995 Info Adding filter indexer ('type:public' indexer) ...
+2025-05-14 13:07:48.3995 Info Adding filter indexer ('type:private' indexer) ...
+2025-05-14 13:07:48.3995 Info Adding filter indexer ('type:semi-public' indexer) ...
+2025-05-14 13:07:48.4844 Info Jackett startup finished in 2.222 s
+2025-05-14 13:08:05.8340 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [115ms]
+2025-05-14 13:08:56.0552 Error Jackett.Common.IndexerException: Exception (bitsearch): Request to https://bitsearch.to/search?q=Star%20Wars%201977&sort=date&order=desc&limit=100 failed (Error GatewayTimeout) - The tracker seems to be down.
+
+[v0.22.1895.0] Jackett.Common.IndexerException: Exception (bitsearch): Request to https://bitsearch.to/search?q=Star%20Wars%201977&sort=date&order=desc&limit=100 failed (Error GatewayTimeout) - The tracker seems to be down.
+ ---> System.Exception: Request to https://bitsearch.to/search?q=Star%20Wars%201977&sort=date&order=desc&limit=100 failed (Error GatewayTimeout) - The tracker seems to be down.
+   at Jackett.Common.Indexers.BaseWebIndexer.CheckSiteDown(WebResult response) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 684
+   at Jackett.Common.Indexers.BaseWebIndexer.RequestWithCookiesAsync(String url, String cookieOverride, RequestType method, String referer, IEnumerable`1 data, Dictionary`2 headers, String rawbody, Nullable`1 emulateBrowser) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 618
+   at Jackett.Common.Indexers.Definitions.CardigannIndexer.PerformQuery(TorznabQuery query) in ./Jackett.Common/Indexers/Definitions/CardigannIndexer.cs:line 1563
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 378
+   --- End of inner exception stack trace ---
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 403
+   at Jackett.Common.Indexers.BaseWebIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 816
+   at Jackett.Server.Controllers.ResultsController.Results(ApiSearch requestt) in ./Jackett.Server/Controllers/ResultsController.cs:line 256
+
+2025-05-14 13:08:56.0773 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases [60348ms]
+2025-05-14 13:08:56.5847 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [3ms]
+2025-05-14 13:08:56.6766 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars => Found 146 releases (from cache) [82ms]
+2025-05-14 13:08:56.7300 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [3ms]
+2025-05-14 13:08:56.7432 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars => Found 146 releases (from cache) [5ms]
+2025-05-14 13:09:00.9391 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [3ms]
+2025-05-14 13:09:00.9515 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars => Found 146 releases (from cache) [4ms]
+2025-05-14 13:09:01.0100 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [2ms]
+2025-05-14 13:09:01.0218 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars => Found 146 releases (from cache) [4ms]
+2025-05-14 13:09:05.9418 Error Jackett.Common.IndexerException: Exception (bitsearch): Request to https://bitsearch.to/search?q=Star%20Wars&sort=date&order=desc&limit=100 failed (Error GatewayTimeout) - The tracker seems to be down.
+
+[v0.22.1895.0] Jackett.Common.IndexerException: Exception (bitsearch): Request to https://bitsearch.to/search?q=Star%20Wars&sort=date&order=desc&limit=100 failed (Error GatewayTimeout) - The tracker seems to be down.
+ ---> System.Exception: Request to https://bitsearch.to/search?q=Star%20Wars&sort=date&order=desc&limit=100 failed (Error GatewayTimeout) - The tracker seems to be down.
+   at Jackett.Common.Indexers.BaseWebIndexer.CheckSiteDown(WebResult response) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 684
+   at Jackett.Common.Indexers.BaseWebIndexer.RequestWithCookiesAsync(String url, String cookieOverride, RequestType method, String referer, IEnumerable`1 data, Dictionary`2 headers, String rawbody, Nullable`1 emulateBrowser) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 618
+   at Jackett.Common.Indexers.Definitions.CardigannIndexer.PerformQuery(TorznabQuery query) in ./Jackett.Common/Indexers/Definitions/CardigannIndexer.cs:line 1563
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 378
+   --- End of inner exception stack trace ---
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 403
+   at Jackett.Common.Indexers.BaseWebIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 816
+   at Jackett.Server.Controllers.ResultsController.Results(ApiSearch requestt) in ./Jackett.Server/Controllers/ResultsController.cs:line 256
+
+2025-05-14 13:09:05.9513 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars => Found 146 releases [60087ms]
+2025-05-14 13:10:11.5256 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:10:11.5369 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars => Found 146 releases (from cache) [3ms]
+2025-05-14 13:10:11.5924 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [3ms]
+2025-05-14 13:10:11.6044 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars => Found 146 releases (from cache) [2ms]
+2025-05-14 13:10:57.4039 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 177 releases (from cache) [110ms]
+2025-05-14 13:10:58.6166 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo => Found 174 releases [1140ms]
+2025-05-14 13:10:58.6754 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 177 releases (from cache) [1ms]
+2025-05-14 13:10:58.6851 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo => Found 174 releases (from cache) [2ms]
+2025-05-14 13:11:37.2768 Error Jackett.Common.IndexerException: Exception (bitsearch): Request to https://bitsearch.to/search?q=Finding%20Nemo%202003&sort=date&order=desc&limit=100 failed (Error GatewayTimeout) - The tracker seems to be down.
+
+[v0.22.1895.0] Jackett.Common.IndexerException: Exception (bitsearch): Request to https://bitsearch.to/search?q=Finding%20Nemo%202003&sort=date&order=desc&limit=100 failed (Error GatewayTimeout) - The tracker seems to be down.
+ ---> System.Exception: Request to https://bitsearch.to/search?q=Finding%20Nemo%202003&sort=date&order=desc&limit=100 failed (Error GatewayTimeout) - The tracker seems to be down.
+   at Jackett.Common.Indexers.BaseWebIndexer.CheckSiteDown(WebResult response) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 684
+   at Jackett.Common.Indexers.BaseWebIndexer.RequestWithCookiesAsync(String url, String cookieOverride, RequestType method, String referer, IEnumerable`1 data, Dictionary`2 headers, String rawbody, Nullable`1 emulateBrowser) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 618
+   at Jackett.Common.Indexers.Definitions.CardigannIndexer.PerformQuery(TorznabQuery query) in ./Jackett.Common/Indexers/Definitions/CardigannIndexer.cs:line 1563
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 378
+   --- End of inner exception stack trace ---
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 403
+   at Jackett.Common.Indexers.BaseWebIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 816
+   at Jackett.Server.Controllers.ResultsController.Results(ApiSearch requestt) in ./Jackett.Server/Controllers/ResultsController.cs:line 256
+
+2025-05-14 13:11:37.2806 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 177 releases [60123ms]
+2025-05-14 13:11:47.3392 Error Jackett.Common.IndexerException: Exception (bitsearch): Request to https://bitsearch.to/search?q=Finding%20Nemo%202003&sort=date&order=desc&limit=100 failed (Error GatewayTimeout) - The tracker seems to be down.
+
+[v0.22.1895.0] Jackett.Common.IndexerException: Exception (bitsearch): Request to https://bitsearch.to/search?q=Finding%20Nemo%202003&sort=date&order=desc&limit=100 failed (Error GatewayTimeout) - The tracker seems to be down.
+ ---> System.Exception: Request to https://bitsearch.to/search?q=Finding%20Nemo%202003&sort=date&order=desc&limit=100 failed (Error GatewayTimeout) - The tracker seems to be down.
+   at Jackett.Common.Indexers.BaseWebIndexer.CheckSiteDown(WebResult response) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 684
+   at Jackett.Common.Indexers.BaseWebIndexer.RequestWithCookiesAsync(String url, String cookieOverride, RequestType method, String referer, IEnumerable`1 data, Dictionary`2 headers, String rawbody, Nullable`1 emulateBrowser) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 618
+   at Jackett.Common.Indexers.Definitions.CardigannIndexer.PerformQuery(TorznabQuery query) in ./Jackett.Common/Indexers/Definitions/CardigannIndexer.cs:line 1563
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 378
+   --- End of inner exception stack trace ---
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 403
+   at Jackett.Common.Indexers.BaseWebIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 816
+   at Jackett.Server.Controllers.ResultsController.Results(ApiSearch requestt) in ./Jackett.Server/Controllers/ResultsController.cs:line 256
+
+2025-05-14 13:11:47.3431 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 177 releases (from cache) [60126ms]
+2025-05-14 13:14:16.9876 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:14:17.0008 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars => Found 146 releases (from cache) [5ms]
+2025-05-14 13:14:17.0494 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:14:17.0603 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars => Found 146 releases (from cache) [3ms]
+2025-05-14 13:14:40.0147 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 177 releases (from cache) [1ms]
+2025-05-14 13:14:40.0554 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo => Found 174 releases (from cache) [1ms]
+2025-05-14 13:14:40.1300 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 177 releases (from cache) [1ms]
+2025-05-14 13:14:40.1385 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo => Found 174 releases (from cache) [1ms]
+2025-05-14 13:16:34.4271 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 177 releases (from cache) [1ms]
+2025-05-14 13:16:34.4464 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo => Found 174 releases (from cache) [1ms]
+2025-05-14 13:16:34.4959 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 177 releases (from cache) [1ms]
+2025-05-14 13:16:34.5038 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo => Found 174 releases (from cache) [1ms]
+2025-05-14 13:17:26.3587 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 177 releases (from cache) [1ms]
+2025-05-14 13:17:26.3687 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo => Found 174 releases (from cache) [1ms]
+2025-05-14 13:17:26.4202 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 177 releases (from cache) [1ms]
+2025-05-14 13:17:26.4292 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo => Found 174 releases (from cache) [1ms]
+2025-05-14 13:22:05.3340 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [2ms]
+2025-05-14 13:22:05.3719 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:22:12.4647 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:22:12.5085 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:22:49.6218 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [3ms]
+2025-05-14 13:22:49.6657 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:23:17.7531 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:23:17.7936 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:23:21.2601 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:23:21.3020 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:23:26.8527 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:23:26.8958 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:24:02.7091 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:24:02.8837 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:28:20.9019 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:28:20.9382 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:28:35.3319 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:28:35.3704 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:28:49.7312 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:28:49.7675 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:30:23.0564 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:30:23.1057 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:30:34.6586 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [2ms]
+2025-05-14 13:30:34.7010 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:30:55.9937 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:30:56.0381 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:31:06.7381 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [2ms]
+2025-05-14 13:31:06.8505 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:31:10.8941 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:31:10.9356 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:31:11.5355 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:31:11.5752 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:31:34.0961 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:31:34.1371 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [2ms]
+2025-05-14 13:31:41.3791 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:31:41.4277 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:31:49.2898 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:31:49.3347 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [2ms]
+2025-05-14 13:33:17.2240 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:33:17.2665 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:33:57.1627 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 177 releases (from cache) [1ms]
+2025-05-14 13:33:57.2083 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 177 releases (from cache) [1ms]
+2025-05-14 13:35:47.5402 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 177 releases (from cache) [1ms]
+2025-05-14 13:35:47.6424 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 177 releases (from cache) [1ms]
+2025-05-14 13:35:56.1547 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:35:56.3071 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [2ms]
+2025-05-14 13:36:46.3822 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:36:46.4295 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:37:40.0508 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:37:40.0984 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [2ms]
+2025-05-14 13:38:05.4967 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:38:05.5972 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:38:09.4251 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:38:09.4696 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:38:34.4223 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:38:34.4678 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:38:37.1906 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [2ms]
+2025-05-14 13:38:37.2369 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:38:41.8258 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:38:41.8739 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:38:49.0278 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [2ms]
+2025-05-14 13:38:49.0716 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:40:08.6311 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:40:08.6818 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 13:41:37.9124 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 177 releases (from cache) [1ms]
+2025-05-14 13:41:37.9573 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 177 releases (from cache) [1ms]
+2025-05-14 13:42:44.4428 Error Jackett.Common.IndexerException: Exception (bitsearch): Request to https://bitsearch.to/search?q=The%20Codes%20of%20War%202025&sort=date&order=desc&limit=100 failed (Error GatewayTimeout) - The tracker seems to be down.
+
+[v0.22.1895.0] Jackett.Common.IndexerException: Exception (bitsearch): Request to https://bitsearch.to/search?q=The%20Codes%20of%20War%202025&sort=date&order=desc&limit=100 failed (Error GatewayTimeout) - The tracker seems to be down.
+ ---> System.Exception: Request to https://bitsearch.to/search?q=The%20Codes%20of%20War%202025&sort=date&order=desc&limit=100 failed (Error GatewayTimeout) - The tracker seems to be down.
+   at Jackett.Common.Indexers.BaseWebIndexer.CheckSiteDown(WebResult response) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 684
+   at Jackett.Common.Indexers.BaseWebIndexer.RequestWithCookiesAsync(String url, String cookieOverride, RequestType method, String referer, IEnumerable`1 data, Dictionary`2 headers, String rawbody, Nullable`1 emulateBrowser) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 618
+   at Jackett.Common.Indexers.Definitions.CardigannIndexer.PerformQuery(TorznabQuery query) in ./Jackett.Common/Indexers/Definitions/CardigannIndexer.cs:line 1563
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 378
+   --- End of inner exception stack trace ---
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 403
+   at Jackett.Common.Indexers.BaseWebIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 816
+   at Jackett.Server.Controllers.ResultsController.Results(ApiSearch requestt) in ./Jackett.Server/Controllers/ResultsController.cs:line 256
+
+2025-05-14 13:42:44.4587 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for The Codes of War 2025 => Found 0 releases [60294ms]
+2025-05-14 13:42:49.3971 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Warfare 2025 => Found 84 releases (from cache) [92ms]
+2025-05-14 13:42:49.4389 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Warfare 2025 => Found 84 releases (from cache) [0ms]
+2025-05-14 13:42:59.3539 Error Jackett.Common.IndexerException: Exception (bitsearch): Request to https://bitsearch.to/search?q=The%20Codes%20of%20War%202025&sort=date&order=desc&limit=100 failed (Error GatewayTimeout) - The tracker seems to be down.
+
+[v0.22.1895.0] Jackett.Common.IndexerException: Exception (bitsearch): Request to https://bitsearch.to/search?q=The%20Codes%20of%20War%202025&sort=date&order=desc&limit=100 failed (Error GatewayTimeout) - The tracker seems to be down.
+ ---> System.Exception: Request to https://bitsearch.to/search?q=The%20Codes%20of%20War%202025&sort=date&order=desc&limit=100 failed (Error GatewayTimeout) - The tracker seems to be down.
+   at Jackett.Common.Indexers.BaseWebIndexer.CheckSiteDown(WebResult response) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 684
+   at Jackett.Common.Indexers.BaseWebIndexer.RequestWithCookiesAsync(String url, String cookieOverride, RequestType method, String referer, IEnumerable`1 data, Dictionary`2 headers, String rawbody, Nullable`1 emulateBrowser) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 618
+   at Jackett.Common.Indexers.Definitions.CardigannIndexer.PerformQuery(TorznabQuery query) in ./Jackett.Common/Indexers/Definitions/CardigannIndexer.cs:line 1563
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 378
+   --- End of inner exception stack trace ---
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 403
+   at Jackett.Common.Indexers.BaseWebIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 816
+   at Jackett.Server.Controllers.ResultsController.Results(ApiSearch requestt) in ./Jackett.Server/Controllers/ResultsController.cs:line 256
+
+2025-05-14 13:42:59.3559 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for The Codes of War 2025 => Found 0 releases (from cache) [60103ms]
+2025-05-14 13:43:19.1795 Error Jackett.Common.IndexerException: Exception (bitsearch): Request to https://bitsearch.to/search?q=Warfare%202025&sort=date&order=desc&limit=100 failed (Error GatewayTimeout) - The tracker seems to be down.
+
+[v0.22.1895.0] Jackett.Common.IndexerException: Exception (bitsearch): Request to https://bitsearch.to/search?q=Warfare%202025&sort=date&order=desc&limit=100 failed (Error GatewayTimeout) - The tracker seems to be down.
+ ---> System.Exception: Request to https://bitsearch.to/search?q=Warfare%202025&sort=date&order=desc&limit=100 failed (Error GatewayTimeout) - The tracker seems to be down.
+   at Jackett.Common.Indexers.BaseWebIndexer.CheckSiteDown(WebResult response) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 684
+   at Jackett.Common.Indexers.BaseWebIndexer.RequestWithCookiesAsync(String url, String cookieOverride, RequestType method, String referer, IEnumerable`1 data, Dictionary`2 headers, String rawbody, Nullable`1 emulateBrowser) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 618
+   at Jackett.Common.Indexers.Definitions.CardigannIndexer.PerformQuery(TorznabQuery query) in ./Jackett.Common/Indexers/Definitions/CardigannIndexer.cs:line 1563
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 378
+   --- End of inner exception stack trace ---
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 403
+   at Jackett.Common.Indexers.BaseWebIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 816
+   at Jackett.Server.Controllers.ResultsController.Results(ApiSearch requestt) in ./Jackett.Server/Controllers/ResultsController.cs:line 256
+
+2025-05-14 13:43:19.1822 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Warfare 2025 => Found 84 releases [60136ms]
+2025-05-14 13:43:34.2792 Error Jackett.Common.IndexerException: Exception (bitsearch): Request to https://bitsearch.to/search?q=Warfare%202025&sort=date&order=desc&limit=100 failed (Error GatewayTimeout) - The tracker seems to be down.
+
+[v0.22.1895.0] Jackett.Common.IndexerException: Exception (bitsearch): Request to https://bitsearch.to/search?q=Warfare%202025&sort=date&order=desc&limit=100 failed (Error GatewayTimeout) - The tracker seems to be down.
+ ---> System.Exception: Request to https://bitsearch.to/search?q=Warfare%202025&sort=date&order=desc&limit=100 failed (Error GatewayTimeout) - The tracker seems to be down.
+   at Jackett.Common.Indexers.BaseWebIndexer.CheckSiteDown(WebResult response) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 684
+   at Jackett.Common.Indexers.BaseWebIndexer.RequestWithCookiesAsync(String url, String cookieOverride, RequestType method, String referer, IEnumerable`1 data, Dictionary`2 headers, String rawbody, Nullable`1 emulateBrowser) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 618
+   at Jackett.Common.Indexers.Definitions.CardigannIndexer.PerformQuery(TorznabQuery query) in ./Jackett.Common/Indexers/Definitions/CardigannIndexer.cs:line 1563
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 378
+   --- End of inner exception stack trace ---
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 403
+   at Jackett.Common.Indexers.BaseWebIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 816
+   at Jackett.Server.Controllers.ResultsController.Results(ApiSearch requestt) in ./Jackett.Server/Controllers/ResultsController.cs:line 256
+
+2025-05-14 13:43:34.2792 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Warfare 2025 => Found 84 releases (from cache) [60101ms]
