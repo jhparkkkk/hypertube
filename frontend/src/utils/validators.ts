@@ -23,6 +23,8 @@ export const validateField = (name: string, value: string) => {
 		case "preferred_language":
 			return ["en", "fr", "es", "de", "it", "pt", "ru", "ja", "ko", "zh"].includes(value);
 		case "password":
+		case "new_password":
+		case "confirm_password":
 			return (
 				value.length >= 8 &&
 				value.length <= 50 &&

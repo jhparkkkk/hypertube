@@ -13,6 +13,10 @@ interface FormData {
     first_name?: string;
     last_name?: string;
     password?: string;
+		new_password?: string;
+		confirm_password?: string;
+		client_id?: string;
+		client_secret?: string;
 }
 
 export const useAuthForm = (authType: AuthType, params="") => {
@@ -61,6 +65,11 @@ export const useAuthForm = (authType: AuthType, params="") => {
 				isValid = false;
 			}
 		});
+
+		if (authType === "reset" && data.new_password !== data.confirm_password) {
+			errors.confirm_password = "Passwords do not match";
+			isValid = false;
+		}
 		
 		setErrors(errors);
 		setIsFormValid(isValid);
