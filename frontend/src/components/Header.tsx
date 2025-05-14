@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useState } from "react";
 import { api } from "../api/axiosConfig";
-
+import { validateField } from "../utils/validators";
 
 
 const Header = () => {
@@ -41,6 +41,14 @@ const Header = () => {
 
 	const handleSearchSubmit = async () => {
 		try {
+			if (!searchValue.trim()) {
+				setSearchError("Please enter a username.");
+				return;
+			}
+			if (!validateField("username", searchValue)) {
+				setSearchError("Invalid username.");
+				return;
+			}
 			const res = await api.get(`/users/?search=${searchValue}`);
 			navigate(`/users/${res.data.id}`);
 			setSearchValue("");

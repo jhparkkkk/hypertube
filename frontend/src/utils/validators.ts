@@ -14,15 +14,20 @@ export const validateField = (name: string, value: string) => {
 
 	switch (name) {
 		case "username":
-			return value.length >= 3 && value.length <= 30;
+			return (value.length >= 3 && value.length <= 30) &&
+				/[A-Za-z]/.test(value) && 
+				/^[a-zA-Z0-9._-]+$/.test(value) ;
 		case "first_name":
 		case "last_name":
-			return value.length >= 2 && value.length <= 50;
+			return (value.length >= 2 && value.length <= 50) &&
+				/^[A-Za-zÀ-ÿ '-]+$/.test(value);
 		case "email":
 			return /^\S+@\S+\.\S+$/.test(value);
 		case "preferred_language":
 			return ["en", "fr", "es", "de", "it", "pt", "ru", "ja", "ko", "zh"].includes(value);
 		case "password":
+		case "new_password":
+		case "confirm_password":
 			return (
 				value.length >= 8 &&
 				value.length <= 50 &&
