@@ -112,7 +112,15 @@ export const useAuthForm = (authType: AuthType, params="") => {
                 console.log("error login", error.response.data.error);
                 setErrors({"general": error.response.data.error});
             }
-            }
+						else if (error.request) {
+							console.error('🔴 No response from server:', error.request);
+      				setErrors({ general: 'No response from the server.' });
+ 							} else {
+							console.error('🔴 Axios config error:', error.message);
+							setErrors({ general: 'An error occurred. Please try again.' });
+						}
+					
+								} 
     }
 	const handleProviderLogin = (test: string) => {
 		window.location.replace(`${API_BASE_URL}/login/${test}`);
