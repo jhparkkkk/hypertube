@@ -301,3 +301,117 @@
    at Jackett.Server.Controllers.ResultsController.Results(ApiSearch requestt) in ./Jackett.Server/Controllers/ResultsController.cs:line 256
 
 2025-05-14 13:43:34.2792 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Warfare 2025 => Found 84 releases (from cache) [60101ms]
+2025-05-14 14:07:48.4152 Info Checking for updates... Jackett variant: CoreLinuxMuslAmdx64
+2025-05-14 14:07:48.5459 Info Jackett is already updated. Current version: v0.22.1895
+2025-05-14 14:35:50.1386 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Warfare 2025 => Found 84 releases (from cache) [110ms]
+2025-05-14 14:36:35.2175 Error Jackett.Common.IndexerException: Exception (bitsearch): Request to https://bitsearch.to/search?q=Warfare%202025&sort=date&order=desc&limit=100 failed (Error GatewayTimeout) - The tracker seems to be down.
+
+[v0.22.1895.0] Jackett.Common.IndexerException: Exception (bitsearch): Request to https://bitsearch.to/search?q=Warfare%202025&sort=date&order=desc&limit=100 failed (Error GatewayTimeout) - The tracker seems to be down.
+ ---> System.Exception: Request to https://bitsearch.to/search?q=Warfare%202025&sort=date&order=desc&limit=100 failed (Error GatewayTimeout) - The tracker seems to be down.
+   at Jackett.Common.Indexers.BaseWebIndexer.CheckSiteDown(WebResult response) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 684
+   at Jackett.Common.Indexers.BaseWebIndexer.RequestWithCookiesAsync(String url, String cookieOverride, RequestType method, String referer, IEnumerable`1 data, Dictionary`2 headers, String rawbody, Nullable`1 emulateBrowser) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 618
+   at Jackett.Common.Indexers.Definitions.CardigannIndexer.PerformQuery(TorznabQuery query) in ./Jackett.Common/Indexers/Definitions/CardigannIndexer.cs:line 1563
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 378
+   --- End of inner exception stack trace ---
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 403
+   at Jackett.Common.Indexers.BaseWebIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 816
+   at Jackett.Server.Controllers.ResultsController.Results(ApiSearch requestt) in ./Jackett.Server/Controllers/ResultsController.cs:line 256
+
+2025-05-14 14:36:35.2292 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Warfare 2025 => Found 84 releases [60263ms]
+2025-05-14 14:41:03.7040 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Warfare 2025 => Found 84 releases (from cache) [0ms]
+2025-05-14 14:41:03.7605 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Warfare 2025 => Found 84 releases (from cache) [1ms]
+2025-05-14 14:41:32.9778 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Warfare 2025 => Found 84 releases (from cache) [1ms]
+2025-05-14 14:41:33.0222 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Warfare 2025 => Found 84 releases (from cache) [0ms]
+2025-05-14 14:41:48.9517 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Warfare 2025 => Found 84 releases (from cache) [1ms]
+2025-05-14 14:41:49.0024 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Warfare 2025 => Found 84 releases (from cache) [0ms]
+2025-05-14 14:41:55.4888 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Warfare 2025 => Found 84 releases (from cache) [0ms]
+2025-05-14 14:41:55.5389 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Warfare 2025 => Found 84 releases (from cache) [0ms]
+2025-05-14 14:41:56.1164 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Warfare 2025 => Found 84 releases (from cache) [0ms]
+2025-05-14 14:41:56.1659 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Warfare 2025 => Found 84 releases (from cache) [1ms]
+2025-05-14 14:41:59.2745 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Warfare 2025 => Found 84 releases (from cache) [0ms]
+2025-05-14 14:41:59.3157 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Warfare 2025 => Found 84 releases (from cache) [0ms]
+2025-05-14 14:42:01.6163 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Warfare 2025 => Found 84 releases (from cache) [1ms]
+2025-05-14 14:42:01.6971 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Warfare 2025 => Found 84 releases (from cache) [0ms]
+2025-05-14 14:42:14.5869 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Warfare 2025 => Found 84 releases (from cache) [2ms]
+2025-05-14 14:42:14.6366 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Warfare 2025 => Found 84 releases (from cache) [0ms]
+2025-05-14 14:43:43.1524 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Warfare 2025 => Found 84 releases (from cache) [0ms]
+2025-05-14 14:43:43.1941 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Warfare 2025 => Found 84 releases (from cache) [0ms]
+2025-05-14 14:43:59.2818 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases [310ms]
+2025-05-14 14:43:59.3268 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 14:44:03.9665 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 14:44:04.0309 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 14:45:09.0768 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 14:45:09.1202 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 14:47:03.2867 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 14:47:03.3329 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [2ms]
+2025-05-14 14:47:41.4249 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Gunslingers 2025 => Found 17 releases [519ms]
+2025-05-14 14:47:41.4617 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Gunslingers 2025 => Found 17 releases (from cache) [0ms]
+2025-05-14 14:50:35.2924 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Gunslingers 2025 => Found 17 releases (from cache) [0ms]
+2025-05-14 14:50:35.3294 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Gunslingers 2025 => Found 17 releases (from cache) [0ms]
+2025-05-14 14:50:41.2640 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 14:50:41.3082 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 14:52:08.9944 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 14:52:09.1152 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 15:00:51.4679 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 15:00:51.5133 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [1ms]
+2025-05-14 15:01:44.9922 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 177 releases [378ms]
+2025-05-14 15:01:45.0590 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 177 releases (from cache) [3ms]
+2025-05-14 15:02:31.6651 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 177 releases (from cache) [1ms]
+2025-05-14 15:02:31.7833 Info Manual search in BitSearch, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 177 releases (from cache) [1ms]
+2025-05-14 15:03:46.2563 Info Test search in TheRARBG => Found 50 releases [121ms]
+2025-05-14 15:03:46.2656 Info Test search in The Pirate Bay => Found 50 releases [130ms]
+2025-05-14 15:03:46.3012 Info Test search in BitSearch => Found 0 releases [167ms]
+2025-05-14 15:03:46.3082 Error System.Exception: Test search in BitSearch => Found no results while trying to browse this tracker. This may be an issue with the indexer, or other indexer settings such as search freeleech only etc.
+
+[v0.22.1895.0] System.Exception: Test search in BitSearch => Found no results while trying to browse this tracker. This may be an issue with the indexer, or other indexer settings such as search freeleech only etc.
+   at Jackett.Common.Services.IndexerManagerService.TestIndexer(String name) in ./Jackett.Common/Services/IndexerManagerService.cs:line 332
+   at Jackett.Server.Controllers.IndexerApiController.Test() in ./Jackett.Server/Controllers/IndexerApiController.cs:line 132
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Jackett.Server.Middleware.CustomExceptionHandler.Invoke(HttpContext httpContext) in ./Jackett.Server/Middleware/CustomExceptionHandler.cs:line 26
+
+2025-05-14 15:03:46.4224 Info Test search in YTS => Found 105 releases [287ms]
+2025-05-14 15:03:46.5424 Info Test search in kickasstorrents.ws => Found 50 releases [407ms]
+2025-05-14 15:03:50.0125 Info Test search in The Pirate Bay => Found 50 releases [32ms]
+2025-05-14 15:03:50.0256 Info Test search in TheRARBG => Found 50 releases [44ms]
+2025-05-14 15:03:50.1815 Info Test search in YTS => Found 105 releases [199ms]
+2025-05-14 15:03:50.2932 Info Test search in kickasstorrents.ws => Found 50 releases [313ms]
+2025-05-14 15:03:52.7398 Info Test search in 1337x => Found 80 releases [6605ms]
+2025-05-14 15:03:53.4110 Info Test search in The Pirate Bay => Found 50 releases [31ms]
+2025-05-14 15:03:53.4244 Info Test search in TheRARBG => Found 50 releases [44ms]
+2025-05-14 15:03:53.6939 Info Test search in YTS => Found 105 releases [313ms]
+2025-05-14 15:03:53.6974 Info Test search in kickasstorrents.ws => Found 50 releases [318ms]
+2025-05-14 15:03:56.9714 Info Test search in 1337x => Found 80 releases [6992ms]
+2025-05-14 15:04:01.2047 Info Test search in 1337x => Found 80 releases [7825ms]
+2025-05-14 15:04:14.4697 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 255 releases (from cache) [7419ms]
+2025-05-14 15:04:14.5529 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 255 releases (from cache) [3ms]
+2025-05-14 15:04:14.6031 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 255 releases (from cache) [4ms]
+2025-05-14 15:04:38.7476 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 262 releases (from cache) [6621ms]
+2025-05-14 15:04:38.8409 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 262 releases (from cache) [2ms]
+2025-05-14 15:04:38.8866 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 262 releases (from cache) [2ms]
+2025-05-14 15:04:58.8486 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Warfare 2025 => Found 98 releases (from cache) [6387ms]
+2025-05-14 15:04:58.9460 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Warfare 2025 => Found 98 releases (from cache) [1ms]
+2025-05-14 15:06:52.2331 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Warfare 2025 => Found 98 releases (from cache) [1ms]
+2025-05-14 15:06:52.2789 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Warfare 2025 => Found 98 releases (from cache) [1ms]
+2025-05-14 15:08:24.7765 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Minecraft Movie 2025 => Found 84 releases [6453ms]
+2025-05-14 15:08:25.2736 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Minecraft Movie 2025 => Found 84 releases (from cache) [1ms]
+2025-05-14 15:14:31.1473 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 262 releases (from cache) [2ms]
+2025-05-14 15:14:31.2007 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 262 releases (from cache) [4ms]
+2025-05-14 15:14:52.8948 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 262 releases (from cache) [2ms]
+2025-05-14 15:14:52.9417 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 262 releases (from cache) [3ms]
+2025-05-14 15:16:29.8371 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Captain America: Brave New World 2025 => Found 211 releases [7579ms]
+2025-05-14 15:16:30.1311 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Captain America: Brave New World 2025 => Found 211 releases (from cache) [2ms]
+2025-05-14 15:16:52.7201 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Rust 2025 => Found 69 releases [6772ms]
+2025-05-14 15:16:53.3100 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Rust 2025 => Found 69 releases (from cache) [1ms]
+2025-05-14 15:20:15.5331 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Rust 2025 => Found 69 releases (from cache) [1ms]
+2025-05-14 15:20:15.5788 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Rust 2025 => Found 69 releases (from cache) [3ms]
+2025-05-14 15:20:28.6546 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Rust 2025 => Found 69 releases (from cache) [1ms]
+2025-05-14 15:20:28.7550 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Rust 2025 => Found 69 releases (from cache) [1ms]

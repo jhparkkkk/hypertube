@@ -1,16 +1,20 @@
 import logging
 import os
 import subprocess
-from typing import Optional
+from typing import Optional, Union
+from django.http import StreamingHttpResponse, FileResponse
+import mimetypes
+import re
 
 logger = logging.getLogger(__name__)
+
+range_re = re.compile(r"bytes\s*=\s*(\d+)\s*-\s*(\d*)", re.I)
 
 
 class VideoService:
     def __init__(self):
         self.chunk_size = 8192
         self.supported_formats = {".mp4", ".mkv", ".avi", ".mov", ".wmv"}
-        self.chunk_duration = 10
 
     def _get_duration(self, file_path: str) -> Optional[float]:
         """Get video duration using ffprobe"""
@@ -31,54 +35,142 @@ class VideoService:
             logger.error(f"Error getting duration: {e}")
             return None
 
-    def _convert_chunk(self, input_file: str, start_time: float, duration: float, output_file: str) -> bool:
-        """Convert a chunk of video"""
+    def convert_to_mp4(self, input_file: str) -> str:
+        """Convert video to MP4 format"""
+        if self.is_mp4(input_file):
+            return input_file
+
+        output_dir = os.path.join("conversions", os.path.basename(os.path.dirname(input_file)))
+        os.makedirs(output_dir, exist_ok=True)
+
+        output_file = os.path.join(output_dir, os.path.splitext(os.path.basename(input_file))[0] + ".mp4")
+
         cmd = [
             "ffmpeg",
-            "-y",
             "-i",
             input_file,
-            "-ss",
-            str(start_time),
-            "-t",
-            str(duration),
             "-c:v",
             "libx264",
             "-preset",
-            "fast",
+            "medium",
             "-crf",
             "23",
-            "-vf",
-            "format=yuv420p",
             "-c:a",
             "aac",
             "-b:a",
             "128k",
-            "-ac",
-            "2",
             "-movflags",
             "+faststart",
-            "-f",
-            "mp4",
+            "-y",
             output_file,
         ]
+
         try:
-            subprocess.run(cmd, check=True)
-            return True
+            subprocess.run(cmd, check=True, capture_output=True)
+            return output_file
         except subprocess.CalledProcessError as e:
-            logger.error(f"Error converting chunk: {e}")
-            return False
+            logger.error(f"Error converting video: {e.stderr.decode()}")
+            raise
 
-    def get_chunk_path(self, file_path: str, chunk_index: int) -> str:
-        """Get the path for a specific chunk"""
-        output_dir = f"conversions/{os.path.basename(file_path)}"
-        return f"{output_dir}/chunk_{chunk_index}.mp4"
+    def stream_video(
+        self, file_path: str, range_header: str = None, start_time: float = 0
+    ) -> Union[FileResponse, StreamingHttpResponse]:
+        """Stream video content"""
+        if not os.path.exists(file_path):
+            raise FileNotFoundError(f"Video file not found: {file_path}")
 
-    def ensure_chunk_directory(self, file_path: str) -> str:
-        """Ensure the chunk directory exists and return its path"""
-        output_dir = f"conversions/{os.path.basename(file_path)}"
-        os.makedirs(output_dir, exist_ok=True)
-        return output_dir
+        # Get file size
+        file_size = os.path.getsize(file_path)
+
+        # Set content type
+        content_type = mimetypes.guess_type(file_path)[0] or "video/mp4"
+
+        # If it's an MP4 file, stream it directly with range support
+        if self.is_mp4(file_path):
+            try:
+                # Parse range header
+                range_match = range_re.match(range_header or "")
+                start_byte = 0
+                end_byte = file_size - 1
+
+                if range_match:
+                    start_byte = int(range_match.group(1))
+                    if range_match.group(2):
+                        end_byte = int(range_match.group(2))
+
+                # Calculate content length
+                content_length = end_byte - start_byte + 1
+
+                # Create response
+                response = FileResponse(
+                    open(file_path, "rb"),
+                    content_type=content_type,
+                    as_attachment=False,
+                    status=206 if range_header else 200,
+                )
+
+                # Add headers
+                response["Accept-Ranges"] = "bytes"
+                response["Content-Length"] = str(content_length)
+                if range_header:
+                    response["Content-Range"] = f"bytes {start_byte}-{end_byte}/{file_size}"
+
+                # Seek to start byte
+                response.file_to_stream.seek(start_byte)
+
+                return response
+
+            except Exception as e:
+                logger.error(f"Error streaming MP4: {e}")
+                raise
+
+        # For non-MP4 files, use FFmpeg for transcoding
+        try:
+            # Create FFmpeg command for streaming
+            cmd = [
+                "ffmpeg",
+                "-ss",
+                str(start_time),  # Start time
+                "-i",
+                file_path,  # Input file
+                "-c:v",
+                "libx264",  # Video codec
+                "-preset",
+                "ultrafast",  # Encoding preset
+                "-tune",
+                "zerolatency",  # Tuning for streaming
+                "-c:a",
+                "aac",  # Audio codec
+                "-f",
+                "mp4",  # Output format
+                "-movflags",
+                "empty_moov+frag_keyframe+default_base_moof",  # Streaming flags
+                "pipe:1",  # Output to pipe
+            ]
+
+            # Start FFmpeg process
+            process = subprocess.Popen(
+                cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=10**8  # 100MB buffer
+            )
+
+            # Create response
+            response = StreamingHttpResponse(
+                streaming_content=(chunk for chunk in iter(lambda: process.stdout.read(self.chunk_size), b"")),
+                content_type=content_type,
+            )
+
+            # Add headers
+            response["Accept-Ranges"] = "bytes"
+            response["Content-Length"] = str(file_size)
+            response["Cache-Control"] = "no-cache"
+
+            return response
+
+        except Exception as e:
+            logger.error(f"Error streaming video: {e}")
+            if "process" in locals():
+                process.kill()
+            raise
 
     def is_mp4(self, file_path: str) -> bool:
         """Check if the file is an MP4"""
@@ -86,66 +178,5 @@ class VideoService:
 
     def get_mp4_path(self, file_path: str) -> str:
         """Get the path for the MP4 version of the file"""
-        output_dir = f"conversions/{os.path.basename(file_path)}"
-        return f"{output_dir}/full.mp4"
-
-    def process_next_chunk(self, input_file: str, last_processed_time: float) -> tuple[bool, float]:
-        """
-        Process the next chunk of video
-        Returns: (success, new_last_processed_time)
-        """
-        if self.is_mp4(input_file):
-            return False, last_processed_time
-
-        current_duration = self._get_duration(input_file)
-        if current_duration is None:
-            return False, last_processed_time
-
-        if last_processed_time >= current_duration:
-            return False, last_processed_time
-
-        next_chunk_end = min(last_processed_time + self.chunk_duration, current_duration)
-        chunk_index = int(last_processed_time / self.chunk_duration)
-
-        self.ensure_chunk_directory(input_file)
-        output_file = self.get_chunk_path(input_file, chunk_index)
-
-        logger.info(f"Converting chunk {chunk_index} from {last_processed_time} to {next_chunk_end}")
-
-        if self._convert_chunk(input_file, last_processed_time, self.chunk_duration, output_file):
-            return True, next_chunk_end
-        else:
-            return False, last_processed_time
-
-    def get_available_chunks(self, file_path: str) -> list[str]:
-        """Get list of available converted chunks or the full MP4 file"""
-        if self.is_mp4(file_path):
-            mp4_path = self.get_mp4_path(file_path)
-            return [mp4_path] if os.path.exists(mp4_path) else []
-
-        output_dir = f"conversions/{os.path.basename(file_path)}"
-        if not os.path.exists(output_dir):
-            return []
-
-        chunks = []
-        i = 0
-        while True:
-            chunk_path = self.get_chunk_path(file_path, i)
-            if not os.path.exists(chunk_path):
-                break
-            chunks.append(chunk_path)
-            i += 1
-        return chunks
-
-    def is_conversion_complete(self, file_path: str) -> bool:
-        """Check if the entire file has been converted"""
-        if self.is_mp4(file_path):
-            return os.path.exists(self.get_mp4_path(file_path))
-
-        total_duration = self._get_duration(file_path)
-        if total_duration is None:
-            return False
-
-        chunks = self.get_available_chunks(file_path)
-        expected_chunks = int((total_duration + self.chunk_duration - 1) / self.chunk_duration)
-        return len(chunks) >= expected_chunks
+        output_dir = os.path.join("conversions", os.path.basename(os.path.dirname(file_path)))
+        return os.path.join(output_dir, os.path.splitext(os.path.basename(file_path))[0] + ".mp4")

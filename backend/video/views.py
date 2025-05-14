@@ -2,7 +2,6 @@ from rest_framework import viewsets, status, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from movies.models import MovieFile
-from movies.serializers import MovieFileSerializer
 from .services import VideoService
 import re
 import os
@@ -10,7 +9,6 @@ import threading
 import libtorrent as lt
 import logging
 import time
-from concurrent.futures import ThreadPoolExecutor
 
 range_re = re.compile(r"bytes\s*=\s*(\d+)\s*-\s*(\d*)", re.I)
 
@@ -124,45 +122,23 @@ def process_video_thread(video_id):
 
                 time.sleep(1)
 
-            movie_file.download_status = "CONVERTING"
-            movie_file.save()
-
+            # Initialize video service
             video_service = VideoService()
-            video_service.ensure_chunk_directory(downloaded_path)
 
-            if video_service.is_mp4(downloaded_path):
-                movie_file.download_status = "READY"
+            # If it's not an MP4, convert it
+            if not video_service.is_mp4(downloaded_path):
+                movie_file.download_status = "CONVERTING"
                 movie_file.save()
-                return
 
-            total_duration = video_service._get_duration(downloaded_path)
-            if not total_duration:
-                raise Exception("Could not get video duration")
-
-            num_chunks = int((total_duration + video_service.chunk_duration - 1) / video_service.chunk_duration)
-
-            with ThreadPoolExecutor(max_workers=4) as executor:
-                futures = []
-                for i in range(num_chunks):
-                    start_time = i * video_service.chunk_duration
-                    futures.append(
-                        executor.submit(
-                            video_service._convert_chunk,
-                            downloaded_path,
-                            start_time,
-                            video_service.chunk_duration,
-                            video_service.get_chunk_path(downloaded_path, i),
-                        )
-                    )
-
-                completed = 0
-                for future in futures:
-                    if future.result():
-                        completed += 1
-                        progress = (completed / num_chunks) * 100
-                        movie_file.download_progress = progress
-                        movie_file.save()
-                        logging.info(f"Chunk conversion progress: {progress:.2f}%")
+                try:
+                    # Convert to MP4
+                    converted_path = video_service.convert_to_mp4(downloaded_path)
+                    movie_file.file_path = converted_path
+                except Exception as e:
+                    logging.error(f"Error converting video: {e}")
+                    movie_file.download_status = "ERROR"
+                    movie_file.save()
+                    return
 
             movie_file.download_status = "READY"
             movie_file.save()
@@ -223,7 +199,7 @@ class VideoViewSet(viewsets.ViewSet):
 
     @action(detail=True, methods=["get"], url_path="stream")
     def stream(self, request, pk=None):
-        """Stream movie content using FFmpeg"""
+        """Stream movie content"""
         try:
             movie_file = MovieFile.objects.get(tmdb_id=pk)
 
@@ -239,20 +215,20 @@ class VideoViewSet(viewsets.ViewSet):
             # Initialize streaming service
             video_service = VideoService()
 
-            # If it's an MP4 file, return the full file path
-            if video_service.is_mp4(movie_file.file_path):
-                mp4_path = video_service.get_mp4_path(movie_file.file_path)
-                if not os.path.exists(mp4_path):
-                    # Copy the original MP4 file to the conversions directory
-                    os.makedirs(os.path.dirname(mp4_path), exist_ok=True)
-                    import shutil
-
-                    shutil.copy2(movie_file.file_path, mp4_path)
-                return Response({"file_path": mp4_path})
-
-            # For non-MP4 files, stream using FFmpeg
+            # Get range header and start time
+            range_header = request.META.get("HTTP_RANGE", "").strip()
             start_time = float(request.query_params.get("start", 0))
-            response = video_service.stream_video(file_path=movie_file.file_path, start_time=start_time)
+
+            # Stream the video
+            response = video_service.stream_video(
+                file_path=movie_file.file_path, range_header=range_header, start_time=start_time
+            )
+
+            # Add CORS headers
+            response["Access-Control-Allow-Origin"] = "*"
+            response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+            response["Access-Control-Allow-Headers"] = "Range"
+
             return response
 
         except MovieFile.DoesNotExist:
@@ -276,101 +252,3 @@ class VideoViewSet(viewsets.ViewSet):
             )
         except MovieFile.DoesNotExist:
             return Response({"download_status": "NOT_FOUND", "download_progress": 0, "file_path": None})
-
-
-class MovieFileViewSet(viewsets.ModelViewSet):
-    """
-    ViewSet for handling movie files and streaming.
-    Handles torrent downloads and video streaming.
-    """
-
-    queryset = MovieFile.objects.all()
-    serializer_class = MovieFileSerializer
-
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        # Validate magnet link format
-        magnet_link = serializer.validated_data["magnet_link"]
-        if not magnet_link.startswith("magnet:?"):
-            return Response({"error": "Invalid magnet link format"}, status=status.HTTP_400_BAD_REQUEST)
-
-        # Create movie file with initial status
-        movie_file = serializer.save(download_status="PENDING", download_progress=0)
-
-        # Start the background thread immediately
-        thread = threading.Thread(target=process_video_thread, args=(movie_file.id,))
-        thread.daemon = True
-        thread.start()
-
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-
-    @action(detail=True, methods=["post"])
-    def start_stream(self, request, pk=None):
-        """Start movie download and processing"""
-        movie_file = self.get_object()
-
-        # If already processing or ready, return current status
-        if movie_file.download_status in ["DOWNLOADING", "CONVERTING", "READY"]:
-            return Response({"status": movie_file.download_status, "progress": movie_file.download_progress})
-
-        # Start processing in background thread
-        thread = threading.Thread(target=process_video_thread, args=(movie_file.id,))
-        thread.daemon = True
-        thread.start()
-
-        return Response({"status": "PENDING", "message": "Started movie processing"})
-
-    @action(detail=True, methods=["get"])
-    def status(self, request, pk=None):
-        """Get current movie processing status"""
-        movie_file = self.get_object()
-        return Response(
-            {"download_status": movie_file.download_status, "download_progress": movie_file.download_progress}
-        )
-
-    @action(detail=True, methods=["get"])
-    def stream(self, request, pk=None):
-        try:
-            movie_file = self.get_object()
-
-            if movie_file.download_status != "READY":
-                return Response({"error": "Movie not ready"}, status=status.HTTP_400_BAD_REQUEST)
-
-            path = movie_file.file_path
-            if not os.path.exists(path):
-                return Response({"error": "File not found"}, status=status.HTTP_404_NOT_FOUND)
-
-            # Get file size and range header
-            range_header = request.META.get("HTTP_RANGE", "").strip()
-
-            # Create streaming service
-            video_service = VideoService()
-
-            # Stream with FFmpeg
-            response = video_service.stream_video(file_path=path, range_header=range_header)
-
-            # Add CORS headers
-            response["Access-Control-Allow-Origin"] = "*"
-            response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
-            response["Access-Control-Allow-Headers"] = "Range"
-
-            return response
-
-        except Exception as e:
-            logger.error(f"Streaming error: {str(e)}")
-            return Response({"error": "Streaming error occurred"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-    def range_iter(self, file_path, start, chunk_size):
-        with open(file_path, "rb") as f:
-            f.seek(start)
-            remaining = chunk_size
-            while remaining > 0:
-                chunk = min(remaining, chunk_size)
-                data = f.read(chunk)
-                if not data:
-                    break
-                remaining -= len(data)
-                yield data

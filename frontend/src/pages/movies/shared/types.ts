@@ -22,6 +22,7 @@ export enum DownloadStatus {
 
 export interface MoviePlayerProps {
 	movieId: number;
+	magnet: string;
 }
 
 export interface MovieStatusResponse {
