@@ -89,7 +89,7 @@ const Header = () => {
 				<Typography
 					variant="h6"
 					component={Link}
-					to="/"
+					to={user ? "/movies" : "/"}
 					sx={{
 						textDecoration: "none",
 						color: "white",
