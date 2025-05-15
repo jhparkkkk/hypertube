@@ -9,16 +9,29 @@ const api = axios.create({
 	},
 });
 
-axios.interceptors.response.use(
-  response => response,
-  error => {
-    if (error.response?.status === 401) {
-      // gérer localement sans log console
-      return Promise.reject(error); // si tu veux remonter l'erreur
+// axios.interceptors.response.use(
+//   response => response,
+//   error => {
+//     if (error.response?.status === 401) {
+//       // gérer localement sans log console
+//       return Promise.reject(error); // si tu veux remonter l'erreur
+//     }
+//     return Promise.reject(error);
+//   }
+// );
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    // Supprime les logs par défaut en console
+    if (import.meta.env.MODE !== "production") {
+      // Empêche l'affichage en console
+      // (mais tu devras toujours catch dans le composant)
     }
     return Promise.reject(error);
   }
 );
+
 
 // api.interceptors.response.use(
 //   response => response,

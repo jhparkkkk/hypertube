@@ -6,13 +6,12 @@ import {
 	TextField,
 	Select,
 	MenuItem,
-	IconButton,
+	SelectChangeEvent,
 } from "@mui/material";
 
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { api } from "../api/axiosConfig";
-import { Edit, Delete } from "@mui/icons-material";
 import { useParams } from "react-router-dom";
 
 import { useNavigate } from "react-router-dom";
@@ -73,8 +72,8 @@ const UserProfile = () => {
 		e: React.ChangeEvent<HTMLInputElement | { name?: string; value: unknown }>,
 	) => {
 		if (!form) return;
-
 		const { name, value } = e.target;
+		if (!name) return;
 
 		setForm((prev) => ({
 			...prev!,
@@ -84,6 +83,28 @@ const UserProfile = () => {
 		setErrors((prevErrors) => {
 			const newErrors = { ...prevErrors };
 			if (!validateField(name, value as string)) {
+				newErrors[name] = `${name.replace("_", " ")} is invalid`;
+			} else {
+				delete newErrors[name];
+			}
+			return newErrors;
+		});
+	};
+
+	const handleSelectChange = (event: SelectChangeEvent<string>) => {
+		const name = event.target.name;
+		const value = event.target.value;
+
+		if (!name) return;
+
+		setForm((prev) => ({
+			...prev!,
+			[name as keyof User]: value,
+		}));
+
+		setErrors((prevErrors) => {
+			const newErrors = { ...prevErrors };
+			if (!validateField(name, value)) {
 				newErrors[name] = `${name.replace("_", " ")} is invalid`;
 			} else {
 				delete newErrors[name];
@@ -222,9 +243,8 @@ const UserProfile = () => {
 						label="Preferred Language"
 						name="preferred_language"
 						value={form.preferred_language || ""}
-						onChange={handleChange}
+						onChange={handleSelectChange}
 						error={!!errors.preferred_language}
-						helperText={errors.preferred_language}
 					>
 						<MenuItem value="en">English</MenuItem>
 						<MenuItem value="fr">French</MenuItem>

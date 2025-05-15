@@ -45,7 +45,7 @@ export const useAuthForm = (authType: AuthType, params="") => {
 		const errors: { [key: string]: string } = {};
 		let isValid = true;
 	
-		const requiredFields = [];
+		const requiredFields: (keyof FormData)[] = [];
 		if (authType === "register") {
 			requiredFields.push("username", "password", "email", "first_name", "last_name");
 		}
@@ -87,8 +87,6 @@ export const useAuthForm = (authType: AuthType, params="") => {
 		
 
     const handleSubmit = async () => {
-			// const manualCheck = validateForm(formData, touchedFields);
-    		// if (!manualCheck) return;
       if (!isFormValid) return;
 			console.log('handle submit')
       const endpointByAuthType = {
@@ -111,21 +109,17 @@ export const useAuthForm = (authType: AuthType, params="") => {
                 navigate("/home");
             }
 						else if (authType === "request-reset") {
-							console.log("🔴 request-reset response", response.data);
 							setSuccessMessage("Password reset email sent. Please check your inbox."); }
 						else {
                 navigate("/home");
             }
         } catch (error: any) {
             if (error.response) {
-                console.log("error login", error.response.data.error);
                 setErrors({"general": error.response.data.error});
             }
 						else if (error.request) {
-							console.error('🔴 No response from server:', error.request);
       				setErrors({ general: 'No response from the server.' });
  							} else {
-							console.error('🔴 Axios config error:', error.message);
 							setErrors({ general: 'An error occurred. Please try again.' });
 						}
 					

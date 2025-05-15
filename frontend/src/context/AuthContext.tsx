@@ -2,17 +2,6 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../api/axiosConfig";
 
-interface User {
-	id: number;
-	username: string;
-	firstName: string;
-	lastName: string;
-	email: string;
-	language: string;
-	profilePicture: string;
-	preferredLanguage: string;
-}
-
 interface AuthContextType {
 	user: any;
 	login: (token: string, user_data?: any) => void;
@@ -45,6 +34,19 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 			setLoadingUser(false);
 		}
 	}, []);
+
+	useEffect(() => {
+		if (!user) return;
+
+		const interval = setInterval(() => {
+			if (!localStorage.getItem("accessToken")) {
+				alert("Session expired. Please log in again.");
+				logout();
+			}
+		}, 3000);
+
+		return () => clearInterval(interval);
+	}, [user]);
 
 	const login = async (token: string, user_data?: any) => {
 		if (!token) return;
