@@ -106,12 +106,12 @@ export const useAuthForm = (authType: AuthType, params="") => {
 
             if (authType === "login") {
                 login(response.data.tokens.access, response.data.user);
-                navigate("/home");
+                navigate("/movies");
             }
 						else if (authType === "request-reset") {
 							setSuccessMessage("Password reset email sent. Please check your inbox."); }
 						else {
-                navigate("/home");
+                navigate("/movies");
             }
         } catch (error: any) {
             if (error.response) {
