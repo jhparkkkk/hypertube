@@ -4,7 +4,6 @@ import logging
 from rest_framework.pagination import PageNumberPagination
 from .services import TMDBService, TorrentService
 import requests
-from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
@@ -34,25 +33,81 @@ class MovieViewSet(viewsets.ViewSet):
         page = request.query_params.get("page", "1")
         search_query = request.query_params.get("query", "")
         language = request.query_params.get("language", "en-US")
+        genre = request.query_params.get("genre", "")
+        year = request.query_params.get("year", "")
+        rating = request.query_params.get("rating", "")
+        genre_ids = {
+            "Action": 28,
+            "Adventure": 12,
+            "Animation": 16,
+            "Comedy": 35,
+            "Crime": 80,
+            "Documentary": 99,
+            "Drama": 18,
+            "Family": 10751,
+            "Fantasy": 14,
+            "History": 36,
+            "Horror": 27,
+            "Music": 10402,
+            "Mystery": 9648,
+            "Romance": 10749,
+            "Science Fiction": 878,
+            "TV Movie": 10770,
+            "Thriller": 53,
+            "War": 10752,
+            "Western": 37,
+        }
 
         try:
             page = int(page)
         except ValueError:
             page = 1
 
-        if search_query:
-            data = TMDBService.search_movies(search_query, page, language)
-        else:
-            data = TMDBService.get_popular_movies(page, language)
-        filtered_results = [
-            movie for movie in data.get("results", []) if not movie.get("adult", False) and movie.get("poster_path")
-        ]
+        PAGE_SIZE = 20
+        start_index = (page - 1) * PAGE_SIZE
+        filtered_results = []
+        seen_ids = set()
+        tmdb_page = 1
+        total_pages = 1
+        total_filtered = 0
+
+        while len(filtered_results) < (start_index + PAGE_SIZE):
+            if search_query:
+                data = TMDBService.search_movies(search_query, tmdb_page, language)
+            else:
+                data = TMDBService.get_popular_movies(tmdb_page, language)
+
+            total_pages = data.get("total_pages", 1)
+
+            for movie in data.get("results", []):
+                if movie.get("adult", False) or not movie.get("poster_path"):
+                    continue
+                if genre and genre_ids.get(genre) not in movie.get("genre_ids", []):
+                    continue
+                if year and movie.get("release_date", "")[:4] != year:
+                    continue
+                if rating and movie.get("vote_average", 0) < float(rating):
+                    continue
+                if movie.get("id") in seen_ids:
+                    continue
+                seen_ids.add(movie.get("id"))
+                filtered_results.append(movie)
+                total_filtered += 1
+                if len(filtered_results) >= (start_index + PAGE_SIZE):
+                    break
+
+            if tmdb_page >= total_pages:
+                break
+            tmdb_page += 1
+
+        page_results = filtered_results[start_index : start_index + PAGE_SIZE]
+
         return Response(
             {
-                "results": filtered_results,
-                "page": data.get("page", 1),
-                "total_pages": data.get("total_pages", 1),
-                "total_results": len(filtered_results),
+                "results": page_results,
+                "page": page,
+                "total_pages": total_pages,
+                "total_results": total_filtered,
             }
         )
 
@@ -64,20 +119,47 @@ class MovieViewSet(viewsets.ViewSet):
 
         logger.info(f"Fetching details for movie: {movie['title']} ({pk})")
 
-        # Get IMDB ID from TMDB for better torrent search
         try:
             external_ids = requests.get(
-                f"https://api.themoviedb.org/3/movie/{pk}/external_ids", params={"api_key": settings.TMDB_API_KEY}
+                f"{TMDBService.BASE_URL}/movie/{pk}/external_ids", headers=TMDBService.get_headers()
             ).json()
-            tmdb_id = external_ids.get("tmdb_id")
+            movie["imdb_id"] = external_ids.get("imdb_id")
             logger.info(f"Got external IDs for movie: {external_ids}")
         except requests.RequestException as e:
             logger.error(f"Error fetching external IDs: {str(e)}")
-            tmdb_id = None
+
+        response_data = {
+            "id": movie["id"],
+            "title": movie["title"],
+            "original_title": movie["original_title"],
+            "imdb_id": movie["imdb_id"],
+            "release_date": movie["release_date"],
+            "runtime": movie["runtime"],
+            "available_subtitles": movie["available_subtitles"],
+            "comments_count": movie["comments_count"],
+            "vote_average": movie["vote_average"],
+            "adult": movie["adult"],
+            "backdrop_path": movie["backdrop_path"],
+            "belongs_to_collection": movie["belongs_to_collection"],
+            "budget": movie["budget"],
+            "genres": movie["genres"],
+            "homepage": movie["homepage"],
+            "original_language": movie["original_language"],
+            "overview": movie["overview"],
+            "popularity": movie["popularity"],
+            "poster_path": movie["poster_path"],
+            "production_companies": movie["production_companies"],
+            "production_countries": movie["production_countries"],
+            "revenue": movie["revenue"],
+            "spoken_languages": movie["spoken_languages"],
+            "status": movie["status"],
+            "tagline": movie["tagline"],
+            "video": movie["video"],
+            "vote_count": movie["vote_count"],
+        }
 
         # Search for available torrents
         search_params = {
-            "tmdb_id": tmdb_id,
             "title": movie["title"],
             "year": int(movie["release_date"][:4]) if movie.get("release_date") else None,
         }
@@ -125,19 +207,21 @@ class MovieViewSet(viewsets.ViewSet):
                     best_torrent["size"] / (1024 * 1024 * 1024),  # Convert to GB
                     get_quality_score(best_torrent["title"]),
                 )
-                movie["magnet_link"] = best_torrent["magnet"]
-                movie["available_torrents"] = best_torrents[:5]
-                movie["best_torrent"] = best_torrent
+                response_data["magnet_link"] = best_torrent["magnet"]
+                response_data["available_torrents"] = best_torrents[:5]
+                response_data["best_torrent"] = best_torrent
             else:
-                movie["magnet_link"] = None
-                movie["available_torrents"] = []
-                movie["best_torrent"] = None
+                response_data["magnet_link"] = None
+                response_data["available_torrents"] = []
+                response_data["best_torrent"] = None
                 logger.warning("No suitable torrents found")
         else:
-            movie["available_torrents"] = []
-            movie["best_torrent"] = None
-            movie["magnet_link"] = None
+            response_data["available_torrents"] = []
+            response_data["best_torrent"] = None
+            response_data["magnet_link"] = None
             logger.warning("No suitable torrents found")
 
-        logger.info(f"Returning movie details with {len(movie.get('available_torrents', []))} available torrents")
-        return Response(movie)
+        logger.info(
+            f"Returning movie details with {len(response_data.get('available_torrents', []))} available torrents"
+        )
+        return Response(response_data)

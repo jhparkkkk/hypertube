@@ -46,23 +46,10 @@ class VideoService:
         output_file = os.path.join(output_dir, os.path.splitext(os.path.basename(input_file))[0] + ".mp4")
 
         cmd = [
-            "ffmpeg",
-            "-i",
-            input_file,
-            "-c:v",
-            "libx264",
-            "-preset",
-            "medium",
-            "-crf",
-            "23",
-            "-c:a",
-            "aac",
-            "-b:a",
-            "128k",
-            "-movflags",
-            "+faststart",
-            "-y",
-            output_file,
+            "ffmpeg", "-i", input_file,
+            "-c",
+            "copy",
+            "-y", output_file,
         ]
 
         try:

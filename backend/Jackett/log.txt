@@ -415,3 +415,515 @@
 2025-05-14 15:20:15.5788 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Rust 2025 => Found 69 releases (from cache) [3ms]
 2025-05-14 15:20:28.6546 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Rust 2025 => Found 69 releases (from cache) [1ms]
 2025-05-14 15:20:28.7550 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Rust 2025 => Found 69 releases (from cache) [1ms]
+2025-05-14 15:24:15.8136 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 255 releases (from cache) [2ms]
+2025-05-14 15:24:15.8863 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Finding Nemo 2003 => Found 255 releases (from cache) [2ms]
+2025-05-14 15:24:18.1172 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 262 releases (from cache) [351ms]
+2025-05-14 15:24:18.2670 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 262 releases (from cache) [3ms]
+2025-05-14 15:24:55.7502 Info Test search in The Pirate Bay => Found 50 releases [46ms]
+2025-05-14 15:24:55.7714 Info Test search in TheRARBG => Found 50 releases [68ms]
+2025-05-14 15:24:55.8934 Info Test search in YTS => Found 105 releases [190ms]
+2025-05-14 15:24:56.0251 Info Test search in kickasstorrents.ws => Found 50 releases [321ms]
+2025-05-14 15:25:02.2126 Info Test search in 1337x => Found 80 releases [6509ms]
+2025-05-14 15:25:02.8727 Info Test search in The Pirate Bay => Found 50 releases [30ms]
+2025-05-14 15:25:02.8798 Info Test search in TheRARBG => Found 50 releases [37ms]
+2025-05-14 15:25:03.0637 Info Test search in YTS => Found 105 releases [220ms]
+2025-05-14 15:25:03.1393 Info Test search in kickasstorrents.ws => Found 50 releases [297ms]
+2025-05-14 15:25:10.4664 Info Test search in 1337x => Found 80 releases [7625ms]
+2025-05-14 15:25:11.2493 Info Test search in The Pirate Bay => Found 50 releases [38ms]
+2025-05-14 15:25:11.2595 Info Test search in TheRARBG => Found 50 releases [47ms]
+2025-05-14 15:25:11.4110 Info Test search in YTS => Found 105 releases [199ms]
+2025-05-14 15:25:11.5565 Info Test search in kickasstorrents.ws => Found 50 releases [344ms]
+2025-05-14 15:25:18.7264 Info Test search in 1337x => Found 80 releases [7514ms]
+2025-05-14 15:31:53.5277 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for The Accountant 2016 => Found 259 releases [6525ms]
+2025-05-14 15:31:53.6221 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for The Accountant 2016 => Found 259 releases (from cache) [3ms]
+2025-05-14 15:32:12.7684 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 262 releases (from cache) [2ms]
+2025-05-14 15:32:12.8220 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 262 releases (from cache) [2ms]
+2025-05-14 15:32:13.2475 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Rust 2025 => Found 69 releases (from cache) [1ms]
+2025-05-14 15:32:13.2996 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Rust 2025 => Found 69 releases (from cache) [1ms]
+2025-05-14 15:32:14.0002 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Rust 2025 => Found 69 releases (from cache) [1ms]
+2025-05-14 15:32:14.0752 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Rust 2025 => Found 69 releases (from cache) [1ms]
+2025-05-14 15:32:18.1550 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Rust 2025 => Found 69 releases (from cache) [1ms]
+2025-05-14 15:32:18.1983 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Rust 2025 => Found 69 releases (from cache) [1ms]
+2025-05-15 12:10:48.2668 Info Starting Jackett v0.22.1900
+2025-05-15 12:10:48.5477 Info Environment version: 8.0.16 (/app/Jackett/)
+2025-05-15 12:10:48.5523 Info OS version: Unix 5.15.0.139 (64bit OS) (64bit process)
+2025-05-15 12:10:48.5523 Info Jackett variant: CoreLinuxMuslAmdx64
+2025-05-15 12:10:48.5523 Info File /etc/issue: Welcome to Alpine Linux 3.21
+2025-05-15 12:10:48.5523 Info Running in Docker: Yes (image build: v0.22.1900-ls29)
+2025-05-15 12:10:48.5547 Info ThreadPool MaxThreads: 32767 workerThreads, 1000 completionPortThreads
+2025-05-15 12:10:48.5547 Info App config/log directory: /config/Jackett
+2025-05-15 12:10:48.5547 Info Using proxy: Disabled
+2025-05-15 12:10:48.5547 Info Using FlareSolverr: No
+2025-05-15 12:10:48.5547 Info Using HTTP Client: HttpWebClient2
+2025-05-15 12:10:48.5586 Info Loading Native indexers ...
+2025-05-15 12:10:48.5727 Info Loaded 76 Native indexers.
+2025-05-15 12:10:48.5727 Info Loading Cardigann indexers from: /config/cardigann/definitions/, /etc/xdg/cardigan/definitions/, /app/Jackett/Definitions
+2025-05-15 12:10:50.0816 Info Loaded 529 Cardigann indexers.
+2025-05-15 12:10:50.0836 Info Loaded 605 indexers in total
+2025-05-15 12:10:50.0968 Info Adding aggregate indexer ('all' indexer) ...
+2025-05-15 12:10:50.0995 Info Adding filter indexer ('type:public' indexer) ...
+2025-05-15 12:10:50.0995 Info Adding filter indexer ('type:private' indexer) ...
+2025-05-15 12:10:50.0995 Info Adding filter indexer ('type:semi-public' indexer) ...
+2025-05-15 12:10:50.1796 Info Jackett startup finished in 2.046 s
+2025-05-15 12:15:38.6523 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 105 releases [7218ms]
+2025-05-15 12:15:38.7489 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 105 releases (from cache) [2ms]
+2025-05-15 12:17:09.9279 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 105 releases (from cache) [2ms]
+2025-05-15 12:17:09.9667 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 105 releases (from cache) [2ms]
+2025-05-15 12:20:53.9923 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Bao 2018 => Found 54 releases [6953ms]
+2025-05-15 12:20:54.0759 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Bao 2018 => Found 54 releases (from cache) [2ms]
+2025-05-15 12:21:15.5146 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 105 releases (from cache) [1ms]
+2025-05-15 12:21:15.5521 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 105 releases (from cache) [1ms]
+2025-05-15 12:21:35.0688 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 262 releases [7601ms]
+2025-05-15 12:21:35.1116 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 262 releases (from cache) [2ms]
+2025-05-15 12:22:00.9702 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 262 releases (from cache) [2ms]
+2025-05-15 12:22:01.0570 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 262 releases (from cache) [2ms]
+2025-05-15 12:22:04.3602 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 262 releases (from cache) [2ms]
+2025-05-15 12:22:04.4051 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 262 releases (from cache) [2ms]
+2025-05-15 12:22:10.1409 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 105 releases (from cache) [1ms]
+2025-05-15 12:22:10.1833 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 105 releases (from cache) [1ms]
+2025-05-15 12:22:26.3648 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 105 releases (from cache) [1ms]
+2025-05-15 12:22:26.4008 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 105 releases (from cache) [1ms]
+2025-05-15 12:22:38.7769 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 105 releases (from cache) [1ms]
+2025-05-15 12:22:38.8446 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 105 releases (from cache) [1ms]
+2025-05-15 12:23:01.9666 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 105 releases (from cache) [1ms]
+2025-05-15 12:23:02.0068 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 105 releases (from cache) [1ms]
+2025-05-15 12:26:36.0214 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 105 releases (from cache) [2ms]
+2025-05-15 12:26:36.0744 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 105 releases (from cache) [1ms]
+2025-05-15 12:26:38.6869 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 105 releases (from cache) [1ms]
+2025-05-15 12:26:38.7296 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 105 releases (from cache) [1ms]
+2025-05-15 12:26:42.4692 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 105 releases (from cache) [1ms]
+2025-05-15 12:26:42.5071 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 105 releases (from cache) [1ms]
+2025-05-15 12:41:37.1606 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for a working man => Found 141 releases [7422ms]
+2025-05-15 12:43:25.2651 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 105 releases (from cache) [1ms]
+2025-05-15 13:10:50.1112 Info Checking for updates... Jackett variant: CoreLinuxMuslAmdx64
+2025-05-15 13:10:50.6034 Info Jackett is already updated. Current version: v0.22.1900
+2025-05-19 13:45:06.6352 Info Starting Jackett v0.22.1921
+2025-05-19 13:45:06.9172 Info Environment version: 8.0.16 (/app/Jackett/)
+2025-05-19 13:45:06.9214 Info OS version: Unix 5.15.0.139 (64bit OS) (64bit process)
+2025-05-19 13:45:06.9214 Info Jackett variant: CoreLinuxMuslAmdx64
+2025-05-19 13:45:06.9214 Info File /etc/issue: Welcome to Alpine Linux 3.21
+2025-05-19 13:45:06.9234 Info Running in Docker: Yes (image build: v0.22.1921-ls33)
+2025-05-19 13:45:06.9234 Info ThreadPool MaxThreads: 32767 workerThreads, 1000 completionPortThreads
+2025-05-19 13:45:06.9234 Info App config/log directory: /config/Jackett
+2025-05-19 13:45:06.9234 Info Using proxy: Disabled
+2025-05-19 13:45:06.9234 Info Using FlareSolverr: No
+2025-05-19 13:45:06.9234 Info Using HTTP Client: HttpWebClient2
+2025-05-19 13:45:06.9277 Info Loading Native indexers ...
+2025-05-19 13:45:06.9418 Info Loaded 76 Native indexers.
+2025-05-19 13:45:06.9418 Info Loading Cardigann indexers from: /config/cardigann/definitions/, /etc/xdg/cardigan/definitions/, /app/Jackett/Definitions
+2025-05-19 13:45:08.1596 Info Loaded 530 Cardigann indexers.
+2025-05-19 13:45:08.1596 Info Loaded 606 indexers in total
+2025-05-19 13:45:08.1726 Info Adding aggregate indexer ('all' indexer) ...
+2025-05-19 13:45:08.1726 Info Adding filter indexer ('type:public' indexer) ...
+2025-05-19 13:45:08.1755 Info Adding filter indexer ('type:private' indexer) ...
+2025-05-19 13:45:08.1755 Info Adding filter indexer ('type:semi-public' indexer) ...
+2025-05-19 13:45:08.2547 Info Jackett startup finished in 1.764 s
+2025-05-19 14:45:08.1797 Info Checking for updates... Jackett variant: CoreLinuxMuslAmdx64
+2025-05-19 14:45:08.4157 Info Jackett is already updated. Current version: v0.22.1921
+2025-05-19 14:47:13.2329 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases [7769ms]
+2025-05-19 14:47:13.3638 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases (from cache) [1ms]
+2025-05-19 15:44:32.6602 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases [6741ms]
+2025-05-19 15:44:32.7120 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases (from cache) [0ms]
+2025-05-19 15:46:34.7280 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases (from cache) [2ms]
+2025-05-19 15:46:34.7820 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases (from cache) [1ms]
+2025-05-19 15:46:49.5562 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases (from cache) [4ms]
+2025-05-19 15:46:49.6145 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases (from cache) [1ms]
+2025-05-19 15:49:18.8541 Info Jackett stopped
+2025-05-19 15:51:06.2806 Info Starting Jackett v0.22.1921
+2025-05-19 15:51:06.5818 Info Environment version: 8.0.16 (/app/Jackett/)
+2025-05-19 15:51:06.5860 Info OS version: Unix 5.15.0.139 (64bit OS) (64bit process)
+2025-05-19 15:51:06.5874 Info Jackett variant: CoreLinuxMuslAmdx64
+2025-05-19 15:51:06.5874 Info File /etc/issue: Welcome to Alpine Linux 3.21
+2025-05-19 15:51:06.5874 Info Running in Docker: Yes (image build: v0.22.1921-ls33)
+2025-05-19 15:51:06.5874 Info ThreadPool MaxThreads: 32767 workerThreads, 1000 completionPortThreads
+2025-05-19 15:51:06.5874 Info App config/log directory: /config/Jackett
+2025-05-19 15:51:06.5874 Info Using proxy: Disabled
+2025-05-19 15:51:06.5874 Info Using FlareSolverr: No
+2025-05-19 15:51:06.5874 Info Using HTTP Client: HttpWebClient2
+2025-05-19 15:51:06.5925 Info Loading Native indexers ...
+2025-05-19 15:51:06.6071 Info Loaded 76 Native indexers.
+2025-05-19 15:51:06.6082 Info Loading Cardigann indexers from: /config/cardigann/definitions/, /etc/xdg/cardigan/definitions/, /app/Jackett/Definitions
+2025-05-19 15:51:08.0366 Info Loaded 530 Cardigann indexers.
+2025-05-19 15:51:08.0366 Info Loaded 606 indexers in total
+2025-05-19 15:51:08.0500 Info Adding aggregate indexer ('all' indexer) ...
+2025-05-19 15:51:08.0526 Info Adding filter indexer ('type:public' indexer) ...
+2025-05-19 15:51:08.0526 Info Adding filter indexer ('type:private' indexer) ...
+2025-05-19 15:51:08.0526 Info Adding filter indexer ('type:semi-public' indexer) ...
+2025-05-19 15:51:08.1399 Info Jackett startup finished in 2.023 s
+2025-05-19 15:51:15.9584 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases [6816ms]
+2025-05-19 15:51:16.0458 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases (from cache) [1ms]
+2025-05-19 15:51:28.8444 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases (from cache) [1ms]
+2025-05-19 15:51:28.8815 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases (from cache) [1ms]
+2025-05-19 15:51:51.5822 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases [7144ms]
+2025-05-19 15:51:51.6601 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [2ms]
+2025-05-19 15:52:02.9511 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases (from cache) [10ms]
+2025-05-19 15:52:03.0279 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases (from cache) [1ms]
+2025-05-19 15:53:18.4996 Info Jackett stopped
+2025-05-19 15:54:21.3001 Info Starting Jackett v0.22.1921
+2025-05-19 15:54:21.6065 Info Environment version: 8.0.16 (/app/Jackett/)
+2025-05-19 15:54:21.6108 Info OS version: Unix 5.15.0.139 (64bit OS) (64bit process)
+2025-05-19 15:54:21.6123 Info Jackett variant: CoreLinuxMuslAmdx64
+2025-05-19 15:54:21.6123 Info File /etc/issue: Welcome to Alpine Linux 3.21
+2025-05-19 15:54:21.6123 Info Running in Docker: Yes (image build: v0.22.1921-ls33)
+2025-05-19 15:54:21.6123 Info ThreadPool MaxThreads: 32767 workerThreads, 1000 completionPortThreads
+2025-05-19 15:54:21.6123 Info App config/log directory: /config/Jackett
+2025-05-19 15:54:21.6123 Info Using proxy: Disabled
+2025-05-19 15:54:21.6123 Info Using FlareSolverr: No
+2025-05-19 15:54:21.6155 Info Using HTTP Client: HttpWebClient2
+2025-05-19 15:54:21.6155 Info Loading Native indexers ...
+2025-05-19 15:54:21.6320 Info Loaded 76 Native indexers.
+2025-05-19 15:54:21.6320 Info Loading Cardigann indexers from: /config/cardigann/definitions/, /etc/xdg/cardigan/definitions/, /app/Jackett/Definitions
+2025-05-19 15:54:22.9398 Info Loaded 530 Cardigann indexers.
+2025-05-19 15:54:22.9398 Info Loaded 606 indexers in total
+2025-05-19 15:54:22.9528 Info Adding aggregate indexer ('all' indexer) ...
+2025-05-19 15:54:22.9554 Info Adding filter indexer ('type:public' indexer) ...
+2025-05-19 15:54:22.9554 Info Adding filter indexer ('type:private' indexer) ...
+2025-05-19 15:54:22.9554 Info Adding filter indexer ('type:semi-public' indexer) ...
+2025-05-19 15:54:23.0356 Info Jackett startup finished in 1.877 s
+2025-05-19 15:57:43.3428 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases [19525ms]
+2025-05-19 15:57:46.8610 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases (from cache) [8064ms]
+2025-05-19 15:57:46.9253 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases (from cache) [0ms]
+2025-05-19 15:57:46.9591 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases (from cache) [1ms]
+2025-05-19 15:57:51.3912 Info Test search in The Pirate Bay => Found 50 releases [15ms]
+2025-05-19 15:57:51.4565 Info Test search in TheRARBG => Found 50 releases [80ms]
+2025-05-19 15:57:51.5768 Info Test search in YTS => Found 96 releases [201ms]
+2025-05-19 15:57:51.6891 Info Test search in kickasstorrents.ws => Found 50 releases [313ms]
+2025-05-19 15:57:58.5983 Info Test search in 1337x => Found 80 releases [7222ms]
+2025-05-19 15:59:24.2339 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases (from cache) [1ms]
+2025-05-19 15:59:24.2695 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases (from cache) [1ms]
+2025-05-19 16:09:57.4291 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases (from cache) [2ms]
+2025-05-19 16:09:57.5109 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases (from cache) [1ms]
+2025-05-19 16:12:19.4649 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases (from cache) [0ms]
+2025-05-19 16:12:19.5420 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases (from cache) [2ms]
+2025-05-19 16:14:20.8854 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases (from cache) [1ms]
+2025-05-19 16:14:20.9685 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases (from cache) [2ms]
+2025-05-19 16:15:14.6176 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases (from cache) [1ms]
+2025-05-19 16:15:14.7002 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases (from cache) [1ms]
+2025-05-19 16:15:25.3507 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases (from cache) [1ms]
+2025-05-19 16:15:25.4195 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases (from cache) [1ms]
+2025-05-19 16:15:53.3197 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases (from cache) [0ms]
+2025-05-19 16:15:53.3615 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases (from cache) [0ms]
+2025-05-19 16:16:18.1038 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases (from cache) [0ms]
+2025-05-19 16:16:18.1369 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases (from cache) [0ms]
+2025-05-19 16:16:33.2737 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Final Destination Bloodlines 2025 => Found 32 releases [10756ms]
+2025-05-19 16:16:33.3868 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Final Destination Bloodlines 2025 => Found 32 releases (from cache) [0ms]
+2025-05-19 16:16:55.9902 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases [8076ms]
+2025-05-19 16:16:56.0319 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [1ms]
+2025-05-19 16:17:10.0558 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [2ms]
+2025-05-19 16:17:10.1179 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [1ms]
+2025-05-19 16:17:22.9600 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [1ms]
+2025-05-19 16:17:23.0168 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [3ms]
+2025-05-19 16:17:28.1559 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [1ms]
+2025-05-19 16:17:28.1956 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [2ms]
+2025-05-19 16:18:29.5970 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [2ms]
+2025-05-19 16:18:29.6366 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [1ms]
+2025-05-19 16:20:09.4151 Info Jackett stopped
+2025-05-19 16:21:11.0151 Info Starting Jackett v0.22.1921
+2025-05-19 16:21:11.3503 Info Environment version: 8.0.16 (/app/Jackett/)
+2025-05-19 16:21:11.3547 Info OS version: Unix 5.15.0.139 (64bit OS) (64bit process)
+2025-05-19 16:21:11.3564 Info Jackett variant: CoreLinuxMuslAmdx64
+2025-05-19 16:21:11.3564 Info File /etc/issue: Welcome to Alpine Linux 3.21
+2025-05-19 16:21:11.3564 Info Running in Docker: Yes (image build: v0.22.1921-ls33)
+2025-05-19 16:21:11.3564 Info ThreadPool MaxThreads: 32767 workerThreads, 1000 completionPortThreads
+2025-05-19 16:21:11.3564 Info App config/log directory: /config/Jackett
+2025-05-19 16:21:11.3564 Info Using proxy: Disabled
+2025-05-19 16:21:11.3564 Info Using FlareSolverr: No
+2025-05-19 16:21:11.3596 Info Using HTTP Client: HttpWebClient2
+2025-05-19 16:21:11.3596 Info Loading Native indexers ...
+2025-05-19 16:21:11.3762 Info Loaded 76 Native indexers.
+2025-05-19 16:21:11.3762 Info Loading Cardigann indexers from: /config/cardigann/definitions/, /etc/xdg/cardigan/definitions/, /app/Jackett/Definitions
+2025-05-19 16:21:12.8320 Info Loaded 530 Cardigann indexers.
+2025-05-19 16:21:12.8320 Info Loaded 606 indexers in total
+2025-05-19 16:21:12.8457 Info Adding aggregate indexer ('all' indexer) ...
+2025-05-19 16:21:12.8485 Info Adding filter indexer ('type:public' indexer) ...
+2025-05-19 16:21:12.8485 Info Adding filter indexer ('type:private' indexer) ...
+2025-05-19 16:21:12.8485 Info Adding filter indexer ('type:semi-public' indexer) ...
+2025-05-19 16:21:12.9413 Info Jackett startup finished in 2.072 s
+2025-05-19 16:22:03.5886 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases [6834ms]
+2025-05-19 16:22:04.0523 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [3ms]
+2025-05-19 16:22:34.6830 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [5ms]
+2025-05-19 16:22:34.7265 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [2ms]
+2025-05-19 16:22:54.4806 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [2ms]
+2025-05-19 16:22:54.5206 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [1ms]
+2025-05-19 16:23:09.9142 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [1ms]
+2025-05-19 16:23:09.9748 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [1ms]
+2025-05-19 16:23:47.6197 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases [6491ms]
+2025-05-19 16:23:47.6568 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 28 releases (from cache) [0ms]
+2025-05-19 16:25:49.8078 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [3ms]
+2025-05-19 16:25:49.8470 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [2ms]
+2025-05-19 16:26:09.3705 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [2ms]
+2025-05-19 16:26:09.4115 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [2ms]
+2025-05-19 16:26:31.5693 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Bao 2018 => Found 56 releases [10488ms]
+2025-05-19 16:26:31.6521 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Bao 2018 => Found 56 releases (from cache) [0ms]
+2025-05-19 16:28:18.0529 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases [8408ms]
+2025-05-19 16:28:18.1215 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-19 16:28:20.2984 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-19 16:28:20.3411 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-19 16:28:22.1507 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-19 16:28:22.1834 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-19 16:28:22.7678 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-19 16:28:22.8014 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-19 16:28:23.5117 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-19 16:28:23.5452 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-19 16:28:40.0494 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-19 16:28:40.0855 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-19 16:28:41.1589 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-19 16:28:41.1968 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-19 16:28:41.8246 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-19 16:28:41.8568 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-19 16:28:42.4072 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-19 16:28:42.4379 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-19 16:28:42.8716 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-19 16:28:42.9072 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-19 16:28:43.3048 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-19 16:28:43.3366 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-19 16:28:43.6781 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-19 16:28:43.7137 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-19 16:28:44.2079 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-19 16:28:44.2393 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-19 16:28:44.7077 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-19 16:28:44.7385 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-19 16:28:45.2319 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-19 16:28:45.2664 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-19 16:29:04.4358 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for The Adventures of André and Wally B. 1984 => Found 4 releases [6744ms]
+2025-05-19 16:29:04.5052 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for The Adventures of André and Wally B. 1984 => Found 4 releases (from cache) [0ms]
+2025-05-19 16:29:50.3662 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [2ms]
+2025-05-19 16:29:50.4021 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [2ms]
+2025-05-19 16:30:26.3930 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [1ms]
+2025-05-19 16:30:26.4375 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [1ms]
+2025-05-19 16:34:05.7934 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Minecraft Movie 2025 => Found 112 releases [7252ms]
+2025-05-19 16:34:05.8748 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Minecraft Movie 2025 => Found 112 releases (from cache) [1ms]
+2025-05-19 16:36:42.6347 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Minecraft Movie 2025 => Found 112 releases (from cache) [1ms]
+2025-05-19 16:36:42.6806 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Minecraft Movie 2025 => Found 112 releases (from cache) [1ms]
+2025-05-19 16:37:19.7931 Info Jackett stopped
+2025-05-19 16:38:24.7510 Info Starting Jackett v0.22.1921
+2025-05-19 16:38:25.0443 Info Environment version: 8.0.16 (/app/Jackett/)
+2025-05-19 16:38:25.0486 Info OS version: Unix 5.15.0.139 (64bit OS) (64bit process)
+2025-05-19 16:38:25.0486 Info Jackett variant: CoreLinuxMuslAmdx64
+2025-05-19 16:38:25.0486 Info File /etc/issue: Welcome to Alpine Linux 3.21
+2025-05-19 16:38:25.0486 Info Running in Docker: Yes (image build: v0.22.1921-ls33)
+2025-05-19 16:38:25.0486 Info ThreadPool MaxThreads: 32767 workerThreads, 1000 completionPortThreads
+2025-05-19 16:38:25.0486 Info App config/log directory: /config/Jackett
+2025-05-19 16:38:25.0523 Info Using proxy: Disabled
+2025-05-19 16:38:25.0523 Info Using FlareSolverr: No
+2025-05-19 16:38:25.0523 Info Using HTTP Client: HttpWebClient2
+2025-05-19 16:38:25.0523 Info Loading Native indexers ...
+2025-05-19 16:38:25.0693 Info Loaded 76 Native indexers.
+2025-05-19 16:38:25.0693 Info Loading Cardigann indexers from: /config/cardigann/definitions/, /etc/xdg/cardigan/definitions/, /app/Jackett/Definitions
+2025-05-19 16:38:26.3748 Info Loaded 530 Cardigann indexers.
+2025-05-19 16:38:26.3748 Info Loaded 606 indexers in total
+2025-05-19 16:38:26.3877 Info Adding aggregate indexer ('all' indexer) ...
+2025-05-19 16:38:26.3877 Info Adding filter indexer ('type:public' indexer) ...
+2025-05-19 16:38:26.3877 Info Adding filter indexer ('type:private' indexer) ...
+2025-05-19 16:38:26.3877 Info Adding filter indexer ('type:semi-public' indexer) ...
+2025-05-19 16:38:26.4721 Info Jackett startup finished in 1.872 s
+2025-05-19 16:58:13.3663 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases [7065ms]
+2025-05-19 16:58:13.4294 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [3ms]
+2025-05-19 16:59:33.9639 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases [7038ms]
+2025-05-19 16:59:33.9988 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-19 17:00:08.3464 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-19 17:00:08.3829 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-19 17:00:23.4739 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for For the Birds 2000 => Found 9 releases [7364ms]
+2025-05-19 17:00:23.5523 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for For the Birds 2000 => Found 9 releases (from cache) [0ms]
+2025-05-19 17:01:24.2875 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Knick Knack 1989 => Found 12 releases [6821ms]
+2025-05-19 17:01:24.4263 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Knick Knack 1989 => Found 12 releases (from cache) [0ms]
+2025-05-19 17:02:17.8100 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Knick Knack 1989 => Found 12 releases (from cache) [0ms]
+2025-05-19 17:02:17.8973 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Knick Knack 1989 => Found 12 releases (from cache) [1ms]
+2025-05-19 17:02:26.2150 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [7ms]
+2025-05-19 17:02:26.3143 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [4ms]
+2025-05-19 17:03:28.6096 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [6ms]
+2025-05-19 17:03:28.7034 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [6ms]
+2025-05-19 17:04:57.5569 Info Jackett stopped
+2025-05-19 17:06:36.1135 Info Starting Jackett v0.22.1921
+2025-05-19 17:06:36.4225 Info Environment version: 8.0.16 (/app/Jackett/)
+2025-05-19 17:06:36.4267 Info OS version: Unix 5.15.0.139 (64bit OS) (64bit process)
+2025-05-19 17:06:36.4283 Info Jackett variant: CoreLinuxMuslAmdx64
+2025-05-19 17:06:36.4283 Info File /etc/issue: Welcome to Alpine Linux 3.21
+2025-05-19 17:06:36.4283 Info Running in Docker: Yes (image build: v0.22.1921-ls33)
+2025-05-19 17:06:36.4283 Info ThreadPool MaxThreads: 32767 workerThreads, 1000 completionPortThreads
+2025-05-19 17:06:36.4283 Info App config/log directory: /config/Jackett
+2025-05-19 17:06:36.4283 Info Using proxy: Disabled
+2025-05-19 17:06:36.4283 Info Using FlareSolverr: No
+2025-05-19 17:06:36.4315 Info Using HTTP Client: HttpWebClient2
+2025-05-19 17:06:36.4315 Info Loading Native indexers ...
+2025-05-19 17:06:36.4478 Info Loaded 76 Native indexers.
+2025-05-19 17:06:36.4478 Info Loading Cardigann indexers from: /config/cardigann/definitions/, /etc/xdg/cardigan/definitions/, /app/Jackett/Definitions
+2025-05-19 17:06:37.6404 Info Loaded 530 Cardigann indexers.
+2025-05-19 17:06:37.6404 Info Loaded 606 indexers in total
+2025-05-19 17:06:37.6534 Info Adding aggregate indexer ('all' indexer) ...
+2025-05-19 17:06:37.6560 Info Adding filter indexer ('type:public' indexer) ...
+2025-05-19 17:06:37.6560 Info Adding filter indexer ('type:private' indexer) ...
+2025-05-19 17:06:37.6560 Info Adding filter indexer ('type:semi-public' indexer) ...
+2025-05-19 17:06:37.7416 Info Jackett startup finished in 1.790 s
+2025-05-19 17:07:37.7482 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Last Bullet 2025 => Found 44 releases [7058ms]
+2025-05-19 17:07:37.8962 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Last Bullet 2025 => Found 44 releases (from cache) [1ms]
+2025-05-19 17:08:10.7959 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for For the Birds 2000 => Found 9 releases [7209ms]
+2025-05-19 17:08:10.8292 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for For the Birds 2000 => Found 9 releases (from cache) [0ms]
+2025-05-19 17:08:23.9525 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Last Bullet 2025 => Found 44 releases (from cache) [2ms]
+2025-05-19 17:08:23.9861 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Last Bullet 2025 => Found 44 releases (from cache) [1ms]
+2025-05-19 17:10:41.7903 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases [6932ms]
+2025-05-19 17:10:41.8301 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [2ms]
+2025-05-19 17:12:18.4776 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Small Fry 2011 => Found 4 releases [7291ms]
+2025-05-19 17:12:18.5461 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Small Fry 2011 => Found 4 releases (from cache) [0ms]
+2025-05-19 17:13:19.5439 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Toy Story of Terror 2013 => Found 67 releases [6959ms]
+2025-05-19 17:13:19.6633 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Toy Story of Terror 2013 => Found 67 releases (from cache) [1ms]
+2025-05-19 17:13:45.6810 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Lava 2014 => Found 89 releases [7001ms]
+2025-05-19 17:13:45.7599 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Lava 2014 => Found 89 releases (from cache) [1ms]
+2025-05-19 17:14:43.1915 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for 22 vs. Earth 2021 => Found 24 releases [10185ms]
+2025-05-19 17:14:43.2647 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for 22 vs. Earth 2021 => Found 24 releases (from cache) [0ms]
+2025-05-19 17:15:23.0133 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for 22 vs. Earth 2021 => Found 24 releases (from cache) [0ms]
+2025-05-19 17:15:23.0457 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for 22 vs. Earth 2021 => Found 24 releases (from cache) [0ms]
+2025-05-19 17:15:33.2375 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [4ms]
+2025-05-19 17:15:33.4306 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [4ms]
+2025-05-19 17:25:19.5522 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [24ms]
+2025-05-19 17:25:19.6849 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [4ms]
+2025-05-19 17:25:22.1739 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [11ms]
+2025-05-19 17:25:22.2930 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [4ms]
+2025-05-19 17:34:33.1175 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [11ms]
+2025-05-19 17:34:33.2538 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 135 releases (from cache) [4ms]
+2025-05-19 17:35:53.5639 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 262 releases [8116ms]
+2025-05-19 17:37:20.5368 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Carl's Date 2023 => Found 8 releases [6889ms]
+2025-05-19 17:37:20.7288 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Carl's Date 2023 => Found 8 releases (from cache) [1ms]
+2025-05-19 17:41:28.7301 Info Jackett stopped
+2025-05-21 12:01:46.0526 Info Starting Jackett v0.22.1933
+2025-05-21 12:01:46.3357 Info Environment version: 8.0.16 (/app/Jackett/)
+2025-05-21 12:01:46.3399 Info OS version: Unix 5.15.0.140 (64bit OS) (64bit process)
+2025-05-21 12:01:46.3399 Info Jackett variant: CoreLinuxMuslAmdx64
+2025-05-21 12:01:46.3399 Info File /etc/issue: Welcome to Alpine Linux 3.21
+2025-05-21 12:01:46.3399 Info Running in Docker: Yes (image build: v0.22.1933-ls35)
+2025-05-21 12:01:46.3399 Info ThreadPool MaxThreads: 32767 workerThreads, 1000 completionPortThreads
+2025-05-21 12:01:46.3399 Info App config/log directory: /config/Jackett
+2025-05-21 12:01:46.3437 Info Using proxy: Disabled
+2025-05-21 12:01:46.3437 Info Using FlareSolverr: No
+2025-05-21 12:01:46.3437 Info Using HTTP Client: HttpWebClient2
+2025-05-21 12:01:46.3437 Info Loading Native indexers ...
+2025-05-21 12:01:46.3608 Info Loaded 77 Native indexers.
+2025-05-21 12:01:46.3608 Info Loading Cardigann indexers from: /config/cardigann/definitions/, /etc/xdg/cardigan/definitions/, /app/Jackett/Definitions
+2025-05-21 12:01:47.6693 Info Loaded 529 Cardigann indexers.
+2025-05-21 12:01:47.6693 Info Loaded 606 indexers in total
+2025-05-21 12:01:47.6836 Info Adding aggregate indexer ('all' indexer) ...
+2025-05-21 12:01:47.6836 Info Adding filter indexer ('type:public' indexer) ...
+2025-05-21 12:01:47.6836 Info Adding filter indexer ('type:private' indexer) ...
+2025-05-21 12:01:47.6836 Info Adding filter indexer ('type:semi-public' indexer) ...
+2025-05-21 12:01:47.7678 Info Jackett startup finished in 1.859 s
+2025-05-21 13:01:47.6910 Info Checking for updates... Jackett variant: CoreLinuxMuslAmdx64
+2025-05-21 13:01:47.9319 Info Jackett is already updated. Current version: v0.22.1933
+2025-05-21 13:10:51.5602 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 262 releases [8519ms]
+2025-05-21 13:42:39.1082 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Tin Toy 1988 => Found 3 releases [7562ms]
+2025-05-21 13:42:39.1758 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Tin Toy 1988 => Found 3 releases (from cache) [0ms]
+2025-05-21 13:43:29.3825 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Tin Toy 1988 => Found 3 releases (from cache) [0ms]
+2025-05-21 13:43:29.4193 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Tin Toy 1988 => Found 3 releases (from cache) [0ms]
+2025-05-21 13:43:49.2772 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Tin Toy 1988 => Found 3 releases (from cache) [0ms]
+2025-05-21 13:43:49.3111 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Tin Toy 1988 => Found 3 releases (from cache) [0ms]
+2025-05-21 13:43:54.6313 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Tin Toy 1988 => Found 3 releases (from cache) [0ms]
+2025-05-21 13:43:54.6689 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Tin Toy 1988 => Found 3 releases (from cache) [0ms]
+2025-05-21 13:48:04.9257 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Tin Toy 1988 => Found 3 releases (from cache) [0ms]
+2025-05-21 13:48:04.9641 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Tin Toy 1988 => Found 3 releases (from cache) [0ms]
+2025-05-21 13:50:34.7618 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for tin toy => Found 3 releases [8149ms]
+2025-05-21 13:54:37.1614 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Tin Toy 1988 => Found 3 releases (from cache) [0ms]
+2025-05-21 13:54:37.1970 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Tin Toy 1988 => Found 3 releases (from cache) [0ms]
+2025-05-21 13:54:40.9369 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Tin Toy 1988 => Found 3 releases (from cache) [0ms]
+2025-05-21 13:54:40.9929 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Tin Toy 1988 => Found 3 releases (from cache) [0ms]
+2025-05-21 13:55:33.4639 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Tin Toy 1988 => Found 3 releases (from cache) [0ms]
+2025-05-21 13:55:33.4989 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Tin Toy 1988 => Found 3 releases (from cache) [0ms]
+2025-05-21 13:55:58.3791 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Tin Toy 1988 => Found 3 releases (from cache) [0ms]
+2025-05-21 13:55:58.4113 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Tin Toy 1988 => Found 3 releases (from cache) [0ms]
+2025-05-21 13:56:23.4756 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 262 releases [7437ms]
+2025-05-21 13:56:23.5198 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 262 releases (from cache) [3ms]
+2025-05-21 13:57:15.2570 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Tin Toy 1988 => Found 3 releases (from cache) [0ms]
+2025-05-21 13:57:15.2907 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Tin Toy 1988 => Found 3 releases (from cache) [0ms]
+2025-05-21 13:57:40.1200 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Tin Toy 1988 => Found 3 releases (from cache) [0ms]
+2025-05-21 13:57:40.1543 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Tin Toy 1988 => Found 3 releases (from cache) [0ms]
+2025-05-21 13:57:57.4472 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Tin Toy 1988 => Found 3 releases (from cache) [0ms]
+2025-05-21 13:57:57.4905 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Tin Toy 1988 => Found 3 releases (from cache) [0ms]
+2025-05-21 13:59:42.5232 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Cars Toon Mater's Tall Tales 2010 => Found 4 releases [7305ms]
+2025-05-21 13:59:42.6828 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Cars Toon Mater's Tall Tales 2010 => Found 4 releases (from cache) [0ms]
+2025-05-21 13:59:45.4983 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Cars Toon Mater's Tall Tales 2010 => Found 4 releases (from cache) [0ms]
+2025-05-21 13:59:45.5376 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Cars Toon Mater's Tall Tales 2010 => Found 4 releases (from cache) [0ms]
+2025-05-21 13:59:46.6308 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Cars Toon Mater's Tall Tales 2010 => Found 4 releases (from cache) [0ms]
+2025-05-21 13:59:46.6782 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Cars Toon Mater's Tall Tales 2010 => Found 4 releases (from cache) [0ms]
+2025-05-21 13:59:47.2145 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Cars Toon Mater's Tall Tales 2010 => Found 4 releases (from cache) [0ms]
+2025-05-21 13:59:47.2474 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Cars Toon Mater's Tall Tales 2010 => Found 4 releases (from cache) [0ms]
+2025-05-21 13:59:47.7863 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Cars Toon Mater's Tall Tales 2010 => Found 4 releases (from cache) [0ms]
+2025-05-21 13:59:47.8195 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Cars Toon Mater's Tall Tales 2010 => Found 4 releases (from cache) [0ms]
+2025-05-21 14:00:00.1328 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Minecraft Movie 2025 => Found 122 releases [6601ms]
+2025-05-21 14:00:00.1736 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Minecraft Movie 2025 => Found 122 releases (from cache) [1ms]
+2025-05-21 14:00:34.8592 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases [6678ms]
+2025-05-21 14:00:34.9706 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-21 14:00:37.1581 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-21 14:00:37.1969 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Geri's Game 1997 => Found 0 releases (from cache) [0ms]
+2025-05-21 14:00:44.7574 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Tin Toy 1988 => Found 3 releases (from cache) [0ms]
+2025-05-21 14:00:44.7942 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Tin Toy 1988 => Found 3 releases (from cache) [0ms]
+2025-05-21 14:01:09.5698 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Tin Toy 1988 => Found 3 releases (from cache) [0ms]
+2025-05-21 14:01:09.6107 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Tin Toy 1988 => Found 3 releases (from cache) [0ms]
+2025-05-21 14:01:56.3678 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for The Adventures of André and Wally B. 1984 => Found 4 releases [7092ms]
+2025-05-21 14:01:56.3985 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for The Adventures of André and Wally B. 1984 => Found 4 releases (from cache) [0ms]
+2025-05-21 14:02:38.6618 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for For the Birds 2000 => Found 9 releases [7116ms]
+2025-05-21 14:02:38.6957 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for For the Birds 2000 => Found 9 releases (from cache) [0ms]
+2025-05-21 14:03:12.9560 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for For the Birds 2000 => Found 9 releases (from cache) [0ms]
+2025-05-21 14:03:12.9951 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for For the Birds 2000 => Found 9 releases (from cache) [0ms]
+2025-05-21 14:03:42.8522 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Bao 2018 => Found 56 releases [8105ms]
+2025-05-21 14:03:42.8872 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Bao 2018 => Found 56 releases (from cache) [0ms]
+2025-05-21 14:06:20.4387 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for For the Birds 2000 => Found 9 releases (from cache) [0ms]
+2025-05-21 14:06:20.4710 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for For the Birds 2000 => Found 9 releases (from cache) [0ms]
+2025-05-21 14:06:23.5711 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for For the Birds 2000 => Found 9 releases (from cache) [0ms]
+2025-05-21 14:06:23.6086 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for For the Birds 2000 => Found 9 releases (from cache) [0ms]
+2025-05-21 14:14:42.3153 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 262 releases (from cache) [2ms]
+2025-05-21 14:14:42.4124 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 262 releases (from cache) [3ms]
+2025-05-21 14:16:45.4291 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for For the Birds 2000 => Found 9 releases (from cache) [0ms]
+2025-05-21 14:16:45.4606 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for For the Birds 2000 => Found 9 releases (from cache) [0ms]
+2025-05-21 14:18:43.2832 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 262 releases (from cache) [2ms]
+2025-05-21 14:18:43.3306 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 262 releases (from cache) [3ms]
+2025-05-21 14:22:34.9119 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 262 releases (from cache) [3ms]
+2025-05-21 14:22:34.9595 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 262 releases (from cache) [2ms]
+2025-05-21 14:34:48.7962 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Tin Toy 1988 => Found 3 releases [7092ms]
+2025-05-21 14:34:48.8465 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Tin Toy 1988 => Found 3 releases (from cache) [0ms]
+2025-05-21 14:38:00.0320 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Tin Toy 1988 => Found 3 releases (from cache) [0ms]
+2025-05-21 14:38:00.0716 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Tin Toy 1988 => Found 3 releases (from cache) [0ms]
+2025-05-21 14:40:23.1264 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 262 releases [8005ms]
+2025-05-21 14:40:35.2007 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 139 releases [6774ms]
+2025-05-21 14:40:35.2618 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Working Man 2025 => Found 139 releases (from cache) [1ms]
+2025-05-21 14:54:15.2188 Info Jackett stopped
+2025-05-21 14:55:33.8846 Info Starting Jackett v0.22.1933
+2025-05-21 14:55:34.2059 Info Environment version: 8.0.16 (/app/Jackett/)
+2025-05-21 14:55:34.2103 Info OS version: Unix 5.15.0.140 (64bit OS) (64bit process)
+2025-05-21 14:55:34.2118 Info Jackett variant: CoreLinuxMuslAmdx64
+2025-05-21 14:55:34.2118 Info File /etc/issue: Welcome to Alpine Linux 3.21
+2025-05-21 14:55:34.2118 Info Running in Docker: Yes (image build: v0.22.1933-ls35)
+2025-05-21 14:55:34.2118 Info ThreadPool MaxThreads: 32767 workerThreads, 1000 completionPortThreads
+2025-05-21 14:55:34.2118 Info App config/log directory: /config/Jackett
+2025-05-21 14:55:34.2118 Info Using proxy: Disabled
+2025-05-21 14:55:34.2118 Info Using FlareSolverr: No
+2025-05-21 14:55:34.2118 Info Using HTTP Client: HttpWebClient2
+2025-05-21 14:55:34.2167 Info Loading Native indexers ...
+2025-05-21 14:55:34.2318 Info Loaded 77 Native indexers.
+2025-05-21 14:55:34.2318 Info Loading Cardigann indexers from: /config/cardigann/definitions/, /etc/xdg/cardigan/definitions/, /app/Jackett/Definitions
+2025-05-21 14:55:35.7048 Info Loaded 529 Cardigann indexers.
+2025-05-21 14:55:35.7048 Info Loaded 606 indexers in total
+2025-05-21 14:55:35.7178 Info Adding aggregate indexer ('all' indexer) ...
+2025-05-21 14:55:35.7207 Info Adding filter indexer ('type:public' indexer) ...
+2025-05-21 14:55:35.7207 Info Adding filter indexer ('type:private' indexer) ...
+2025-05-21 14:55:35.7207 Info Adding filter indexer ('type:semi-public' indexer) ...
+2025-05-21 14:55:35.8033 Info Jackett startup finished in 2.055 s
+2025-05-21 14:56:21.9262 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 262 releases [8681ms]
+2025-05-21 14:56:47.6427 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Cars Toon Mater's Tall Tales 2010 => Found 4 releases [7116ms]
+2025-05-21 14:56:47.6826 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Cars Toon Mater's Tall Tales 2010 => Found 4 releases (from cache) [0ms]
+2025-05-21 14:57:36.5407 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mater and the Ghostlight 2006 => Found 4 releases [6910ms]
+2025-05-21 14:57:36.6212 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mater and the Ghostlight 2006 => Found 4 releases (from cache) [0ms]
+2025-05-21 14:59:46.3066 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Minecraft Movie 2025 => Found 123 releases [6831ms]
+2025-05-21 14:59:46.3508 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Minecraft Movie 2025 => Found 123 releases (from cache) [2ms]
+2025-05-21 15:00:49.1810 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Minecraft Movie 2025 => Found 123 releases (from cache) [2ms]
+2025-05-21 15:00:49.2370 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for A Minecraft Movie 2025 => Found 123 releases (from cache) [2ms]
+2025-05-21 15:00:58.3335 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mater and the Ghostlight 2006 => Found 4 releases (from cache) [0ms]
+2025-05-21 15:00:58.3651 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mater and the Ghostlight 2006 => Found 4 releases (from cache) [0ms]
+2025-05-21 15:01:02.1964 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mater and the Ghostlight 2006 => Found 4 releases (from cache) [0ms]
+2025-05-21 15:01:02.2355 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mater and the Ghostlight 2006 => Found 4 releases (from cache) [0ms]
+2025-05-21 15:01:03.2870 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mater and the Ghostlight 2006 => Found 4 releases (from cache) [0ms]
+2025-05-21 15:01:03.3216 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mater and the Ghostlight 2006 => Found 4 releases (from cache) [0ms]
+2025-05-21 15:01:04.1673 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mater and the Ghostlight 2006 => Found 4 releases (from cache) [0ms]
+2025-05-21 15:01:04.2004 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mater and the Ghostlight 2006 => Found 4 releases (from cache) [0ms]
+2025-05-21 15:01:37.1330 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars: Episode III - Revenge of the Sith 2005 => Found 174 releases [10247ms]
+2025-05-21 15:01:37.1942 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars: Episode III - Revenge of the Sith 2005 => Found 174 releases (from cache) [2ms]
+2025-05-21 15:02:12.0491 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars: Episode III - Revenge of the Sith 2005 => Found 174 releases (from cache) [6ms]
+2025-05-21 15:02:12.0947 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars: Episode III - Revenge of the Sith 2005 => Found 174 releases (from cache) [3ms]
+2025-05-21 15:02:30.0855 Info Jackett stopped

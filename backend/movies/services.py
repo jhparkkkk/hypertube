@@ -27,7 +27,7 @@ class TMDBService:
         """Get popular movies from TMDB"""
         try:
             url = f"{cls.BASE_URL}/movie/popular"
-            params = {"language": language, "page": page}
+            params = {"language": language, "page": page, "include_adult": False}
             response = requests.get(url, params=params, headers=cls.get_headers())
             response.raise_for_status()
             return response.json()
@@ -40,7 +40,7 @@ class TMDBService:
         """Search for movies by query"""
         try:
             url = f"{cls.BASE_URL}/search/movie"
-            params = {"language": language, "query": query, "page": page}
+            params = {"language": language, "query": query, "page": page, "include_adult": False}
             response = requests.get(url, params=params, headers=cls.get_headers())
             response.raise_for_status()
             return response.json()
@@ -55,11 +55,52 @@ class TMDBService:
             url = f"{cls.BASE_URL}/movie/{movie_id}"
             params = {
                 "language": language,
-                "append_to_response": "credits,videos,images,similar",
+                "append_to_response": "credits,videos,images,similar,translations",
             }
             response = requests.get(url, params=params, headers=cls.get_headers())
             response.raise_for_status()
-            return response.json()
+            movie_data = response.json()
+
+            subtitles = []
+            if "translations" in movie_data:
+                subtitles = [
+                    {"language_code": trans["iso_639_1"], "language_name": trans["english_name"], "name": trans["name"]}
+                    for trans in movie_data.get("translations", {}).get("translations", [])
+                ]
+
+            defaults = {
+                "adult": False,
+                "backdrop_path": None,
+                "belongs_to_collection": None,
+                "budget": 0,
+                "genres": [],
+                "homepage": None,
+                "id": 0,
+                "imdb_id": None,
+                "original_language": None,
+                "original_title": None,
+                "overview": None,
+                "popularity": 0,
+                "poster_path": None,
+                "production_companies": [],
+                "production_countries": [],
+                "release_date": None,
+                "revenue": 0,
+                "runtime": 0,
+                "spoken_languages": [],
+                "status": None,
+                "tagline": None,
+                "title": None,
+                "video": False,
+                "vote_average": 0,
+                "vote_count": 0,
+                "available_subtitles": subtitles,
+                "comments_count": 0,  # This should be updated from your comments database
+            }
+
+            movie_data = {**defaults, **movie_data}
+            return movie_data
+
         except Exception as e:
             logger.error(f"Error fetching movie details: {str(e)}")
             return {}
