@@ -109,12 +109,45 @@ def process_video_thread(video_id):
             movie_file.file_path = downloaded_path
             movie_file.save()
 
+            # Initialize video service for conversion
+            video_service = VideoService()
+            conversion_started = False
+            conversion_thread = None
+            conversion_error = False
+
+            def convert_video():
+                try:
+                    converted_path = video_service.convert_to_mp4(downloaded_path)
+                    movie_file.file_path = converted_path
+                    movie_file.save()
+                except Exception as e:
+                    nonlocal conversion_error
+                    conversion_error = True
+                    logging.error(f"Error converting video: {e}")
+                    movie_file.download_status = "ERROR"
+                    movie_file.save()
+
             while True:
                 status = handle.status()
                 progress = status.progress * 100
                 movie_file.download_progress = progress
-                movie_file.save()
+                
+                # Start conversion when download is at least 20% complete
+                if not conversion_started and progress >= 20 and os.path.exists(downloaded_path):
+                    conversion_started = True
+                    movie_file.download_status = "DL_AND_CONVERT"
+                    movie_file.save()
 
+                    # Start conversion in a separate thread
+                    conversion_thread = threading.Thread(target=convert_video)
+                    conversion_thread.daemon = True  # Make thread daemon so it doesn't block program exit
+                    conversion_thread.start()
+                
+                # Update status based on both download and conversion progress
+                if conversion_started and not conversion_error:
+                    movie_file.download_status = "DL_AND_CONVERT"
+                
+                movie_file.save()
                 logging.info(f"Download progress: {progress:.2f}%")
 
                 if status.is_seeding:
@@ -122,26 +155,15 @@ def process_video_thread(video_id):
 
                 time.sleep(1)
 
-            # Initialize video service
-            video_service = VideoService()
-
-            # If it's not an MP4, convert it
-            if not video_service.is_mp4(downloaded_path):
+            # Wait for conversion to complete if it's still running
+            if conversion_thread and conversion_thread.is_alive():
                 movie_file.download_status = "CONVERTING"
                 movie_file.save()
+                conversion_thread.join()
 
-                try:
-                    # Convert to MP4
-                    converted_path = video_service.convert_to_mp4(downloaded_path)
-                    movie_file.file_path = converted_path
-                except Exception as e:
-                    logging.error(f"Error converting video: {e}")
-                    movie_file.download_status = "ERROR"
-                    movie_file.save()
-                    return
-
-            movie_file.download_status = "READY"
-            movie_file.save()
+            if not conversion_error and movie_file.download_status != "ERROR":
+                movie_file.download_status = "READY"
+                movie_file.save()
 
     except Exception as e:
         logging.error(f"Error processing video {video_id}: {str(e)}")
