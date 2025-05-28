@@ -23,21 +23,16 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movieId, magnet }) => {
 
   const checkStatus = async () => {
     try {
-    //   console.log('Checking movie status...');
       const response = await api.get<MovieStatus>(`/video/${movieId}/status/`);
-    //   console.log('Status response:', response.data);
       setStatusData(response.data);
       
-      if (response.data.status === 'READY' || response.data.ready) {
-        // console.log('Movie is ready, setting file path:', response.data.file_path);
+      if (response.data.status === 'READY' || response.data.status === 'PLAYABLE' || response.data.ready) {
         setFilePath(response.data.file_path);
         setLoading(false);
       } else if (!response.data.downloading && !response.data.ready) {
-        // console.log('Starting download...');
         await api.post(`/video/${movieId}/start/`, { magnet_link: magnet });
       }
     } catch (err) {
-      // console.error('Error checking movie status:', err);
       setError(`Failed to check movie status: ${err instanceof Error ? err.message : 'Unknown error'}`);
       setLoading(false);
     }
@@ -50,15 +45,7 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movieId, magnet }) => {
   }, [movieId, magnet]);
 
   const handleError = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
-    // console.error('Video player error:', e);
     const videoElement = e.target as HTMLVideoElement;
-    // console.error('Video error details:', {
-    //   error: videoElement.error?.message || videoElement.error,
-    //   networkState: videoElement.networkState,
-    //   readyState: videoElement.readyState,
-    //   currentSrc: videoElement.currentSrc,
-    //   currentTime: videoElement.currentTime
-    // });
     setError('Failed to load video. Please try refreshing the page.');
     setLoading(false);
   };
@@ -80,9 +67,21 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movieId, magnet }) => {
 
   const handleLoadedMetadata = () => {
     if (videoRef.current && !isPlaying) {
-      // Start playing when metadata is loaded
       videoRef.current.play().catch(console.error);
     }
+  };
+
+  const getStatusMessage = () => {
+    if (!statusData) return 'Checking status...';
+    
+    const status = statusData.status || (statusData.downloading ? 'Downloading' : statusData.ready ? 'Ready' : 'Preparing');
+    const progress = statusData.progress ? ` (${Math.round(statusData.progress)}%)` : '';
+    
+    if (status === 'PLAYABLE') {
+      return `Loading first segment... Rest of the movie will continue downloading${progress}`;
+    }
+    
+    return `Status: ${status}${progress}`;
   };
 
   if (loading) {
@@ -90,9 +89,7 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movieId, magnet }) => {
       <Box sx={moviePlayerStyles.loadingContainer}>
         <CircularProgress />
         <Typography>
-          {statusData ? 
-            `Status: ${statusData.status || (statusData.downloading ? 'Downloading' : statusData.ready ? 'Ready' : 'Preparing')} ${statusData.progress ? `(${Math.round(statusData.progress)}%)` : ''}`
-            : 'Checking status...'}
+          {getStatusMessage()}
         </Typography>
       </Box>
     );
@@ -131,6 +128,11 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movieId, magnet }) => {
       >
         Your browser does not support the video tag.
       </video>
+      {statusData?.status === 'PLAYABLE' && (
+        <Typography variant="body2" sx={{ mt: 1, textAlign: 'center', color: 'text.secondary' }}>
+          First segment ready. Continuing to download the rest of the movie...
+        </Typography>
+      )}
     </Box>
   );
 };

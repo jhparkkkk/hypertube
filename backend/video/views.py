@@ -82,10 +82,11 @@ def process_video_thread(video_id):
         movie_file.download_status = "DOWNLOADING"
         movie_file.save()
 
-        os.makedirs("/app/downloads", exist_ok=True)
-        logging.info(f"Using download path: /app/downloads")
+        downloads_dir = "/app/downloads"
+        os.makedirs(downloads_dir, exist_ok=True)
+        logging.info(f"Using download path: {downloads_dir}")
 
-        handle_id = torrent_manager.add_torrent(movie_file.magnet_link, "/app/downloads")
+        handle_id = torrent_manager.add_torrent(movie_file.magnet_link, downloads_dir)
         handle = torrent_manager.get_handle(handle_id)
         handle_lock = torrent_manager.get_handle_lock(handle_id)
 
@@ -102,51 +103,66 @@ def process_video_thread(video_id):
 
             torrent_info = handle.get_torrent_info()
             largest_file = max(torrent_info.files(), key=lambda f: f.size)
-            downloaded_path = os.path.join("/app/downloads", largest_file.path)
+            original_filename = os.path.basename(largest_file.path)
+            downloaded_path = os.path.join(downloads_dir, original_filename)
 
             os.makedirs(os.path.dirname(downloaded_path), exist_ok=True)
 
-            movie_file.file_path = downloaded_path
+            movie_file.file_path = original_filename
             movie_file.save()
 
-            # Initialize video service for conversion
             video_service = VideoService()
             conversion_started = False
-            conversion_thread = None
-            conversion_error = False
-
-            def convert_video():
-                try:
-                    converted_path = video_service.convert_to_mp4(downloaded_path)
-                    movie_file.file_path = converted_path
-                    movie_file.save()
-                except Exception as e:
-                    nonlocal conversion_error
-                    conversion_error = True
-                    logging.error(f"Error converting video: {e}")
-                    movie_file.download_status = "ERROR"
-                    movie_file.save()
+            current_segment = 0
+            video_duration = None
+            first_segment_ready = False
 
             while True:
                 status = handle.status()
                 progress = status.progress * 100
                 movie_file.download_progress = progress
                 
-                # Start conversion when download is at least 20% complete
                 if not conversion_started and progress >= 20 and os.path.exists(downloaded_path):
                     conversion_started = True
                     movie_file.download_status = "DL_AND_CONVERT"
                     movie_file.save()
 
-                    # Start conversion in a separate thread
-                    conversion_thread = threading.Thread(target=convert_video)
-                    conversion_thread.daemon = True  # Make thread daemon so it doesn't block program exit
-                    conversion_thread.start()
-                
-                # Update status based on both download and conversion progress
-                if conversion_started and not conversion_error:
-                    movie_file.download_status = "DL_AND_CONVERT"
-                
+                    video_duration = video_service.get_video_duration(downloaded_path)
+                    if not video_duration:
+                        logging.error("Could not determine video duration")
+                        movie_file.download_status = "ERROR"
+                        movie_file.save()
+                        return
+
+                if conversion_started and video_duration:
+                    segment_start_time = current_segment * video_service.segment_duration
+                    required_progress = (segment_start_time + video_service.segment_duration) / video_duration * 100
+                    required_progress = min(required_progress + 15, 100)
+
+                    if progress >= required_progress:
+                        try:
+                            if current_segment not in video_service.processed_segments:
+                                success = video_service.convert_segment(
+                                    downloaded_path,
+                                    downloads_dir,
+                                    current_segment,
+                                    video_duration
+                                )
+                                if success:
+                                    current_segment += 1
+                                    if current_segment == 1:
+                                        base_name = os.path.splitext(original_filename)[0]
+                                        first_segment = f"{base_name}_segment_000.mp4"
+                                        movie_file.file_path = first_segment
+                                        movie_file.download_status = "PLAYABLE"
+                                        first_segment_ready = True
+                                        movie_file.save()
+                                        logging.info("First segment ready, movie is now playable")
+                        except Exception as e:
+                            logging.error(f"Error converting segment {current_segment}: {e}")
+                            if video_service.segment_retry_count.get(current_segment, 0) >= video_service.max_retries:
+                                current_segment += 1
+
                 movie_file.save()
                 logging.info(f"Download progress: {progress:.2f}%")
 
@@ -155,15 +171,34 @@ def process_video_thread(video_id):
 
                 time.sleep(1)
 
-            # Wait for conversion to complete if it's still running
-            if conversion_thread and conversion_thread.is_alive():
-                movie_file.download_status = "CONVERTING"
-                movie_file.save()
-                conversion_thread.join()
+            if video_duration:
+                remaining_segments = int(video_duration / video_service.segment_duration) + 1
+                while current_segment < remaining_segments:
+                    try:
+                        if current_segment not in video_service.processed_segments:
+                            success = video_service.convert_segment(
+                                downloaded_path,
+                                downloads_dir,
+                                current_segment,
+                                video_duration
+                            )
+                            if success:
+                                current_segment += 1
+                            elif video_service.segment_retry_count.get(current_segment, 0) >= video_service.max_retries:
+                                current_segment += 1
+                    except Exception as e:
+                        logging.error(f"Error converting final segments: {e}")
+                        if video_service.segment_retry_count.get(current_segment, 0) >= video_service.max_retries:
+                            current_segment += 1
+                    time.sleep(1)
 
-            if not conversion_error and movie_file.download_status != "ERROR":
+            if not video_service.failed_segments:
                 movie_file.download_status = "READY"
-                movie_file.save()
+            else:
+                if not first_segment_ready:
+                    movie_file.download_status = "ERROR"
+                logging.error(f"Failed segments: {sorted(list(video_service.failed_segments))}")
+            movie_file.save()
 
     except Exception as e:
         logging.error(f"Error processing video {video_id}: {str(e)}")
@@ -225,31 +260,26 @@ class VideoViewSet(viewsets.ViewSet):
         try:
             movie_file = MovieFile.objects.get(tmdb_id=pk)
 
-            if movie_file.download_status != "READY":
+            if movie_file.download_status not in ["READY", "PLAYABLE"]:
                 return Response(
                     {"error": f"Movie is not ready for streaming (status: {movie_file.download_status})"},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
-            if not os.path.exists(movie_file.file_path):
+            file_path = os.path.join("/app/downloads", movie_file.file_path)
+            if not os.path.exists(file_path):
                 return Response({"error": "Video file not found"}, status=status.HTTP_404_NOT_FOUND)
 
-            # Initialize streaming service
             video_service = VideoService()
 
-            # Get range header and start time
             range_header = request.META.get("HTTP_RANGE", "").strip()
             start_time = float(request.query_params.get("start", 0))
 
-            # Stream the video
             response = video_service.stream_video(
-                file_path=movie_file.file_path, range_header=range_header, start_time=start_time
+                file_path=file_path,
+                range_header=range_header,
+                start_time=start_time
             )
-
-            # Add CORS headers
-            response["Access-Control-Allow-Origin"] = "*"
-            response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
-            response["Access-Control-Allow-Headers"] = "Range"
 
             return response
 
