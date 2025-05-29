@@ -1,17 +1,17 @@
 import logging
 import os
-import subprocess
 from typing import Optional, Union
 from django.http import StreamingHttpResponse, FileResponse
 import re
 import time
+import ffmpeg
 
 range_re = re.compile(r"bytes\s*=\s*(\d+)\s*-\s*(\d*)", re.I)
 
 
 class VideoService:
     def __init__(self):
-        self.segment_duration = 600  # 10 minutes in seconds
+        self.segment_duration = 10  # 10 seconds
         self.processed_segments = set()
         self.failed_segments = set()
         self.segment_retry_count = {}
@@ -22,43 +22,60 @@ class VideoService:
     def get_video_duration(self, video_path: str) -> Optional[float]:
         """Get video duration using ffprobe."""
         try:
-            cmd = ["ffprobe", "-v", "quiet", "-show_entries", "format=duration", "-of", "csv=p=0", video_path]
-            result = subprocess.run(cmd, capture_output=True, text=True)
-            return float(result.stdout.strip())
-        except (subprocess.SubprocessError, ValueError, OSError) as e:
+            probe = ffmpeg.probe(video_path)
+            return float(probe['format']['duration'])
+        except ffmpeg.Error as e:
+            logging.error(f"Error getting video duration: {e.stderr.decode()}")
+            return None
+        except Exception as e:
             logging.error(f"Error getting video duration: {e}")
             return None
 
-    def convert_segment(self, input_path: str, output_dir: str, current_segment: int, video_duration: float) -> bool:
-        """Convert a single segment of the video."""
-        start_time = current_segment * self.segment_duration
-        file_name = os.path.basename(input_path)
-        segment_name = f"{os.path.splitext(file_name)[0]}_segment_{current_segment:03d}.mp4"
-        segment_path = os.path.join(output_dir, segment_name)
+    def is_web_compatible_mp4(self, input_path: str) -> bool:
+        """Check if the MP4 file is already web-compatible."""
+        try:
+            probe = ffmpeg.probe(input_path)
+            format_name = probe['format']['format_name']
+            
+            # Check if it's an MP4 container
+            if 'mp4' not in format_name.lower():
+                return False
 
-        # Format time for ffmpeg (HH:MM:SS)
-        start_time_str = f"{start_time // 3600:02.0f}:{(start_time % 3600) // 60:02.0f}:{start_time % 60:02.0f}"
-        duration_str = f"{min(self.segment_duration, video_duration - start_time)}"
+            # Check video codec
+            video_stream = next((stream for stream in probe['streams'] if stream['codec_type'] == 'video'), None)
+            if not video_stream or video_stream['codec_name'] not in ['h264', 'avc1']:
+                return False
+
+            # Check audio codec
+            audio_stream = next((stream for stream in probe['streams'] if stream['codec_type'] == 'audio'), None)
+            if not audio_stream or audio_stream['codec_name'] not in ['aac']:
+                return False
+
+            return True
+        except Exception as e:
+            logging.error(f"Error checking MP4 compatibility: {e}")
+            return False
+
+    def convert_segment(self, input_path: str, output_dir: str, current_segment: int, video_duration: float) -> bool:
+        """Convert a single segment of the video to web-compatible format."""
+        start_time = current_segment * self.segment_duration
+        
+        # Get relative path structure from input_path
+        rel_path = os.path.relpath(input_path, output_dir)
+        dir_path = os.path.dirname(rel_path)
+        file_name = os.path.basename(rel_path)
+        
+        # Create segment name preserving directory structure
+        segment_name = f"{os.path.splitext(file_name)[0]}_segment_{current_segment:03d}.mp4"
+        if dir_path and dir_path != '.':
+            segment_path = os.path.join(output_dir, dir_path, segment_name)
+            # Ensure the subdirectory exists
+            os.makedirs(os.path.dirname(segment_path), exist_ok=True)
+        else:
+            segment_path = os.path.join(output_dir, segment_name)
 
         # Record attempt time
         self.segment_last_attempt[current_segment] = time.time()
-
-        # Use ffmpeg to convert the segment (stream copy for speed)
-        ffmpeg_cmd = [
-            "ffmpeg",
-            "-i",
-            input_path,
-            "-ss",
-            start_time_str,
-            "-t",
-            duration_str,
-            "-c",
-            "copy",  # Copy streams without re-encoding
-            "-avoid_negative_ts",
-            "make_zero",
-            "-y",  # Overwrite output file
-            segment_path,
-        ]
 
         try:
             retry_info = (
@@ -67,22 +84,64 @@ class VideoService:
                 else ""
             )
             logging.info(f"Converting segment {current_segment}{retry_info}...")
-            result = subprocess.run(ffmpeg_cmd, capture_output=True, text=True)
 
-            if result.returncode == 0:
-                logging.info(
-                    f"✓ Converted segment {current_segment}: {segment_name} ({start_time_str} - {duration_str}s)"
+            # Check if input is already a web-compatible MP4
+            is_compatible = self.is_web_compatible_mp4(input_path)
+            
+            if is_compatible:
+                # For compatible MP4s, just copy the stream without re-encoding
+                stream = (
+                    ffmpeg
+                    .input(input_path, ss=start_time, t=min(self.segment_duration, video_duration - start_time))
+                    .output(
+                        segment_path,
+                        c='copy',  # Copy streams without re-encoding
+                        movflags='frag_keyframe+empty_moov'  # Optimize for web streaming
+                    )
+                    .overwrite_output()
                 )
-                self.processed_segments.add(current_segment)
-                return True
             else:
-                error_msg = result.stderr.strip()
-                logging.error(f"FFmpeg error for segment {current_segment}: {error_msg}")
-                self.segment_retry_count[current_segment] = self.segment_retry_count.get(current_segment, 0) + 1
-                logging.error(
-                    f"✗ Error converting segment {current_segment} (attempt {self.segment_retry_count[current_segment]}/{self.max_retries})"
+                # For other formats, convert to web-compatible format
+                stream = (
+                    ffmpeg
+                    .input(input_path, ss=start_time, t=min(self.segment_duration, video_duration - start_time))
+                    .output(
+                        segment_path,
+                        format='mp4',
+                        preset='ultrafast',
+                        movflags='frag_keyframe+empty_moov'
+                    )
+                    .overwrite_output()
                 )
+
+            # Run ffmpeg
+            stream.run(capture_stdout=True, capture_stderr=True)
+
+            # Verify the output file exists and is valid
+            if os.path.exists(segment_path) and os.path.getsize(segment_path) > 0:
+                try:
+                    ffmpeg.probe(segment_path)
+                    logging.info(f"✓ {'Copied' if is_compatible else 'Converted'} segment {current_segment}: {segment_path}")
+                    self.processed_segments.add(current_segment)
+                    return True
+                except ffmpeg.Error as e:
+                    logging.error(f"Invalid output file for segment {current_segment}: {e.stderr.decode()}")
+                    if os.path.exists(segment_path):
+                        os.remove(segment_path)
+                    return False
+            else:
+                logging.error(f"Output file not created for segment {current_segment}")
                 return False
+
+        except ffmpeg.Error as e:
+            error_msg = e.stderr.decode() if hasattr(e, 'stderr') else str(e)
+            logging.error(f"FFmpeg error for segment {current_segment}: {error_msg}")
+            self.segment_retry_count[current_segment] = self.segment_retry_count.get(current_segment, 0) + 1
+            logging.error(
+                f"✗ Error {'copying' if is_compatible else 'converting'} segment {current_segment} "
+                f"(attempt {self.segment_retry_count[current_segment]}/{self.max_retries})"
+            )
+            return False
         except Exception as e:
             logging.error(f"Exception during segment {current_segment} conversion: {e}")
             self.segment_retry_count[current_segment] = self.segment_retry_count.get(current_segment, 0) + 1
@@ -97,7 +156,8 @@ class VideoService:
         video_duration = self.get_video_duration(input_path)
         if not video_duration:
             raise Exception("Could not determine video duration")
-
+        if not os.path.exists(input_path):
+            raise Exception("Input file not found")
         while (current_segment * self.segment_duration) < video_duration:
             # Check cooldown period for retries
             last_attempt_time = self.segment_last_attempt.get(current_segment, 0)
@@ -130,99 +190,76 @@ class VideoService:
     def stream_video(self, file_path: str, range_header: str = "", start_time: float = 0) -> Union[StreamingHttpResponse, FileResponse]:
         """Stream video content with support for range requests and segment switching."""
         try:
-            # Always try to use segment_000 for initial playback
-            base_path = os.path.splitext(file_path)[0]
-            if "_segment_" in base_path:
-                base_path = base_path.rsplit("_segment_", 1)[0]
-            
-            # For initial playback or explicit start_time of 0, use first segment
-            if start_time == 0:
-                segment_path = f"{base_path}_segment_000.mp4"
-                if not os.path.exists(segment_path):
-                    raise FileNotFoundError(f"Initial segment not found: {segment_path}")
-            else:
-                # Calculate which segment to use based on start_time
-                segment_number = int(start_time / self.segment_duration)
-                segment_path = f"{base_path}_segment_{segment_number:03d}.mp4"
-                
-                # If segment doesn't exist, try to use the last available segment
-                if not os.path.exists(segment_path):
-                    # Find the last available segment
-                    i = segment_number - 1
-                    while i >= 0:
-                        prev_segment = f"{base_path}_segment_{i:03d}.mp4"
-                        if os.path.exists(prev_segment):
-                            segment_path = prev_segment
-                            break
-                        i -= 1
-                    if i < 0:
-                        # If no previous segment found, try the first segment
-                        first_segment = f"{base_path}_segment_000.mp4"
-                        if os.path.exists(first_segment):
-                            segment_path = first_segment
-                        else:
-                            raise FileNotFoundError(f"No valid segments found for {file_path}")
+            if not os.path.exists(file_path):
+                raise FileNotFoundError(f"Video file not found: {file_path}")
 
-            file_size = os.path.getsize(segment_path)
+            file_size = os.path.getsize(file_path)
             content_type = 'video/mp4'
 
-            # For initial playback, don't calculate byte_start
-            byte_start = 0
-            if start_time > 0:
-                relative_start_time = start_time % self.segment_duration
-                byte_start = int((relative_start_time / self.segment_duration) * file_size)
-
+            # Handle range request
             if range_header:
-                match = range_re.match(range_header)
-                if match:
-                    first_byte, last_byte = match.groups()
-                    first_byte = int(first_byte) if first_byte else byte_start
-                    last_byte = int(last_byte) if last_byte else file_size - 1
-                    if last_byte >= file_size:
-                        last_byte = file_size - 1
-                    length = last_byte - first_byte + 1
+                try:
+                    ranges = range_header.replace('bytes=', '').split('-')
+                    first_byte = int(ranges[0])
+                    last_byte = int(ranges[1]) if ranges[1] else file_size - 1
+                except (IndexError, ValueError):
+                    first_byte = 0
+                    last_byte = file_size - 1
+            else:
+                first_byte = 0
+                last_byte = file_size - 1
 
-                    resp = StreamingHttpResponse(
-                        self._stream_video_content(segment_path, first_byte, last_byte),
-                        status=206,
-                        content_type=content_type
-                    )
-                    resp['Content-Length'] = str(length)
-                    resp['Content-Range'] = f'bytes {first_byte}-{last_byte}/{file_size}'
-                    resp['Accept-Ranges'] = 'bytes'
-                    resp['Access-Control-Allow-Origin'] = '*'
-                    resp['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
-                    resp['Access-Control-Allow-Headers'] = 'Range'
-                    resp['Cache-Control'] = 'no-cache'
-                    return resp
+            # Ensure valid range
+            if first_byte >= file_size or first_byte < 0:
+                first_byte = 0
+            if last_byte >= file_size:
+                last_byte = file_size - 1
 
-            # For initial request without range header, stream from the beginning
-            resp = StreamingHttpResponse(
-                self._stream_video_content(segment_path, 0, file_size - 1),
+            length = last_byte - first_byte + 1
+
+            # Create response
+            response = StreamingHttpResponse(
+                self._stream_video_content(file_path, first_byte, last_byte),
+                status=206 if range_header else 200,
                 content_type=content_type
             )
-            resp['Content-Length'] = str(file_size)
-            resp['Accept-Ranges'] = 'bytes'
-            resp['Access-Control-Allow-Origin'] = '*'
-            resp['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
-            resp['Access-Control-Allow-Headers'] = 'Range'
-            resp['Cache-Control'] = 'no-cache'
-            return resp
+
+            # Set headers
+            response['Accept-Ranges'] = 'bytes'
+            response['Content-Length'] = str(length)
+            if range_header:
+                response['Content-Range'] = f'bytes {first_byte}-{last_byte}/{file_size}'
+            
+            # CORS headers
+            response['Access-Control-Allow-Origin'] = '*'
+            response['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
+            response['Access-Control-Allow-Headers'] = 'Range'
+            
+            # Cache control
+            response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+            response['Pragma'] = 'no-cache'
+            response['Expires'] = '0'
+
+            return response
 
         except Exception as e:
-            logging.error(f"Error streaming video: {str(e)}")
+            logging.error(f"Error in stream_video: {str(e)}")
             raise
 
     def _stream_video_content(self, file_path: str, start: int, end: int):
         """Generator to stream video content in chunks."""
-        chunk_size = 8192  # Adjust chunk size if needed
-        with open(file_path, 'rb') as f:
-            f.seek(start)
-            remaining = end - start + 1
-            while remaining:
-                chunk = min(chunk_size, remaining)
-                data = f.read(chunk)
-                if not data:
-                    break
-                remaining -= len(data)
-                yield data
+        chunk_size = 8192
+        try:
+            with open(file_path, 'rb') as f:
+                f.seek(start)
+                remaining = end - start + 1
+                while remaining > 0:
+                    chunk = min(chunk_size, remaining)
+                    data = f.read(chunk)
+                    if not data:
+                        break
+                    yield data
+                    remaining -= len(data)
+        except Exception as e:
+            logging.error(f"Error in _stream_video_content: {str(e)}")
+            raise

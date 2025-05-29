@@ -31,7 +31,6 @@ backend-shell:
 backend-clean-movies:
 	docker-compose exec db psql -U hypertube_user -d hypertube_db -c "TRUNCATE TABLE movies_moviefile CASCADE;"
 	docker-compose exec backend bash -c "rm -rf /app/downloads/* /app/downloads/.* 2>/dev/null || true"
-	docker-compose exec backend bash -c "rm -rf /app/conversions/* /app/conversions/.* 2>/dev/null || true"
 
 frontend-up:
 	docker-compose up --build -d frontend

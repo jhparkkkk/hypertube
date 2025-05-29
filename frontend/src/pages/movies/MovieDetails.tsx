@@ -401,7 +401,6 @@ const MovieDetails: React.FC = () => {
 								fontWeight: 500
 							}}
 						>
-							Watch Movie
 						</Typography>
 						<MoviePlayer movieId={Number(id)} magnet={movie.magnet_link} />
 					</Paper>

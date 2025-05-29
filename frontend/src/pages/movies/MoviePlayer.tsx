@@ -1,5 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Box, CircularProgress, Typography, Button } from '@mui/material';
+import * as React from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
+import { Box, CircularProgress, Typography, Button, IconButton, Slider } from '@mui/material';
+import { PlayArrow, Pause, VolumeUp, VolumeOff, Fullscreen, Forward10, Replay10 } from '@mui/icons-material';
 import { api, API_BASE_URL } from '../../api/axiosConfig';
 import { MoviePlayerProps } from './shared/types';
 import { moviePlayerStyles } from './shared/styles';
@@ -10,25 +12,102 @@ interface MovieStatus {
   file_path: string;
   status?: string;
   progress?: number;
+  total_duration?: number;
+  segment_duration?: number;
+  available_segments?: number;
 }
 
-const MoviePlayer: React.FC<MoviePlayerProps> = ({ movieId, magnet }) => {
+interface SegmentInfo {
+  segment: number;
+  filename: string;
+  size: number;
+}
+
+interface SegmentsData {
+  available_segments: SegmentInfo[];
+  segment_duration: number;
+  total_segments: number;
+  total_duration?: number;
+}
+
+interface MoviePlayerComponentProps {
+  movieId: string;
+  magnet: string;
+}
+
+const BUFFER_SEGMENTS = 2; // Number of segments to pre-buffer
+
+const MoviePlayer: React.FC<MoviePlayerComponentProps> = ({ movieId, magnet }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [filePath, setFilePath] = useState<string | null>(null);
   const [statusData, setStatusData] = useState<MovieStatus | null>(null);
   const [retryCount, setRetryCount] = useState(0);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  
+  // Video elements and buffering
+  const currentVideoRef = useRef<HTMLVideoElement>(null);
+  const bufferVideoRefs = useRef<HTMLVideoElement[]>([]);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const [volume, setVolume] = useState(1);
+  
+  // Segment and time management
+  const [currentSegment, setCurrentSegment] = useState(0);
+  const [segmentsData, setSegmentsData] = useState<SegmentsData | null>(null);
+  const [virtualTime, setVirtualTime] = useState(0);
+  const [totalDuration, setTotalDuration] = useState(0);
+  const [isBuffering, setIsBuffering] = useState(false);
+  const [bufferedSegments, setBufferedSegments] = useState<number[]>([]);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [aspectRatioSet, setAspectRatioSet] = useState(false);
+  
+  // Progress tracking
+  const intervalRef = useRef<number | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const seekTimeoutRef = useRef<number | null>(null);
+  const [showControls, setShowControls] = useState(true);
+  const controlsTimeoutRef = useRef<number | null>(null);
+  
+  // Add new state for available time
+  const [availableTime, setAvailableTime] = useState(0);
 
-  const checkStatus = async () => {
+  const formatTime = (seconds: number) => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = Math.floor(seconds % 60);
+    
+    if (hours > 0) {
+      return `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+    return `${minutes}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  // Initialize buffer video elements
+  useEffect(() => {
+    bufferVideoRefs.current = Array(BUFFER_SEGMENTS).fill(null).map(() => {
+      const video = document.createElement('video');
+      video.style.display = 'none';
+      return video;
+    });
+    
+    return () => {
+      bufferVideoRefs.current.forEach(video => video.remove());
+    };
+  }, []);
+
+  const checkStatus = useCallback(async () => {
     try {
       const response = await api.get<MovieStatus>(`/video/${movieId}/status/`);
       setStatusData(response.data);
       
+      if (response.data.total_duration) {
+        setTotalDuration(response.data.total_duration);
+      }
+      
       if (response.data.status === 'READY' || response.data.status === 'PLAYABLE' || response.data.ready) {
         setFilePath(response.data.file_path);
         setLoading(false);
+        fetchSegmentInfo();
       } else if (!response.data.downloading && !response.data.ready) {
         await api.post(`/video/${movieId}/start/`, { magnet_link: magnet });
       }
@@ -36,61 +115,266 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movieId, magnet }) => {
       setError(`Failed to check movie status: ${err instanceof Error ? err.message : 'Unknown error'}`);
       setLoading(false);
     }
+  }, [movieId, magnet]);
+
+  const fetchSegmentInfo = useCallback(async () => {
+    try {
+      const response = await api.get<SegmentsData>(`/video/${movieId}/segments/`);
+      setSegmentsData(response.data);
+      if (response.data.total_duration) {
+        setTotalDuration(response.data.total_duration);
+      }
+      // Calculate available time based on available segments
+      const lastAvailableSegment = Math.max(...response.data.available_segments.map(seg => seg.segment));
+      setAvailableTime((lastAvailableSegment + 1) * response.data.segment_duration);
+    } catch (err) {
+      console.error('Failed to fetch segment info:', err);
+    }
+  }, [movieId]);
+
+  const preloadSegments = useCallback((baseSegment: number) => {
+    if (!segmentsData) return;
+    
+    const segmentsToBuffer = Array.from({ length: BUFFER_SEGMENTS }, (_, i) => baseSegment + i + 1)
+      .filter(seg => seg < segmentsData.total_segments && !bufferedSegments.includes(seg));
+    
+    segmentsToBuffer.forEach((segment, index) => {
+      const video = bufferVideoRefs.current[index];
+      if (!video) return;
+      
+      const src = `${API_BASE_URL}/video/${movieId}/stream/?segment=${segment}&t=${retryCount}`;
+      video.src = src;
+      video.load();
+      
+      video.oncanplaythrough = () => {
+        setBufferedSegments(prev => [...prev, segment]);
+      };
+    });
+  }, [movieId, retryCount, segmentsData, bufferedSegments]);
+
+  const switchToSegment = useCallback((targetSegment: number, seekTime?: number) => {
+    if (!currentVideoRef.current || !segmentsData || isTransitioning) return;
+    
+        setIsTransitioning(true);
+    setIsBuffering(true);
+        
+        const newSrc = `${API_BASE_URL}/video/${movieId}/stream/?segment=${targetSegment}&t=${retryCount}`;
+          const wasPlaying = !currentVideoRef.current.paused;
+          
+          currentVideoRef.current.style.opacity = '0.8';
+          currentVideoRef.current.src = newSrc;
+          
+          const handleLoadedData = () => {
+            if (currentVideoRef.current) {
+        if (seekTime !== undefined) {
+          currentVideoRef.current.currentTime = seekTime;
+        }
+              currentVideoRef.current.style.opacity = '1';
+              setIsTransitioning(false);
+        setIsBuffering(false);
+              
+              if (wasPlaying) {
+                currentVideoRef.current.play().catch(console.error);
+              }
+        
+        // Pre-load next segments
+        preloadSegments(targetSegment);
+            }
+          };
+          
+          currentVideoRef.current.addEventListener('loadeddata', handleLoadedData, { once: true });
+    setCurrentSegment(targetSegment);
+  }, [movieId, retryCount, segmentsData, isTransitioning, preloadSegments]);
+
+  // Add function to check if time is available
+  const isTimeAvailable = useCallback((time: number) => {
+    return time <= availableTime;
+  }, [availableTime]);
+
+  // Update handleSeek to check availability
+  const handleSeek = useCallback((newTime: number) => {
+    if (!segmentsData || !isTimeAvailable(newTime)) return;
+    
+    const targetSegment = Math.floor(newTime / segmentsData.segment_duration);
+    const segmentTime = newTime % segmentsData.segment_duration;
+    
+    setVirtualTime(newTime);
+    
+    if (targetSegment !== currentSegment) {
+      switchToSegment(targetSegment, segmentTime);
+    } else if (currentVideoRef.current) {
+        currentVideoRef.current.currentTime = segmentTime;
+    }
+  }, [segmentsData, currentSegment, switchToSegment, isTimeAvailable]);
+
+  const skipForward = () => {
+    handleSeek(Math.min(virtualTime + 10, totalDuration));
+  };
+
+  const skipBackward = () => {
+    handleSeek(Math.max(virtualTime - 10, 0));
+  };
+
+  const togglePlayPause = () => {
+    if (!currentVideoRef.current) return;
+    
+    if (isPlaying) {
+      currentVideoRef.current.pause();
+    } else {
+      currentVideoRef.current.play();
+    }
+  };
+
+  const handleVolumeChange = (event: Event, newValue: number | number[]) => {
+    const volumeValue = newValue as number;
+    setVolume(volumeValue);
+    if (currentVideoRef.current) {
+      currentVideoRef.current.volume = volumeValue;
+    }
+    setIsMuted(volumeValue === 0);
+  };
+
+  const toggleMute = () => {
+    if (!currentVideoRef.current) return;
+    
+    if (isMuted) {
+      currentVideoRef.current.volume = volume;
+      setIsMuted(false);
+    } else {
+      currentVideoRef.current.volume = 0;
+      setIsMuted(true);
+    }
+  };
+
+  const enterFullscreen = () => {
+    if (currentVideoRef.current) {
+      if (currentVideoRef.current.requestFullscreen) {
+        currentVideoRef.current.requestFullscreen();
+      }
+    }
   };
 
   useEffect(() => {
-    const interval = setInterval(checkStatus, 5000);
+    const interval = setInterval(() => {
+      checkStatus();
+      if (segmentsData) {
+        fetchSegmentInfo();
+      }
+    }, 10000);
+    
     checkStatus();
     return () => clearInterval(interval);
-  }, [movieId, magnet]);
+  }, [checkStatus, fetchSegmentInfo, segmentsData]);
 
-  const handleError = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
-    const videoElement = e.target as HTMLVideoElement;
-    setError('Failed to load video. Please try refreshing the page.');
-    setLoading(false);
-  };
+  useEffect(() => {
+    const updateTime = () => {
+      if (!currentVideoRef.current || !segmentsData || isDragging || isTransitioning) return;
+      
+      const segmentTime = currentVideoRef.current.currentTime;
+      const baseTime = currentSegment * segmentsData.segment_duration;
+      const newVirtualTime = baseTime + segmentTime;
+      
+      setVirtualTime(newVirtualTime);
+      
+      // Check if we need to switch to next segment
+      if (segmentTime >= segmentsData.segment_duration - 0.5) {
+        const nextSegment = currentSegment + 1;
+        if (nextSegment < segmentsData.total_segments && bufferedSegments.includes(nextSegment)) {
+          switchToSegment(nextSegment);
+        }
+      }
+    };
 
-  const handleRetry = async () => {
-    setError(null);
-    setLoading(true);
-    setRetryCount(prev => prev + 1);
-    await checkStatus();
-  };
+    if (isPlaying) {
+      intervalRef.current = window.setInterval(updateTime, 100);
+    } else {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    }
+    
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [isPlaying, currentSegment, segmentsData, isDragging, isTransitioning, bufferedSegments, switchToSegment]);
 
-  const handlePlay = () => {
-    setIsPlaying(true);
-  };
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      switch (e.code) {
+        case 'Space':
+          e.preventDefault();
+          togglePlayPause();
+          break;
+        case 'ArrowLeft':
+          e.preventDefault();
+          skipBackward();
+          break;
+        case 'ArrowRight':
+          e.preventDefault();
+          skipForward();
+          break;
+        case 'KeyM':
+          e.preventDefault();
+          toggleMute();
+          break;
+        case 'KeyF':
+          e.preventDefault();
+          enterFullscreen();
+          break;
+      }
+    };
 
-  const handlePause = () => {
-    setIsPlaying(false);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [virtualTime]);
+
+  useEffect(() => {
+    const hideControlsTimeout = () => {
+      if (controlsTimeoutRef.current) {
+        clearTimeout(controlsTimeoutRef.current);
+      }
+      controlsTimeoutRef.current = window.setTimeout(() => {
+        if (isPlaying && !isDragging) {
+          setShowControls(false);
+        }
+      }, 3000);
+    };
+
+    hideControlsTimeout();
+
+    return () => {
+      if (controlsTimeoutRef.current) {
+        clearTimeout(controlsTimeoutRef.current);
+      }
+    };
+  }, [isPlaying, isDragging]);
+
+  const handleMouseMove = () => {
+    setShowControls(true);
+    if (controlsTimeoutRef.current) {
+      clearTimeout(controlsTimeoutRef.current);
+    }
+    controlsTimeoutRef.current = window.setTimeout(() => {
+      if (isPlaying && !isDragging) {
+        setShowControls(false);
+      }
+    }, 3000);
   };
 
   const handleLoadedMetadata = () => {
-    if (videoRef.current && !isPlaying) {
-      videoRef.current.play().catch(console.error);
+    if (currentVideoRef.current && !isPlaying) {
+      // Start playing when metadata is loaded
+      currentVideoRef.current.play().catch(console.error);
     }
-  };
-
-  const getStatusMessage = () => {
-    if (!statusData) return 'Checking status...';
-    
-    const status = statusData.status || (statusData.downloading ? 'Downloading' : statusData.ready ? 'Ready' : 'Preparing');
-    const progress = statusData.progress ? ` (${Math.round(statusData.progress)}%)` : '';
-    
-    if (status === 'PLAYABLE') {
-      return `Loading first segment... Rest of the movie will continue downloading${progress}`;
-    }
-    
-    return `Status: ${status}${progress}`;
   };
 
   if (loading) {
     return (
       <Box sx={moviePlayerStyles.loadingContainer}>
-        <CircularProgress />
-        <Typography>
-          {getStatusMessage()}
-        </Typography>
+				<CircularProgress size={60} thickness={3} sx={{ color: '#ff0000' }} />
+				
       </Box>
     );
   }
@@ -98,41 +382,181 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ movieId, magnet }) => {
   if (error) {
     return (
       <Box sx={moviePlayerStyles.errorContainer}>
-        <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
           <Typography color="error">{error}</Typography>
-          <Button variant="contained" color="primary" onClick={handleRetry}>
+        <Button variant="contained" color="primary" onClick={() => {
+          setError(null);
+          setLoading(true);
+          checkStatus();
+        }}>
             Retry
           </Button>
-          <Typography variant="body2" color="textSecondary">
-            File path: {filePath || 'Not available'}
-          </Typography>
-        </Box>
       </Box>
     );
   }
 
   return (
-    <Box sx={moviePlayerStyles.videoContainer}>
-      <video
-        ref={videoRef}
-        controls
-        style={{ width: '100%', height: 'auto' }}
-        onError={handleError}
-        onPlay={handlePlay}
-        onPause={handlePause}
-        onLoadedMetadata={handleLoadedMetadata}
-        src={`${API_BASE_URL}/video/${movieId}/stream/?t=${retryCount}`}
-        crossOrigin="anonymous"
-        playsInline
-        preload="metadata"
-      >
-        Your browser does not support the video tag.
-      </video>
-      {statusData?.status === 'PLAYABLE' && (
-        <Typography variant="body2" sx={{ mt: 1, textAlign: 'center', color: 'text.secondary' }}>
-          First segment ready. Continuing to download the rest of the movie...
-        </Typography>
-      )}
+    <Box 
+      sx={moviePlayerStyles.videoContainer}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setShowControls(true)}
+    >
+      <Box sx={{ position: 'relative', width: '100%', height: 0, paddingBottom: '56.25%', backgroundColor: '#000' }}>
+        <video
+          ref={currentVideoRef}
+          style={{ 
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%', 
+            height: '100%',
+            objectFit: 'contain'
+          }}
+          onPlay={() => setIsPlaying(true)}
+          onPause={() => setIsPlaying(false)}
+          onWaiting={() => setIsBuffering(true)}
+          onCanPlay={() => setIsBuffering(false)}
+          onError={(e) => {
+            console.error('Video error:', e);
+            setError('Failed to load video segment');
+          }}
+          playsInline
+          preload="auto"
+          crossOrigin="anonymous"
+        />
+        
+        {/* Buffering indicator */}
+        {isBuffering && (
+          <Box sx={moviePlayerStyles.bufferingOverlay}>
+            <CircularProgress size={40} sx={{ color: 'white' }} />
+            <Typography variant="body2">Buffering...</Typography>
+          </Box>
+        )}
+        
+        {/* Controls overlay */}
+        <Box
+          sx={{
+            ...moviePlayerStyles.controlsOverlay,
+            opacity: showControls ? 1 : 0,
+            transition: 'opacity 0.3s ease'
+          }}
+        >
+          <Box sx={moviePlayerStyles.progressBarContainer}>
+            <Box sx={{ 
+              position: 'relative', 
+              height: 4, 
+              backgroundColor: '#333',
+              display: 'flex',
+              alignItems: 'center' 
+            }}>
+              {/* Available portion */}
+              <Box
+                sx={{
+                  position: 'absolute',
+                  left: 0,
+                  top: 0,
+                  height: '100%',
+                  width: `${(availableTime / totalDuration) * 100}%`,
+                  backgroundColor: '#666',
+                  pointerEvents: 'none',
+                }}
+              />
+              {/* Played portion */}
+              <Box
+                sx={{
+                  position: 'absolute',
+                  left: 0,
+                  top: 0,
+                  height: '100%',
+                  width: `${(virtualTime / totalDuration) * 100}%`,
+                  backgroundColor: '#ff0000',
+                  pointerEvents: 'none',
+                }}
+              />
+              <Slider
+                value={virtualTime}
+                min={0}
+                max={totalDuration}
+                onChange={(_, value) => {
+                  const newTime = value as number;
+                  if (isTimeAvailable(newTime)) {
+                    setVirtualTime(newTime);
+                    setIsDragging(true);
+                  }
+                }}
+                onChangeCommitted={(_, value) => {
+                  const newTime = value as number;
+                  if (isTimeAvailable(newTime)) {
+                    handleSeek(newTime);
+                  }
+                  setIsDragging(false);
+                }}
+                sx={{
+                  ...moviePlayerStyles.progressSlider,
+                  position: 'absolute',
+                  padding: 0,
+                  width: '100%',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  '& .MuiSlider-rail': {
+                    opacity: 0,
+                    backgroundColor: 'transparent',
+                  },
+                  '& .MuiSlider-track': {
+                    opacity: 0,
+                    backgroundColor: 'transparent',
+                  },
+                  '& .MuiSlider-thumb': {
+                    display: isDragging ? 'block' : 'none',
+                    '&:hover': {
+                      display: 'block',
+                    },
+                  },
+                  '&:hover .MuiSlider-thumb': {
+                    display: 'block',
+                  },
+                }}
+              />
+            </Box>
+          </Box>
+          
+          {/* Control buttons */}
+          <Box sx={moviePlayerStyles.controlsContainer}>
+            <Box sx={moviePlayerStyles.leftControls}>
+              <IconButton onClick={togglePlayPause} sx={moviePlayerStyles.controlButton}>
+                {isPlaying ? <Pause /> : <PlayArrow />}
+              </IconButton>
+              <IconButton onClick={skipBackward} sx={moviePlayerStyles.controlButton}>
+                <Replay10 />
+              </IconButton>
+              <IconButton onClick={skipForward} sx={moviePlayerStyles.controlButton}>
+                <Forward10 />
+              </IconButton>
+              <Box sx={moviePlayerStyles.volumeControl}>
+                <IconButton onClick={toggleMute} sx={moviePlayerStyles.controlButton}>
+                  {isMuted ? <VolumeOff /> : <VolumeUp />}
+                </IconButton>
+                <Slider
+                  value={isMuted ? 0 : volume}
+                  onChange={handleVolumeChange}
+                  min={0}
+                  max={1}
+                  step={0.1}
+                  sx={moviePlayerStyles.volumeSlider}
+                />
+              </Box>
+              <Typography variant="body2" sx={moviePlayerStyles.timeDisplay}>
+                {formatTime(virtualTime)} / {formatTime(totalDuration)}
+              </Typography>
+            </Box>
+            
+            <Box sx={moviePlayerStyles.rightControls}>
+              <IconButton onClick={enterFullscreen} sx={moviePlayerStyles.controlButton}>
+                <Fullscreen />
+              </IconButton>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
     </Box>
   );
 };

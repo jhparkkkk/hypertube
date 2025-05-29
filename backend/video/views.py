@@ -85,7 +85,11 @@ def process_video_thread(video_id):
         downloads_dir = "/app/downloads"
         os.makedirs(downloads_dir, exist_ok=True)
         logging.info(f"Using download path: {downloads_dir}")
+        downloads_dir = "/app/downloads"
+        os.makedirs(downloads_dir, exist_ok=True)
+        logging.info(f"Using download path: {downloads_dir}")
 
+        handle_id = torrent_manager.add_torrent(movie_file.magnet_link, downloads_dir)
         handle_id = torrent_manager.add_torrent(movie_file.magnet_link, downloads_dir)
         handle = torrent_manager.get_handle(handle_id)
         handle_lock = torrent_manager.get_handle_lock(handle_id)
@@ -103,11 +107,13 @@ def process_video_thread(video_id):
 
             torrent_info = handle.get_torrent_info()
             largest_file = max(torrent_info.files(), key=lambda f: f.size)
-            original_filename = os.path.basename(largest_file.path)
+            original_filename = largest_file.path
             downloaded_path = os.path.join(downloads_dir, original_filename)
 
+            # Ensure the download directory exists
             os.makedirs(os.path.dirname(downloaded_path), exist_ok=True)
 
+            movie_file.file_path = original_filename
             movie_file.file_path = original_filename
             movie_file.save()
 
@@ -116,28 +122,34 @@ def process_video_thread(video_id):
             current_segment = 0
             video_duration = None
             first_segment_ready = False
+            last_attempt_time = 0
 
             while True:
                 status = handle.status()
                 progress = status.progress * 100
                 movie_file.download_progress = progress
                 
-                if not conversion_started and progress >= 20 and os.path.exists(downloaded_path):
-                    conversion_started = True
-                    movie_file.download_status = "DL_AND_CONVERT"
-                    movie_file.save()
-
-                    video_duration = video_service.get_video_duration(downloaded_path)
-                    if not video_duration:
-                        logging.error("Could not determine video duration")
-                        movie_file.download_status = "ERROR"
-                        movie_file.save()
-                        return
+                # Try to start segmentation as soon as possible
+                if not conversion_started and os.path.exists(downloaded_path):
+                    current_time = time.time()
+                    # Only attempt to read the file every 2 seconds to avoid too frequent checks
+                    if current_time - last_attempt_time > 2:
+                        last_attempt_time = current_time
+                        try:
+                            # Try to get video duration - this will fail if file is not readable yet
+                            video_duration = video_service.get_video_duration(downloaded_path)
+                            if video_duration:
+                                conversion_started = True
+                                movie_file.download_status = "DL_AND_CONVERT"
+                                movie_file.save()
+                                logging.info(f"Starting segmentation at {progress:.2f}% for {original_filename}")
+                        except Exception as e:
+                            logging.debug(f"File not ready yet: {e}")
 
                 if conversion_started and video_duration:
                     segment_start_time = current_segment * video_service.segment_duration
                     required_progress = (segment_start_time + video_service.segment_duration) / video_duration * 100
-                    required_progress = min(required_progress + 15, 100)
+                    required_progress = min(required_progress + 5, 100)  # Small buffer for safety
 
                     if progress >= required_progress:
                         try:
@@ -151,8 +163,16 @@ def process_video_thread(video_id):
                                 if success:
                                     current_segment += 1
                                     if current_segment == 1:
-                                        base_name = os.path.splitext(original_filename)[0]
+                                        # Get relative path structure
+                                        rel_path = os.path.relpath(downloaded_path, downloads_dir)
+                                        dir_path = os.path.dirname(rel_path)
+                                        base_name = os.path.splitext(os.path.basename(rel_path))[0]
+                                        
+                                        # Create segment path preserving directory structure
                                         first_segment = f"{base_name}_segment_000.mp4"
+                                        if dir_path and dir_path != '.':
+                                            first_segment = os.path.join(dir_path, first_segment)
+                                        
                                         movie_file.file_path = first_segment
                                         movie_file.download_status = "PLAYABLE"
                                         first_segment_ready = True
@@ -171,6 +191,7 @@ def process_video_thread(video_id):
 
                 time.sleep(1)
 
+            # Process remaining segments after download is complete
             if video_duration:
                 remaining_segments = int(video_duration / video_service.segment_duration) + 1
                 while current_segment < remaining_segments:
@@ -244,13 +265,54 @@ class VideoViewSet(viewsets.ViewSet):
         """Get movie streaming status"""
         try:
             movie_file = MovieFile.objects.get(tmdb_id=pk)
-            return Response(
-                {
-                    "status": movie_file.download_status,
-                    "progress": movie_file.download_progress,
-                    "file_path": movie_file.file_path if movie_file.download_status == "READY" else None,
-                }
-            )
+            
+            response_data = {
+                "status": movie_file.download_status,
+                "progress": movie_file.download_progress,
+                "file_path": movie_file.file_path,
+                "ready": movie_file.download_status in ["READY", "PLAYABLE"],
+                "downloading": movie_file.download_status in ["DOWNLOADING", "DL_AND_CONVERT"]
+            }
+            
+            # If movie is playable or ready, add segment information and total duration
+            if movie_file.download_status in ["READY", "PLAYABLE"]:
+                try:
+                    downloads_dir = "/app/downloads"
+                    base_name = os.path.splitext(movie_file.file_path)[0]
+                    
+                    # Remove _segment_000 suffix if it exists to get the original base name
+                    if base_name.endswith("_segment_000"):
+                        base_name = base_name[:-12]
+                    
+                    # Get total movie duration from original file if available
+                    original_file_path = os.path.join(downloads_dir, f"{base_name}.mkv")
+                    if not os.path.exists(original_file_path):
+                        original_file_path = os.path.join(downloads_dir, f"{base_name}.mp4")
+                    if not os.path.exists(original_file_path):
+                        original_file_path = os.path.join(downloads_dir, f"{base_name}.avi")
+                    
+                    total_duration = None
+                    if os.path.exists(original_file_path):
+                        video_service = VideoService()
+                        total_duration = video_service.get_video_duration(original_file_path)
+                    
+                    # Count available segments
+                    available_segments = 0
+                    while True:
+                        segment_filename = f"{base_name}_segment_{available_segments:03d}.mp4"
+                        segment_path = os.path.join(downloads_dir, segment_filename)
+                        if os.path.exists(segment_path):
+                            available_segments += 1
+                        else:
+                            break
+                    
+                    response_data["available_segments"] = available_segments
+                    response_data["total_duration"] = total_duration
+                    response_data["segment_duration"] = VideoService().segment_duration
+                except Exception as e:
+                    logging.error(f"Error counting segments: {e}")
+            
+            return Response(response_data)
         except MovieFile.DoesNotExist:
             return Response({"error": "Movie not found"}, status=status.HTTP_404_NOT_FOUND)
 
@@ -266,9 +328,24 @@ class VideoViewSet(viewsets.ViewSet):
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
-            file_path = os.path.join("/app/downloads", movie_file.file_path)
+            # Get segment parameter (default to 0 for first segment)
+            segment = int(request.query_params.get("segment", 0))
+            
+            # Determine the correct file path based on segment
+            if segment == 0:
+                # First segment - use the stored file_path
+                file_path = os.path.join("/app/downloads", movie_file.file_path)
+            else:
+                # For other segments, construct the segment file path
+                base_name = os.path.splitext(movie_file.file_path)[0]
+                # Remove _segment_000 suffix if it exists
+                if base_name.endswith("_segment_000"):
+                    base_name = base_name[:-12]  # Remove "_segment_000"
+                segment_filename = f"{base_name}_segment_{segment:03d}.mp4"
+                file_path = os.path.join("/app/downloads", segment_filename)
+            
             if not os.path.exists(file_path):
-                return Response({"error": "Video file not found"}, status=status.HTTP_404_NOT_FOUND)
+                return Response({"error": f"Segment {segment} not found"}, status=status.HTTP_404_NOT_FOUND)
 
             video_service = VideoService()
 
@@ -304,3 +381,73 @@ class VideoViewSet(viewsets.ViewSet):
             )
         except MovieFile.DoesNotExist:
             return Response({"download_status": "NOT_FOUND", "download_progress": 0, "file_path": None})
+
+    @action(detail=True, methods=["get"], url_path="segments")
+    def segments(self, request, pk=None):
+        """Get segment information for the movie"""
+        try:
+            movie_file = MovieFile.objects.get(tmdb_id=pk)
+            
+            if movie_file.download_status not in ["READY", "PLAYABLE"]:
+                return Response(
+                    {"error": f"Movie is not ready (status: {movie_file.download_status})"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            
+            downloads_dir = "/app/downloads"
+            file_path = os.path.join(downloads_dir, movie_file.file_path)
+            
+            # Get the directory path and base name
+            dir_path = os.path.dirname(file_path)
+            base_name = os.path.splitext(os.path.basename(file_path))[0]
+            
+            # Remove _segment_000 suffix if it exists to get the original base name
+            if base_name.endswith("_segment_000"):
+                base_name = base_name[:-12]
+            
+            # Get total movie duration from original file
+            original_file_path = None
+            for ext in ['.mkv', '.mp4', '.avi']:
+                test_path = os.path.join(dir_path, f"{base_name}{ext}")
+                if os.path.exists(test_path):
+                    original_file_path = test_path
+                    break
+            
+            total_duration = None
+            if original_file_path:
+                video_service = VideoService()
+                total_duration = video_service.get_video_duration(original_file_path)
+            
+            # Find all available segments
+            available_segments = []
+            segment_num = 0
+            
+            while True:
+                segment_filename = f"{base_name}_segment_{segment_num:03d}.mp4"
+                segment_path = os.path.join(dir_path, segment_filename)
+                
+                if os.path.exists(segment_path):
+                    available_segments.append({
+                        "segment": segment_num,
+                        "filename": segment_filename,
+                        "size": os.path.getsize(segment_path)
+                    })
+                    segment_num += 1
+                else:
+                    break
+            
+            video_service = VideoService()
+            segment_duration = video_service.segment_duration
+            
+            return Response({
+                "available_segments": available_segments,
+                "segment_duration": segment_duration,
+                "total_segments": len(available_segments),
+                "total_duration": total_duration
+            })
+            
+        except MovieFile.DoesNotExist:
+            return Response({"error": "Movie not found"}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            logger.error(f"Segments info error: {str(e)}")
+            return Response({"error": "Internal server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
