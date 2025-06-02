@@ -88,7 +88,6 @@ export const useAuthForm = (authType: AuthType, params="") => {
 
     const handleSubmit = async () => {
       if (!isFormValid) return;
-			console.log('handle submit')
       const endpointByAuthType = {
             'login': '/oauth/token',
             'register': '/register',
@@ -98,11 +97,7 @@ export const useAuthForm = (authType: AuthType, params="") => {
         
         const endpoint = endpointByAuthType[authType];
         try {
-            console.log("endpoint", endpoint);
-
             const response = await api.post(endpoint, formData);
-
-            console.log(`User succesfully ${authType}ed in:`, response.data);
 
             if (authType === "login") {
                 login(response.data.tokens.access, response.data.user);

@@ -119,8 +119,6 @@ const UserProfile = () => {
 			alert("You can only update your own profile!");
 			return;
 		}
-		console.log("handleSave", form);
-		console.log("user", user);
 
 		const fieldsToValidate = [
 			"username",
