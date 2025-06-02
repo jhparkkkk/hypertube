@@ -24,4 +24,5 @@ urlpatterns = [
     path('api/', include('comments.urls')),
     path('api/', include('history.urls')),
     path('api/', include('video.urls')),
+    path('api/', include('subtitles.urls')),
 ]

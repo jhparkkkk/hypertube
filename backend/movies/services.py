@@ -63,10 +63,17 @@ class TMDBService:
 
             subtitles = []
             if "translations" in movie_data:
-                subtitles = [
-                    {"language_code": trans["iso_639_1"], "language_name": trans["english_name"], "name": trans["name"]}
-                    for trans in movie_data.get("translations", {}).get("translations", [])
-                ]
+                unique_subtitles = {}
+                for trans in movie_data.get("translations", {}).get("translations", []):
+                    lang_code = trans["iso_639_1"]
+                    if lang_code in ["en", "fr", "es", "de", "it", "pt", "ru", "ja", "ko", "zh"] and lang_code not in unique_subtitles:
+                        unique_subtitles[lang_code] = {
+                            "language_code": lang_code,
+                            "language_name": trans["english_name"],
+                            "name": trans["name"]
+                        }
+                subtitles = list(unique_subtitles.values())
+                movie_data.pop("translations", None)
 
             defaults = {
                 "adult": False,

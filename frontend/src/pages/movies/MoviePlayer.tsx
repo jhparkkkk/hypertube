@@ -428,7 +428,6 @@ const MoviePlayer: React.FC<MoviePlayerComponentProps> = ({ movieId, magnet }) =
         {isBuffering && (
           <Box sx={moviePlayerStyles.bufferingOverlay}>
             <CircularProgress size={40} sx={{ color: 'white' }} />
-            <Typography variant="body2">Buffering...</Typography>
           </Box>
         )}
         

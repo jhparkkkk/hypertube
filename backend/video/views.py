@@ -1,7 +1,10 @@
-from rest_framework import viewsets, status, permissions
+from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from django.shortcuts import get_object_or_404
 from movies.models import MovieFile
+from subtitles.services import SubtitleService
 from .services import VideoService
 import re
 import os
@@ -235,30 +238,35 @@ class VideoViewSet(viewsets.ViewSet):
     GET /video/:id/stream - Stream movie content
     """
 
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [IsAuthenticated]
+    video_service = VideoService()
+    subtitle_service = SubtitleService()
 
-    @action(detail=True, methods=["post"], url_path="start")
-    def start_stream(self, request, pk=None):
-        """Start movie download and processing"""
-        magnet_link = request.data.get("magnet_link")
+    @action(detail=True, methods=['post'])
+    def start(self, request, pk=None):
+        """Start downloading a movie."""
+        movie = get_object_or_404(MovieFile, pk=pk)
+        magnet_link = request.data.get('magnet_link')
+
         if not magnet_link:
-            return Response({"error": "Magnet link is required"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {'error': 'Magnet link is required'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
-        # Create or get existing movie file
-        movie_file, created = MovieFile.objects.get_or_create(
-            tmdb_id=pk, defaults={"magnet_link": magnet_link, "download_status": "PENDING", "download_progress": 0}
-        )
+        try:
+            # Start movie download
+            self.video_service.start_download(movie, magnet_link)
 
-        # If already processing or ready, return current status
-        if movie_file.download_status in ["DOWNLOADING", "CONVERTING", "READY"]:
-            return Response({"status": movie_file.download_status, "progress": movie_file.download_progress})
+            # Fetch subtitles in user's preferred language
+            self.subtitle_service.fetch_subtitles(movie, request.user.preferred_language)
 
-        # Start processing in background thread
-        thread = threading.Thread(target=process_video_thread, args=(movie_file.id,))
-        thread.daemon = True
-        thread.start()
-
-        return Response({"status": "PENDING", "message": "Started movie processing"})
+            return Response({'status': 'Download started'})
+        except Exception as e:
+            return Response(
+                {'error': str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
     @action(detail=True, methods=["get"], url_path="status")
     def status(self, request, pk=None):
