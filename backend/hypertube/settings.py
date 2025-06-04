@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'movies',
     'comments',
     'history',
-
+    'video',
+    'subtitles',
 ]
 
 REST_FRAMEWORK = {
@@ -253,6 +254,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 TMDB_API_KEY = os.getenv('TMDB_API_KEY')
 TMDB_API_TOKEN = os.getenv('TMDB_API_TOKEN')
+
+OPENSUBTITLES_API_KEY = os.getenv('OPENSUBTITLES_API_KEY')
 
 # Downloads path for movie files
 DOWNLOAD_PATH = '/app/downloads'
