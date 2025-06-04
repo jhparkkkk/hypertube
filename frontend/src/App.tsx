@@ -22,28 +22,29 @@ function App() {
 	}
 
 	return (
-		<Routes>
-			<Route path="/not-found" element={<NotFound />} />
-			<Route path="/" element={<Layout />}>
-				<Route index element={<Home />} />
-				<Route path="/signup" element={<Signup />} />
-				<Route path="/login" element={<Login />} />
-				<Route path="/oauth-callback" element={<OAuthCallback />} />
-				<Route
-					path="/request-reset-password"
-					element={<RequestResetPassword />}
-				/>
-				<Route
-					path="/reset-password/:reset-token"
-					element={<ResetPassword />}
-				/>
+			<Routes>
+				<Route path="/not-found" element={<NotFound />} />
+				<Route path="/" element={<Layout />}>
+					<Route index element={<Home />} />
+					<Route path="/signup" element={<Signup />} />
+					<Route path="/login" element={<Login />} />
+					<Route path="/oauth-callback" element={<OAuthCallback />} />
+					<Route
+						path="/request-reset-password"
+						element={<RequestResetPassword />}
+					/>
+					<Route
+						path="/reset-password/:reset-token"
+						element={<ResetPassword />}
+					/>
 
-				<Route element={<ProtectedRoute />}>
-					<Route path="/home" element={<div>Dashboard</div>} />
-					<Route path="/profile" element={<div>Settings</div>} />
-					<Route path="/users/:id" element={<UserProfile />} />
-					<Route path="/movies" element={<MovieLibrary />} />
-					<Route path="/movies/:id" element={<MovieDetails />} />
+					<Route element={<ProtectedRoute />}>
+						<Route path="/home" element={<div>Dashboard</div>} />
+						<Route path="/profile" element={<div>Settings</div>} />
+						<Route path="/users/:id" element={<UserProfile />} />
+						<Route path="/movies" element={<MovieLibrary />} />
+						<Route path="/movies/:id" element={<MovieDetails />} />
+					</Route>
 				</Route>
 			</Route>
 			<Route path="*" element={<NotFound />} />

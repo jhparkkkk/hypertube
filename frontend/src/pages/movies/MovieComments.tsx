@@ -44,8 +44,13 @@ const MovieComments: React.FC<Props> = ({ movieId }) => {
   };
 
   const postComment = async () => {
-    if (!newComment.trim()) return;
-
+		if (!newComment.trim()) return;
+		
+		const trimmed = newComment.trim();
+		if (trimmed.length > 500) {
+			showMessage("Comment is too long (500 characters max)", "error");
+    	return;
+  	}
     try {
       await api.post(`/comments/`, { movie_id: movieId, content: newComment });
       setNewComment('');
@@ -87,7 +92,14 @@ const MovieComments: React.FC<Props> = ({ movieId }) => {
   }, [movieId]);
 
   return (
-    <Box sx={{ mt: 4, backgroundColor: '#2a2a2a', p: 3, borderRadius: 2 }}>
+    <Box sx={{ mt: 4,
+			backgroundColor: '#2a2a2a',
+			p: 3,
+			borderRadius: 2,
+			maxWidth: '100%',
+    	overflowWrap: 'break-word',
+    	wordBreak: 'break-word',
+		 }}>
       <Typography variant="h6" color="white" gutterBottom>
         Comments
       </Typography>
