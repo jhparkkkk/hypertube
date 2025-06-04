@@ -16,7 +16,7 @@ EXPOSE 3000
 
 ENV CHOKIDAR_USEPOLLING=true
 
-RUN if [ "$NODE_ENV" = "production" ]; then npm run build; fi
+RUN if [ "NODE_ENV" = "production" ]; then npm run build; fi
 
 EXPOSE 3000
 
