@@ -1,9 +1,7 @@
 import logging
 import requests
 import os
-from datetime import datetime
 from django.conf import settings
-from .models import Subtitle
 from movies.models import MovieFile
 
 
@@ -19,58 +17,73 @@ class SubtitleService:
 
     def fetch_subtitles(self, movie: MovieFile, lang: str) -> list:
         """
-        Fetch subtitles for a movie in the specified language from OpenSubtitles API.
+        Fetch and download subtitles for a movie in the specified language from OpenSubtitles API.
+        Returns a list of downloaded subtitle information.
         """
         try:
             response = requests.get(
                 f"{self.BASE_URL}/subtitles",
                 headers=self.headers,
                 params={
-                    "imdb_id": movie.imdb_id,
+                    "tmdb_id": movie.tmdb_id,
                     "languages": lang,
                     "order_by": "ratings"
                 }
             )
             response.raise_for_status()
             data = response.json()
+            print(data)
 
             subtitles = []
             for item in data.get('data', []):
                 attributes = item.get('attributes', {})
-                
-                # Parse upload date
-                upload_date = datetime.strptime(
-                    attributes.get('upload_date'),
-                    "%Y-%m-%dT%H:%M:%SZ"
-                )
-
-                # Get file information
                 files = attributes.get('files', [])
-                file_id = files[0].get('file_id') if files else None
-                file_name = files[0].get('file_name') if files else ''
+                if files:
+                    file_id = files[0].get('file_id')
+                    if file_id:
+                        try:
+                            download_response = requests.post(
+                                f"{self.BASE_URL}/download",
+                                headers=self.headers,
+                                json={"file_id": file_id}
+                            )
+                            download_response.raise_for_status()
+                            download_data = download_response.json()
+                            download_url = download_data.get('link')
 
-                subtitle = Subtitle.objects.update_or_create(
-                    movie=movie,
-                    subtitle_id=attributes.get('subtitle_id'),
-                    language=lang,
-                    defaults={
-                        'download_count': attributes.get('download_count', 0),
-                        'hearing_impaired': attributes.get('hearing_impaired', False),
-                        'hd': attributes.get('hd', False),
-                        'fps': attributes.get('fps'),
-                        'ratings': attributes.get('ratings', 0),
-                        'from_trusted': attributes.get('from_trusted', False),
-                        'upload_date': upload_date,
-                        'release': attributes.get('release', ''),
-                        'file_name': file_name,
-                        'url': attributes.get('url', '')
-                    }
-                )[0]
+                            if download_url:
+                                subtitles_dir = os.path.join(settings.MEDIA_ROOT, 'downloads/subtitles', str(movie.tmdb_id))
+                                os.makedirs(subtitles_dir, exist_ok=True)
 
-                # Download the subtitle if it has a file_id
-                if file_id:
-                    self.download_subtitle(subtitle, file_id)
-                subtitles.append(subtitle)
+                                subtitle_path = os.path.join(subtitles_dir, f"{lang}.srt")
+                                file_response = requests.get(download_url)
+                                file_response.raise_for_status()
+
+                                with open(subtitle_path, 'wb') as f:
+                                    f.write(file_response.content)
+
+                                subtitles.append({
+                                    'language': attributes.get('language', lang),
+                                    'language_name': 'English' if lang == 'en' else lang.upper(),
+                                    'from_trusted': attributes.get('from_trusted', False),
+                                    'download_count': attributes.get('download_count', 0),
+                                    'ratings': attributes.get('ratings', 0),
+                                    'hearing_impaired': attributes.get('hearing_impaired', False),
+                                    'hd': attributes.get('hd', False),
+                                    'fps': attributes.get('fps', 0),
+                                    'release': attributes.get('release', ''),
+                                    'upload_date': attributes.get('upload_date', ''),
+                                    'file_path': os.path.join('subtitles', str(movie.tmdb_id), f"{lang}.srt")
+                                })
+                                logging.info(f"Successfully downloaded subtitle to {subtitle_path}")
+                                break
+
+                        except requests.exceptions.RequestException as e:
+                            logging.error(f"Error downloading subtitle with file_id {file_id}: {str(e)}")
+                            continue
+                        except Exception as e:
+                            logging.error(f"Unexpected error downloading subtitle with file_id {file_id}: {str(e)}")
+                            continue
 
             return subtitles
 
@@ -79,45 +92,4 @@ class SubtitleService:
             return []
         except Exception as e:
             logging.error(f"Unexpected error while fetching subtitles: {str(e)}")
-            return []
-
-    def download_subtitle(self, subtitle: Subtitle, file_id: str) -> bool:
-        """
-        Download a subtitle file from OpenSubtitles API.
-        """
-        try:
-            # Request download URL
-            response = requests.post(
-                f"{self.BASE_URL}/download",
-                headers=self.headers,
-                json={"file_id": file_id}
-            )
-            response.raise_for_status()
-            data = response.json()
-            download_url = data.get('link')
-
-            if not download_url:
-                logging.error(f"No download URL provided for subtitle {subtitle.subtitle_id}")
-                return False
-
-            # Create subtitles directory if it doesn't exist
-            subtitles_dir = os.path.join(settings.MEDIA_ROOT, 'subtitles', str(subtitle.movie.id))
-            os.makedirs(subtitles_dir, exist_ok=True)
-
-            # Download the subtitle file
-            subtitle_path = os.path.join(subtitles_dir, f"{subtitle.language}.srt")
-            response = requests.get(download_url)
-            response.raise_for_status()
-
-            with open(subtitle_path, 'wb') as f:
-                f.write(response.content)
-
-            logging.info(f"Successfully downloaded subtitle to {subtitle_path}")
-            return True
-
-        except requests.exceptions.RequestException as e:
-            logging.error(f"Error downloading subtitle {subtitle.subtitle_id}: {str(e)}")
-            return False
-        except Exception as e:
-            logging.error(f"Unexpected error downloading subtitle {subtitle.subtitle_id}: {str(e)}")
-            return False 
+            return [] 

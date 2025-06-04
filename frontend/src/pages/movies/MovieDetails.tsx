@@ -15,6 +15,7 @@ import {
 import { api } from '../../api/axiosConfig';
 import MoviePlayer from './MoviePlayer';
 import MovieComments from './MovieComments';
+import { useAuth } from '../../context/AuthContext';
 
 interface Genre {
 	id: number;
@@ -43,6 +44,17 @@ interface Subtitle {
 	language_code: string;
 	language_name: string;
 	name: string;
+	subtitle_id?: string;
+	download_count?: number;
+	hearing_impaired?: boolean;
+	hd?: boolean;
+	fps?: number;
+	ratings?: number;
+	from_trusted?: boolean;
+	upload_date?: string;
+	release?: string;
+	file_name?: string;
+	url?: string;
 }
 
 interface Movie {
@@ -77,6 +89,8 @@ const MovieDetails: React.FC = () => {
 	const [movie, setMovie] = useState<Movie | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
+	const [subtitles, setSubtitles] = useState<Subtitle[]>([]);
+	const { user, setUser, logout, loadingUser} = useAuth();
 
 	useEffect(() => {
 		const fetchMovieDetails = async () => {
@@ -84,7 +98,18 @@ const MovieDetails: React.FC = () => {
 				const response = await api.get(`/movies/${id}/`);
 				setMovie(response.data);
 
-				// If magnet link exists, start the stream automatically
+				try {
+					const subtitlesResponse = await api.get(`/subtitles/`, {
+						params: {
+							movie_id: id,
+							language: user?.preferred_language || 'en'
+						}
+                    });
+					setSubtitles(subtitlesResponse.data);
+				} catch (error) {
+					console.error('Error fetching subtitles:', error);
+				}
+
 				if (response.data.magnet_link) {
 					try {
 						await api.post(`/video/${id}/start/`, {
@@ -103,10 +128,13 @@ const MovieDetails: React.FC = () => {
 			}
 		};
 
-		fetchMovieDetails();
-	}, [id]);
+		// Only fetch movie details when user loading is complete
+		if (!loadingUser) {
+			fetchMovieDetails();
+		}
+	}, [id, user?.preferred_language, loadingUser]);
 
-	if (loading) {
+	if (loadingUser || loading) {
 		return (
 			<Box sx={{
 				display: 'flex',
@@ -153,7 +181,6 @@ const MovieDetails: React.FC = () => {
 		day: 'numeric'
 	};
 	const formattedDate: string = new Date(movie.release_date).toLocaleDateString(undefined, options);
-	console.log(formattedDate);
 
 	return (
 		<Box sx={{ backgroundColor: '#1a1a1a', minHeight: '100vh', color: 'white' }}>

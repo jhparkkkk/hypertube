@@ -4,6 +4,7 @@ import logging
 from rest_framework.pagination import PageNumberPagination
 from .services import TMDBService, TorrentService
 import requests
+from .models import MovieFile
 
 logger = logging.getLogger(__name__)
 

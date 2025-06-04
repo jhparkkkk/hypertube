@@ -109,6 +109,7 @@ const UserProfile = () => {
 		}
 		console.log("handleSave", form);
 		console.log("user", user);
+		console.log("language", form.preferred_language);
 
 		const fieldsToValidate = ["username", "first_name", "last_name", "email", "preferred_language"];
 		const newErrors: { [key: string]: string } = {};

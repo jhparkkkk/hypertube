@@ -8,6 +8,7 @@ import os
 class MovieFile(models.Model):
 	"""Model for movie file and streaming information"""
 	tmdb_id = models.IntegerField()  # TMDB movie ID
+	imdb_id = models.CharField(max_length=20, null=True, blank=True)  # IMDB ID without 'tt' prefix
 	magnet_link = models.TextField()
 	file_path = models.CharField(max_length=1000, null=True, blank=True)
 	download_status = models.CharField(
