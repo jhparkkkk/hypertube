@@ -18,9 +18,9 @@ function App() {
 	const { loadingUser } = useAuth();
 
 	if (loadingUser) {
-		return <p>Loading...</p>; 
+		return <p>Loading...</p>;
 	}
-	
+
 	return (
 			<Routes>
 				<Route path="/not-found" element={<NotFound />} />
@@ -44,13 +44,11 @@ function App() {
 						<Route path="/users/:id" element={<UserProfile />} />
 						<Route path="/movies" element={<MovieLibrary />} />
 						<Route path="/movies/:id" element={<MovieDetails />} />
-
-						
 					</Route>
 				</Route>
-				<Route path="*" element={<NotFound />} />
+			<Route path="*" element={<NotFound />} />
 
-			</Routes>
+		</Routes>
 	);
 }
 
