@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { Box, CircularProgress, Typography, Button, IconButton, Slider } from '@mui/material';
-import { PlayArrow, Pause, VolumeUp, VolumeOff, Fullscreen, Forward10, Replay10 } from '@mui/icons-material';
+import { Box, CircularProgress, Typography, Button, IconButton, Slider, Menu, MenuItem } from '@mui/material';
+import { PlayArrow, Pause, VolumeUp, VolumeOff, Fullscreen, Forward10, Replay10, Subtitles } from '@mui/icons-material';
 import { api, API_BASE_URL } from '../../api/axiosConfig';
 import { MoviePlayerProps } from './shared/types';
 import { moviePlayerStyles } from './shared/styles';
@@ -28,6 +28,18 @@ interface SegmentsData {
   segment_duration: number;
   total_segments: number;
   total_duration?: number;
+}
+
+interface SubtitleCue {
+  startTime: number;
+  endTime: number;
+  text: string;
+}
+
+interface SubtitleTrack {
+  language: string;
+  language_name: string;
+  file_path: string;
 }
 
 interface MoviePlayerComponentProps {
@@ -71,6 +83,14 @@ const MoviePlayer: React.FC<MoviePlayerComponentProps> = ({ movieId, magnet }) =
   // Add new state for available time
   const [availableTime, setAvailableTime] = useState(0);
 
+  const [subtitles, setSubtitles] = useState<SubtitleTrack[]>([]);
+  const [currentSubtitle, setCurrentSubtitle] = useState<SubtitleTrack | null>(null);
+  const [subtitlesEnabled, setSubtitlesEnabled] = useState(false);
+  
+  // Custom subtitle rendering
+  const [subtitleCues, setSubtitleCues] = useState<SubtitleCue[]>([]);
+  const [currentSubtitleText, setCurrentSubtitleText] = useState<string>('');
+
   const formatTime = (seconds: number) => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
@@ -81,6 +101,93 @@ const MoviePlayer: React.FC<MoviePlayerComponentProps> = ({ movieId, magnet }) =
     }
     return `${minutes}:${secs.toString().padStart(2, '0')}`;
   };
+
+  // Parse VTT time string to seconds
+  const parseVTTTime = (timeString: string): number => {
+    const parts = timeString.split(':');
+    const hours = parseInt(parts[0]);
+    const minutes = parseInt(parts[1]);
+    const secondsParts = parts[2].split('.');
+    const seconds = parseInt(secondsParts[0]);
+    const milliseconds = parseInt(secondsParts[1] || '0');
+    
+    return hours * 3600 + minutes * 60 + seconds + milliseconds / 1000;
+  };
+
+  // Parse VTT content into subtitle cues
+  const parseVTTContent = (vttContent: string): SubtitleCue[] => {
+    const lines = vttContent.split('\n');
+    const cues: SubtitleCue[] = [];
+    
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+      
+      // Look for time range lines (e.g., "00:02:48.336 --> 00:02:50.171")
+      if (line.includes(' --> ')) {
+        const [startTimeStr, endTimeStr] = line.split(' --> ');
+        const startTime = parseVTTTime(startTimeStr.trim());
+        const endTime = parseVTTTime(endTimeStr.trim());
+        
+        // Collect subtitle text (next lines until empty line)
+        const textLines: string[] = [];
+        i++; // Move to next line after timestamp
+        
+        while (i < lines.length && lines[i].trim() !== '') {
+          textLines.push(lines[i].trim());
+          i++;
+        }
+        
+        if (textLines.length > 0) {
+          cues.push({
+            startTime,
+            endTime,
+            text: textLines.join('\n')
+          });
+        }
+      }
+    }
+    
+    return cues;
+  };
+
+  // Update current subtitle text based on virtual time
+  useEffect(() => {
+    if (subtitleCues.length === 0) {
+      setCurrentSubtitleText('');
+      return;
+    }
+
+    const currentCue = subtitleCues.find(cue => 
+      virtualTime >= cue.startTime && virtualTime <= cue.endTime
+    );
+
+    setCurrentSubtitleText(currentCue ? currentCue.text : '');
+  }, [virtualTime, subtitleCues]);
+
+  // Load and parse VTT file when subtitle is selected
+  useEffect(() => {
+    if (!currentSubtitle) {
+      setSubtitleCues([]);
+      setCurrentSubtitleText('');
+      return;
+    }
+
+    const loadSubtitleFile = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/subtitles/${movieId}/file/${currentSubtitle.language}/`);
+        if (response.ok) {
+          const vttContent = await response.text();
+          const cues = parseVTTContent(vttContent);
+          setSubtitleCues(cues);
+        }
+      } catch (error) {
+        console.error('Error loading subtitle file:', error);
+        setSubtitleCues([]);
+      }
+    };
+
+    loadSubtitleFile();
+  }, [currentSubtitle, movieId]);
 
   // Initialize buffer video elements
   useEffect(() => {
@@ -370,6 +477,32 @@ const MoviePlayer: React.FC<MoviePlayerComponentProps> = ({ movieId, magnet }) =
     }
   };
 
+  // Fetch subtitles when component mounts
+  useEffect(() => {
+    const fetchSubtitles = async () => {
+      try {
+        const response = await api.get(`/subtitles/?movie_id=${movieId}&language=en`);
+        setSubtitles(response.data);
+      } catch (error) {
+        console.error('Error fetching subtitles:', error);
+      }
+    };
+    fetchSubtitles();
+  }, [movieId]);
+
+  // Handle subtitle toggle - automatically select first subtitle when enabled
+  useEffect(() => {
+    if (subtitlesEnabled) {
+      // Select first available subtitle (usually English)
+      if (subtitles.length > 0) {
+        setCurrentSubtitle(subtitles[0]);
+      }
+    } else {
+      // Disable subtitles
+      setCurrentSubtitle(null);
+    }
+  }, [subtitlesEnabled, subtitles]);
+
   if (loading) {
     return (
       <Box sx={moviePlayerStyles.loadingContainer}>
@@ -423,6 +556,32 @@ const MoviePlayer: React.FC<MoviePlayerComponentProps> = ({ movieId, magnet }) =
           preload="auto"
           crossOrigin="anonymous"
         />
+        
+        {/* Custom subtitle overlay */}
+        {currentSubtitleText && (
+          <Box
+            sx={{
+              position: 'absolute',
+              bottom: '10%',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              backgroundColor: 'rgba(0, 0, 0, 0.8)',
+              color: 'white',
+              padding: '8px 16px',
+              borderRadius: '4px',
+              fontSize: '18px',
+              fontWeight: 500,
+              textAlign: 'center',
+              maxWidth: '80%',
+              lineHeight: 1.4,
+              whiteSpace: 'pre-line',
+              textShadow: '2px 2px 4px rgba(0, 0, 0, 0.8)',
+              zIndex: 10,
+            }}
+          >
+            {currentSubtitleText}
+          </Box>
+        )}
         
         {/* Buffering indicator */}
         {isBuffering && (
@@ -543,6 +702,18 @@ const MoviePlayer: React.FC<MoviePlayerComponentProps> = ({ movieId, magnet }) =
                   sx={moviePlayerStyles.volumeSlider}
                 />
               </Box>
+              <IconButton 
+                onClick={() => setSubtitlesEnabled(!subtitlesEnabled)}
+                sx={{
+                  ...moviePlayerStyles.controlButton,
+                  color: subtitlesEnabled ? 'white' : 'rgba(255, 255, 255, 0.4)',
+                  '&:hover': {
+                    color: subtitlesEnabled ? 'white' : 'rgba(255, 255, 255, 0.7)',
+                  }
+                }}
+              >
+                <Subtitles />
+              </IconButton>
               <Typography variant="body2" sx={moviePlayerStyles.timeDisplay}>
                 {formatTime(virtualTime)} / {formatTime(totalDuration)}
               </Typography>

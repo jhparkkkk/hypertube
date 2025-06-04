@@ -3,6 +3,7 @@ import requests
 import os
 from django.conf import settings
 from movies.models import MovieFile
+from srt_to_vtt import srt_to_vtt
 
 
 class SubtitleService:
@@ -14,6 +15,18 @@ class SubtitleService:
             "Content-Type": "application/json",
             "User-Agent": "Hypertube",
         }
+
+    def convert_srt_to_vtt(self, srt_path: str) -> str:
+        """
+        Convert an SRT file to VTT format and return the path to the VTT file.
+        """
+        vtt_path = srt_path.replace('.srt', '.vtt')
+        try:
+            srt_to_vtt(srt_path, vtt_path)
+            return vtt_path
+        except Exception as e:
+            logging.error(f"Error converting SRT to VTT: {str(e)}")
+            return None
 
     def fetch_subtitles(self, movie: MovieFile, lang: str) -> list:
         """
@@ -32,7 +45,6 @@ class SubtitleService:
             )
             response.raise_for_status()
             data = response.json()
-            print(data)
 
             subtitles = []
             for item in data.get('data', []):
@@ -55,12 +67,19 @@ class SubtitleService:
                                 subtitles_dir = os.path.join(settings.MEDIA_ROOT, 'downloads/subtitles', str(movie.tmdb_id))
                                 os.makedirs(subtitles_dir, exist_ok=True)
 
-                                subtitle_path = os.path.join(subtitles_dir, f"{lang}.srt")
+                                srt_path = os.path.join(subtitles_dir, f"{lang}.srt")
                                 file_response = requests.get(download_url)
                                 file_response.raise_for_status()
 
-                                with open(subtitle_path, 'wb') as f:
+                                with open(srt_path, 'wb') as f:
                                     f.write(file_response.content)
+
+                                # Convert SRT to VTT
+                                vtt_path = self.convert_srt_to_vtt(srt_path)
+                                if vtt_path:
+                                    vtt_relative_path = os.path.join('subtitles', str(movie.tmdb_id), f"{lang}.vtt")
+                                else:
+                                    vtt_relative_path = None
 
                                 subtitles.append({
                                     'language': attributes.get('language', lang),
@@ -73,9 +92,9 @@ class SubtitleService:
                                     'fps': attributes.get('fps', 0),
                                     'release': attributes.get('release', ''),
                                     'upload_date': attributes.get('upload_date', ''),
-                                    'file_path': os.path.join('subtitles', str(movie.tmdb_id), f"{lang}.srt")
+                                    'file_path': vtt_relative_path or os.path.join('subtitles', str(movie.tmdb_id), f"{lang}.srt")
                                 })
-                                logging.info(f"Successfully downloaded subtitle to {subtitle_path}")
+                                logging.info(f"Successfully downloaded subtitle to {srt_path} and converted to VTT")
                                 break
 
                         except requests.exceptions.RequestException as e:

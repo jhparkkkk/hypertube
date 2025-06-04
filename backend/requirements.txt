@@ -37,3 +37,4 @@ celery==5.3.6
 redis==5.0.1
 djangorestframework-simplejwt
 1337x==2.0.0
+srt-to-vtt==1.4.0

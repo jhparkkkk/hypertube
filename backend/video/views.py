@@ -105,11 +105,15 @@ def process_video_thread(video_id):
 
             torrent_info = handle.get_torrent_info()
             largest_file = max(torrent_info.files(), key=lambda f: f.size)
-            original_filename = os.path.basename(largest_file.path)  # Only take the filename, not the full path
-            downloaded_path = os.path.join(movie_dir, original_filename)
-
-            movie_file.file_path = os.path.join("movies", str(movie_file.tmdb_id), original_filename)
+            file_path_in_torrent = largest_file.path
+            downloaded_path = os.path.join(movie_dir, file_path_in_torrent)
+            
+            # Store the full relative path including any subdirectories
+            movie_file.file_path = os.path.join("movies", str(movie_file.tmdb_id), file_path_in_torrent)
             movie_file.save()
+
+            # Ensure the full directory structure exists
+            os.makedirs(os.path.dirname(downloaded_path), exist_ok=True)
 
             video_service = VideoService()
             conversion_started = False
@@ -126,17 +130,15 @@ def process_video_thread(video_id):
                 # Try to start segmentation as soon as possible
                 if not conversion_started and os.path.exists(downloaded_path):
                     current_time = time.time()
-                    # Only attempt to read the file every 2 seconds to avoid too frequent checks
                     if current_time - last_attempt_time > 2:
                         last_attempt_time = current_time
                         try:
-                            # Try to get video duration - this will fail if file is not readable yet
                             video_duration = video_service.get_video_duration(downloaded_path)
                             if video_duration:
                                 conversion_started = True
                                 movie_file.download_status = "DL_AND_CONVERT"
                                 movie_file.save()
-                                logging.info(f"Starting segmentation at {progress:.2f}% for {original_filename}")
+                                logging.info(f"Starting segmentation at {progress:.2f}% for {file_path_in_torrent}")
                         except Exception as e:
                             logging.debug(f"File not ready yet: {e}")
 
@@ -157,8 +159,16 @@ def process_video_thread(video_id):
                                 if success:
                                     current_segment += 1
                                     if current_segment == 1:
-                                        base_name = os.path.splitext(original_filename)[0]
+                                        # Get the directory structure from the original file path
+                                        rel_path = os.path.relpath(downloaded_path, movie_dir)
+                                        dir_path = os.path.dirname(rel_path)
+                                        base_name = os.path.splitext(os.path.basename(rel_path))[0]
+                                        
+                                        # Create segment path preserving directory structure
                                         first_segment = f"{base_name}_segment_000.mp4"
+                                        if dir_path:
+                                            first_segment = os.path.join(dir_path, first_segment)
+                                        
                                         movie_file.file_path = os.path.join("movies", str(movie_file.tmdb_id), first_segment)
                                         movie_file.download_status = "PLAYABLE"
                                         first_segment_ready = True
@@ -263,18 +273,19 @@ class VideoViewSet(viewsets.ViewSet):
             # If movie is playable or ready, add segment information and total duration
             if movie_file.download_status in ["READY", "PLAYABLE"]:
                 try:
-                    downloads_dir = "/app/downloads"
-                    movie_dir = os.path.join(downloads_dir, "movies", str(pk))
-                    base_name = os.path.splitext(os.path.basename(movie_file.file_path))[0]
+                    # Get the full path from the stored file path
+                    file_path = os.path.join("/app/downloads", movie_file.file_path)
+                    dir_path = os.path.dirname(file_path)
+                    base_name = os.path.splitext(os.path.basename(file_path))[0]
                     
-                    # Remove _segment_000 suffix if it exists to get the original base name
+                    # Remove _segment_000 suffix if it exists
                     if base_name.endswith("_segment_000"):
                         base_name = base_name[:-12]
                     
-                    # Get total movie duration from original file if available
+                    # Get total movie duration from original file
                     original_file_path = None
                     for ext in ['.mkv', '.mp4', '.avi']:
-                        test_path = os.path.join(movie_dir, f"{base_name}{ext}")
+                        test_path = os.path.join(dir_path, f"{base_name}{ext}")
                         if os.path.exists(test_path):
                             original_file_path = test_path
                             break
@@ -288,7 +299,7 @@ class VideoViewSet(viewsets.ViewSet):
                     available_segments = 0
                     while True:
                         segment_filename = f"{base_name}_segment_{available_segments:03d}.mp4"
-                        segment_path = os.path.join(movie_dir, segment_filename)
+                        segment_path = os.path.join(dir_path, segment_filename)
                         if os.path.exists(segment_path):
                             available_segments += 1
                         else:
@@ -319,13 +330,18 @@ class VideoViewSet(viewsets.ViewSet):
             # Get segment parameter (default to 0 for first segment)
             segment = int(request.query_params.get("segment", 0))
             
-            # Determine the correct file path based on segment
-            base_name = os.path.splitext(os.path.basename(movie_file.file_path))[0]
-            if base_name.endswith("_segment_000"):
-                base_name = base_name[:-12]  # Remove "_segment_000"
+            # Get the full path structure from the stored file path
+            file_path = os.path.join("/app/downloads", movie_file.file_path)
             
-            segment_filename = f"{base_name}_segment_{segment:03d}.mp4"
-            file_path = os.path.join("/app/downloads/movies", str(pk), segment_filename)
+            if segment != 0:  # For segments other than 0, we need to construct the segment path
+                dir_path = os.path.dirname(file_path)
+                base_name = os.path.splitext(os.path.basename(file_path))[0]
+                
+                if base_name.endswith("_segment_000"):
+                    base_name = base_name[:-12]
+                
+                segment_filename = f"{base_name}_segment_{segment:03d}.mp4"
+                file_path = os.path.join(dir_path, segment_filename)
             
             if not os.path.exists(file_path):
                 return Response({"error": f"Segment {segment} not found"}, status=status.HTTP_404_NOT_FOUND)
@@ -377,14 +393,12 @@ class VideoViewSet(viewsets.ViewSet):
                     status=status.HTTP_400_BAD_REQUEST,
                 )
             
-            downloads_dir = "/app/downloads"
-            file_path = os.path.join(downloads_dir, movie_file.file_path)
-            
-            # Get the directory path and base name
+            # Get the full path from the stored file path
+            file_path = os.path.join("/app/downloads", movie_file.file_path)
             dir_path = os.path.dirname(file_path)
             base_name = os.path.splitext(os.path.basename(file_path))[0]
             
-            # Remove _segment_000 suffix if it exists to get the original base name
+            # Remove _segment_000 suffix if it exists
             if base_name.endswith("_segment_000"):
                 base_name = base_name[:-12]
             

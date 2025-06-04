@@ -64,9 +64,8 @@ class VideoService:
         rel_path = os.path.relpath(input_path, output_dir)
         dir_path = os.path.dirname(rel_path)
         file_name = os.path.basename(rel_path)
-        
-        # Create segment name preserving directory structure
-        segment_name = f"{os.path.splitext(file_name)[0]}_segment_{current_segment:03d}.mp4"
+        base_name = os.path.splitext(file_name)[0]
+        segment_name = f"{base_name}_segment_{current_segment:03d}.mp4"
         if dir_path and dir_path != '.':
             segment_path = os.path.join(output_dir, dir_path, segment_name)
             # Ensure the subdirectory exists
@@ -121,11 +120,11 @@ class VideoService:
             if os.path.exists(segment_path) and os.path.getsize(segment_path) > 0:
                 try:
                     ffmpeg.probe(segment_path)
-                    # logging.info(f"✓ {'Copied' if is_compatible else 'Converted'} segment {current_segment}: {segment_path}")
+                    logging.info(f"✓ {'Copied' if is_compatible else 'Converted'} segment {current_segment}: {segment_path}")
                     self.processed_segments.add(current_segment)
                     return True
                 except ffmpeg.Error as e:
-                    # logging.error(f"Invalid output file for segment {current_segment}: {e.stderr.decode()}")
+                    logging.error(f"Invalid output file for segment {current_segment}: {e.stderr.decode()}")
                     if os.path.exists(segment_path):
                         os.remove(segment_path)
                     return False
