@@ -5,6 +5,7 @@ import { PlayArrow, Pause, VolumeUp, VolumeOff, Fullscreen, Forward10, Replay10,
 import { api, API_BASE_URL } from '../../api/axiosConfig';
 import { MoviePlayerProps } from './shared/types';
 import { moviePlayerStyles } from './shared/styles';
+import { useAuth } from '../../context/AuthContext';
 
 interface MovieStatus {
   ready: boolean;
@@ -90,6 +91,8 @@ const MoviePlayer: React.FC<MoviePlayerComponentProps> = ({ movieId, magnet }) =
   // Custom subtitle rendering
   const [subtitleCues, setSubtitleCues] = useState<SubtitleCue[]>([]);
   const [currentSubtitleText, setCurrentSubtitleText] = useState<string>('');
+
+  const { user, setUser, logout, loadingUser} = useAuth();
 
   const formatTime = (seconds: number) => {
     const hours = Math.floor(seconds / 3600);
@@ -481,18 +484,20 @@ const MoviePlayer: React.FC<MoviePlayerComponentProps> = ({ movieId, magnet }) =
   useEffect(() => {
     const fetchSubtitles = async () => {
       try {
-        const response = await api.get(`/subtitles/?movie_id=${movieId}&language=en`);
+        const response = await api.get(`/subtitles/?movie_id=${movieId}&language=${user?.preferred_language || 'en'}`);
         setSubtitles(response.data);
       } catch (error) {
         console.error('Error fetching subtitles:', error);
       }
     };
-    fetchSubtitles();
-  }, [movieId]);
+    if (!loadingUser) {
+          fetchSubtitles();
+      }
+  }, [movieId, user?.preferred_language, loadingUser]);
 
   // Handle subtitle toggle - automatically select first subtitle when enabled
   useEffect(() => {
-    if (subtitlesEnabled) {
+      if (subtitlesEnabled) {
       // Select first available subtitle (usually English)
       if (subtitles.length > 0) {
         setCurrentSubtitle(subtitles[0]);
@@ -502,7 +507,6 @@ const MoviePlayer: React.FC<MoviePlayerComponentProps> = ({ movieId, magnet }) =
       setCurrentSubtitle(null);
     }
   }, [subtitlesEnabled, subtitles]);
-
   if (loading) {
     return (
       <Box sx={moviePlayerStyles.loadingContainer}>
