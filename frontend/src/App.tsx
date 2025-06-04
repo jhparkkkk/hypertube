@@ -1,6 +1,6 @@
 import "./App.css";
-import { Routes, Route, BrowserRouter, useLocation } from "react-router-dom";
-import { AuthProvider, useAuth } from "./context/AuthContext";
+import { Routes, Route} from "react-router-dom";
+import { useAuth } from "./context/AuthContext";
 import Layout from "./components/Layout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import MovieLibrary from "./pages/movies/MovieLibrary";

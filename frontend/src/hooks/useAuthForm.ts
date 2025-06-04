@@ -45,7 +45,7 @@ export const useAuthForm = (authType: AuthType, params="") => {
 		const errors: { [key: string]: string } = {};
 		let isValid = true;
 	
-		const requiredFields = [];
+		const requiredFields: (keyof FormData)[] = [];
 		if (authType === "register") {
 			requiredFields.push("username", "password", "email", "first_name", "last_name");
 		}
@@ -87,10 +87,7 @@ export const useAuthForm = (authType: AuthType, params="") => {
 		
 
     const handleSubmit = async () => {
-			// const manualCheck = validateForm(formData, touchedFields);
-    		// if (!manualCheck) return;
       if (!isFormValid) return;
-			console.log('handle submit')
       const endpointByAuthType = {
             'login': '/oauth/token',
             'register': '/register',
@@ -100,32 +97,24 @@ export const useAuthForm = (authType: AuthType, params="") => {
         
         const endpoint = endpointByAuthType[authType];
         try {
-            console.log("endpoint", endpoint);
-
             const response = await api.post(endpoint, formData);
-
-            console.log(`User succesfully ${authType}ed in:`, response.data);
 
             if (authType === "login") {
                 login(response.data.tokens.access, response.data.user);
-                navigate("/home");
+                navigate("/movies");
             }
 						else if (authType === "request-reset") {
-							console.log("🔴 request-reset response", response.data);
 							setSuccessMessage("Password reset email sent. Please check your inbox."); }
 						else {
-                navigate("/home");
+                navigate("/movies");
             }
         } catch (error: any) {
             if (error.response) {
-                console.log("error login", error.response.data.error);
                 setErrors({"general": error.response.data.error});
             }
 						else if (error.request) {
-							console.error('🔴 No response from server:', error.request);
       				setErrors({ general: 'No response from the server.' });
  							} else {
-							console.error('🔴 Axios config error:', error.message);
 							setErrors({ general: 'An error occurred. Please try again.' });
 						}
 					

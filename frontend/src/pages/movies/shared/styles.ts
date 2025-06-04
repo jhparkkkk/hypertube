@@ -1,5 +1,3 @@
-import { SxProps } from '@mui/material';
-
 export const movieCardStyles = {
   card: {
     height: '100%',
