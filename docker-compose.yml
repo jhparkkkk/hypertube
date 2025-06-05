@@ -63,7 +63,7 @@ services:
     build:
       context: ./frontend
       args:
-        NODE_ENV: ${NODE_ENV}
+        NODE_ENV: production
     container_name: hypertube-frontend
     depends_on:
       - backend
@@ -75,7 +75,7 @@ services:
       - /app/node_modules
     environment:
       - CHOKIDAR_USEPOLLING=true
-      - NODE_ENV=${NODE_ENV}
+      - NODE_ENV=production
     stdin_open: true
     tty: true
 
