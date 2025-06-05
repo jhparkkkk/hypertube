@@ -32,8 +32,8 @@ const MovieLibrary: React.FC = () => {
 	const [genre, setGenre] = useState<string>('');
 	const [rating, setRating] = useState<string>('');
 	const [year, setYear] = useState<string>('');
-	const [totalResults, setTotalResults] = useState<number>(0);
-	const observer = useRef<IntersectionObserver>();
+	const [, setTotalResults] = useState<number>(0);
+	const observer = useRef<IntersectionObserver | null>(null);
 
 	const [watchedMovieIds, setWatchedMovieIds] = useState<number[]>([]);
 

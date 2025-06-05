@@ -644,3 +644,366 @@
    at Jackett.Server.Controllers.ResultsController.Results(ApiSearch requestt) in ./Jackett.Server/Controllers/ResultsController.cs:line 256
 
 2025-06-04 17:55:40.8785 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Star Wars 1977 => Found 184 releases (from cache) [27ms]
+2025-06-04 18:15:36.1222 Info Jackett stopped
+2025-06-04 18:17:57.4108 Info Starting Jackett v0.22.1987
+2025-06-04 18:17:57.7129 Info Environment version: 8.0.16 (/app/Jackett/)
+2025-06-04 18:17:57.7172 Info OS version: Unix 5.15.0.140 (64bit OS) (64bit process)
+2025-06-04 18:17:57.7187 Info Jackett variant: CoreLinuxMuslAmdx64
+2025-06-04 18:17:57.7187 Info File /etc/issue: Welcome to Alpine Linux 3.21
+2025-06-04 18:17:57.7187 Info Running in Docker: Yes (image build: v0.22.1987-ls49)
+2025-06-04 18:17:57.7187 Info ThreadPool MaxThreads: 32767 workerThreads, 1000 completionPortThreads
+2025-06-04 18:17:57.7187 Info App config/log directory: /config/Jackett
+2025-06-04 18:17:57.7187 Info Using proxy: Disabled
+2025-06-04 18:17:57.7187 Info Using FlareSolverr: No
+2025-06-04 18:17:57.7187 Info Using HTTP Client: HttpWebClient2
+2025-06-04 18:17:57.7241 Info Loading Native indexers ...
+2025-06-04 18:17:57.7386 Info Loaded 76 Native indexers.
+2025-06-04 18:17:57.7386 Info Loading Cardigann indexers from: /config/cardigann/definitions/, /etc/xdg/cardigan/definitions/, /app/Jackett/Definitions
+2025-06-04 18:17:59.0862 Info Loaded 525 Cardigann indexers.
+2025-06-04 18:17:59.0865 Info Loaded 601 indexers in total
+2025-06-04 18:17:59.0998 Info Adding aggregate indexer ('all' indexer) ...
+2025-06-04 18:17:59.1025 Info Adding filter indexer ('type:public' indexer) ...
+2025-06-04 18:17:59.1025 Info Adding filter indexer ('type:private' indexer) ...
+2025-06-04 18:17:59.1025 Info Adding filter indexer ('type:semi-public' indexer) ...
+2025-06-04 18:17:59.1889 Info Jackett startup finished in 1.925 s
+2025-06-04 18:20:39.9734 Error Jackett.Common.IndexerException: Exception (1337x): Challenge detected but FlareSolverr is not configured
+
+[v0.22.1987.0] Jackett.Common.IndexerException: Exception (1337x): Challenge detected but FlareSolverr is not configured
+ ---> FlareSolverrSharp.Exceptions.FlareSolverrException: Challenge detected but FlareSolverr is not configured
+   at FlareSolverrSharp.ClearanceHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Jackett.Common.Utils.Clients.HttpWebClient2.Run(WebRequest webRequest) in ./Jackett.Common/Utils/Clients/HttpWebClient2.cs:line 180
+   at Jackett.Common.Utils.Clients.WebClient.GetResultAsync(WebRequest request) in ./Jackett.Common/Utils/Clients/WebClient.cs:line 188
+   at Jackett.Common.Indexers.BaseWebIndexer.RequestWithCookiesAsync(String url, String cookieOverride, RequestType method, String referer, IEnumerable`1 data, Dictionary`2 headers, String rawbody, Nullable`1 emulateBrowser) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 617
+   at Jackett.Common.Indexers.Definitions.CardigannIndexer.PerformQuery(TorznabQuery query) in ./Jackett.Common/Indexers/Definitions/CardigannIndexer.cs:line 1563
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 378
+   --- End of inner exception stack trace ---
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 403
+   at Jackett.Common.Indexers.BaseWebIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 816
+   at Jackett.Server.Controllers.ResultsController.Results(ApiSearch requestt) in ./Jackett.Server/Controllers/ResultsController.cs:line 256
+
+2025-06-04 18:20:39.9979 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Karate Kid: Legends 2025 => Found 28 releases [527ms]
+2025-06-04 18:20:40.1428 Error Jackett.Common.IndexerException: Exception (1337x): Challenge detected but FlareSolverr is not configured
+
+[v0.22.1987.0] Jackett.Common.IndexerException: Exception (1337x): Challenge detected but FlareSolverr is not configured
+ ---> FlareSolverrSharp.Exceptions.FlareSolverrException: Challenge detected but FlareSolverr is not configured
+   at FlareSolverrSharp.ClearanceHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Jackett.Common.Utils.Clients.HttpWebClient2.Run(WebRequest webRequest) in ./Jackett.Common/Utils/Clients/HttpWebClient2.cs:line 180
+   at Jackett.Common.Utils.Clients.WebClient.GetResultAsync(WebRequest request) in ./Jackett.Common/Utils/Clients/WebClient.cs:line 188
+   at Jackett.Common.Indexers.BaseWebIndexer.RequestWithCookiesAsync(String url, String cookieOverride, RequestType method, String referer, IEnumerable`1 data, Dictionary`2 headers, String rawbody, Nullable`1 emulateBrowser) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 617
+   at Jackett.Common.Indexers.Definitions.CardigannIndexer.PerformQuery(TorznabQuery query) in ./Jackett.Common/Indexers/Definitions/CardigannIndexer.cs:line 1563
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 378
+   --- End of inner exception stack trace ---
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 403
+   at Jackett.Common.Indexers.BaseWebIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 816
+   at Jackett.Server.Controllers.ResultsController.Results(ApiSearch requestt) in ./Jackett.Server/Controllers/ResultsController.cs:line 256
+
+2025-06-04 18:20:40.1482 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Karate Kid: Legends 2025 => Found 28 releases (from cache) [55ms]
+2025-06-04 18:21:51.0784 Error Jackett.Common.IndexerException: Exception (1337x): Challenge detected but FlareSolverr is not configured
+
+[v0.22.1987.0] Jackett.Common.IndexerException: Exception (1337x): Challenge detected but FlareSolverr is not configured
+ ---> FlareSolverrSharp.Exceptions.FlareSolverrException: Challenge detected but FlareSolverr is not configured
+   at FlareSolverrSharp.ClearanceHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Jackett.Common.Utils.Clients.HttpWebClient2.Run(WebRequest webRequest) in ./Jackett.Common/Utils/Clients/HttpWebClient2.cs:line 180
+   at Jackett.Common.Utils.Clients.WebClient.GetResultAsync(WebRequest request) in ./Jackett.Common/Utils/Clients/WebClient.cs:line 188
+   at Jackett.Common.Indexers.BaseWebIndexer.RequestWithCookiesAsync(String url, String cookieOverride, RequestType method, String referer, IEnumerable`1 data, Dictionary`2 headers, String rawbody, Nullable`1 emulateBrowser) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 617
+   at Jackett.Common.Indexers.Definitions.CardigannIndexer.PerformQuery(TorznabQuery query) in ./Jackett.Common/Indexers/Definitions/CardigannIndexer.cs:line 1563
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 378
+   --- End of inner exception stack trace ---
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 403
+   at Jackett.Common.Indexers.BaseWebIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 816
+   at Jackett.Server.Controllers.ResultsController.Results(ApiSearch requestt) in ./Jackett.Server/Controllers/ResultsController.cs:line 256
+
+2025-06-04 18:21:51.0844 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Karate Kid: Legends 2025 => Found 28 releases (from cache) [28ms]
+2025-06-04 18:21:51.1468 Error Jackett.Common.IndexerException: Exception (1337x): Challenge detected but FlareSolverr is not configured
+
+[v0.22.1987.0] Jackett.Common.IndexerException: Exception (1337x): Challenge detected but FlareSolverr is not configured
+ ---> FlareSolverrSharp.Exceptions.FlareSolverrException: Challenge detected but FlareSolverr is not configured
+   at FlareSolverrSharp.ClearanceHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Jackett.Common.Utils.Clients.HttpWebClient2.Run(WebRequest webRequest) in ./Jackett.Common/Utils/Clients/HttpWebClient2.cs:line 180
+   at Jackett.Common.Utils.Clients.WebClient.GetResultAsync(WebRequest request) in ./Jackett.Common/Utils/Clients/WebClient.cs:line 188
+   at Jackett.Common.Indexers.BaseWebIndexer.RequestWithCookiesAsync(String url, String cookieOverride, RequestType method, String referer, IEnumerable`1 data, Dictionary`2 headers, String rawbody, Nullable`1 emulateBrowser) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 617
+   at Jackett.Common.Indexers.Definitions.CardigannIndexer.PerformQuery(TorznabQuery query) in ./Jackett.Common/Indexers/Definitions/CardigannIndexer.cs:line 1563
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 378
+   --- End of inner exception stack trace ---
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 403
+   at Jackett.Common.Indexers.BaseWebIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 816
+   at Jackett.Server.Controllers.ResultsController.Results(ApiSearch requestt) in ./Jackett.Server/Controllers/ResultsController.cs:line 256
+
+2025-06-04 18:21:51.1505 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Karate Kid: Legends 2025 => Found 28 releases (from cache) [26ms]
+2025-06-04 18:23:14.1823 Error Jackett.Common.IndexerException: Exception (1337x): Challenge detected but FlareSolverr is not configured
+
+[v0.22.1987.0] Jackett.Common.IndexerException: Exception (1337x): Challenge detected but FlareSolverr is not configured
+ ---> FlareSolverrSharp.Exceptions.FlareSolverrException: Challenge detected but FlareSolverr is not configured
+   at FlareSolverrSharp.ClearanceHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Jackett.Common.Utils.Clients.HttpWebClient2.Run(WebRequest webRequest) in ./Jackett.Common/Utils/Clients/HttpWebClient2.cs:line 180
+   at Jackett.Common.Utils.Clients.WebClient.GetResultAsync(WebRequest request) in ./Jackett.Common/Utils/Clients/WebClient.cs:line 188
+   at Jackett.Common.Indexers.BaseWebIndexer.RequestWithCookiesAsync(String url, String cookieOverride, RequestType method, String referer, IEnumerable`1 data, Dictionary`2 headers, String rawbody, Nullable`1 emulateBrowser) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 617
+   at Jackett.Common.Indexers.Definitions.CardigannIndexer.PerformQuery(TorznabQuery query) in ./Jackett.Common/Indexers/Definitions/CardigannIndexer.cs:line 1563
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 378
+   --- End of inner exception stack trace ---
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 403
+   at Jackett.Common.Indexers.BaseWebIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 816
+   at Jackett.Server.Controllers.ResultsController.Results(ApiSearch requestt) in ./Jackett.Server/Controllers/ResultsController.cs:line 256
+
+2025-06-04 18:23:14.2038 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 45 releases [287ms]
+2025-06-04 18:23:14.4478 Error Jackett.Common.IndexerException: Exception (1337x): Challenge detected but FlareSolverr is not configured
+
+[v0.22.1987.0] Jackett.Common.IndexerException: Exception (1337x): Challenge detected but FlareSolverr is not configured
+ ---> FlareSolverrSharp.Exceptions.FlareSolverrException: Challenge detected but FlareSolverr is not configured
+   at FlareSolverrSharp.ClearanceHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Jackett.Common.Utils.Clients.HttpWebClient2.Run(WebRequest webRequest) in ./Jackett.Common/Utils/Clients/HttpWebClient2.cs:line 180
+   at Jackett.Common.Utils.Clients.WebClient.GetResultAsync(WebRequest request) in ./Jackett.Common/Utils/Clients/WebClient.cs:line 188
+   at Jackett.Common.Indexers.BaseWebIndexer.RequestWithCookiesAsync(String url, String cookieOverride, RequestType method, String referer, IEnumerable`1 data, Dictionary`2 headers, String rawbody, Nullable`1 emulateBrowser) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 617
+   at Jackett.Common.Indexers.Definitions.CardigannIndexer.PerformQuery(TorznabQuery query) in ./Jackett.Common/Indexers/Definitions/CardigannIndexer.cs:line 1563
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 378
+   --- End of inner exception stack trace ---
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 403
+   at Jackett.Common.Indexers.BaseWebIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 816
+   at Jackett.Server.Controllers.ResultsController.Results(ApiSearch requestt) in ./Jackett.Server/Controllers/ResultsController.cs:line 256
+
+2025-06-04 18:23:14.4610 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 45 releases (from cache) [44ms]
+2025-06-04 18:23:46.7884 Error Jackett.Common.IndexerException: Exception (1337x): Challenge detected but FlareSolverr is not configured
+
+[v0.22.1987.0] Jackett.Common.IndexerException: Exception (1337x): Challenge detected but FlareSolverr is not configured
+ ---> FlareSolverrSharp.Exceptions.FlareSolverrException: Challenge detected but FlareSolverr is not configured
+   at FlareSolverrSharp.ClearanceHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Jackett.Common.Utils.Clients.HttpWebClient2.Run(WebRequest webRequest) in ./Jackett.Common/Utils/Clients/HttpWebClient2.cs:line 180
+   at Jackett.Common.Utils.Clients.WebClient.GetResultAsync(WebRequest request) in ./Jackett.Common/Utils/Clients/WebClient.cs:line 188
+   at Jackett.Common.Indexers.BaseWebIndexer.RequestWithCookiesAsync(String url, String cookieOverride, RequestType method, String referer, IEnumerable`1 data, Dictionary`2 headers, String rawbody, Nullable`1 emulateBrowser) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 617
+   at Jackett.Common.Indexers.Definitions.CardigannIndexer.PerformQuery(TorznabQuery query) in ./Jackett.Common/Indexers/Definitions/CardigannIndexer.cs:line 1563
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 378
+   --- End of inner exception stack trace ---
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 403
+   at Jackett.Common.Indexers.BaseWebIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 816
+   at Jackett.Server.Controllers.ResultsController.Results(ApiSearch requestt) in ./Jackett.Server/Controllers/ResultsController.cs:line 256
+
+2025-06-04 18:23:46.7930 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 45 releases (from cache) [39ms]
+2025-06-04 18:23:46.8526 Error Jackett.Common.IndexerException: Exception (1337x): Challenge detected but FlareSolverr is not configured
+
+[v0.22.1987.0] Jackett.Common.IndexerException: Exception (1337x): Challenge detected but FlareSolverr is not configured
+ ---> FlareSolverrSharp.Exceptions.FlareSolverrException: Challenge detected but FlareSolverr is not configured
+   at FlareSolverrSharp.ClearanceHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Jackett.Common.Utils.Clients.HttpWebClient2.Run(WebRequest webRequest) in ./Jackett.Common/Utils/Clients/HttpWebClient2.cs:line 180
+   at Jackett.Common.Utils.Clients.WebClient.GetResultAsync(WebRequest request) in ./Jackett.Common/Utils/Clients/WebClient.cs:line 188
+   at Jackett.Common.Indexers.BaseWebIndexer.RequestWithCookiesAsync(String url, String cookieOverride, RequestType method, String referer, IEnumerable`1 data, Dictionary`2 headers, String rawbody, Nullable`1 emulateBrowser) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 617
+   at Jackett.Common.Indexers.Definitions.CardigannIndexer.PerformQuery(TorznabQuery query) in ./Jackett.Common/Indexers/Definitions/CardigannIndexer.cs:line 1563
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 378
+   --- End of inner exception stack trace ---
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 403
+   at Jackett.Common.Indexers.BaseWebIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 816
+   at Jackett.Server.Controllers.ResultsController.Results(ApiSearch requestt) in ./Jackett.Server/Controllers/ResultsController.cs:line 256
+
+2025-06-04 18:23:46.8558 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 45 releases (from cache) [29ms]
+2025-06-04 18:24:27.2870 Error Jackett.Common.IndexerException: Exception (1337x): Challenge detected but FlareSolverr is not configured
+
+[v0.22.1987.0] Jackett.Common.IndexerException: Exception (1337x): Challenge detected but FlareSolverr is not configured
+ ---> FlareSolverrSharp.Exceptions.FlareSolverrException: Challenge detected but FlareSolverr is not configured
+   at FlareSolverrSharp.ClearanceHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Jackett.Common.Utils.Clients.HttpWebClient2.Run(WebRequest webRequest) in ./Jackett.Common/Utils/Clients/HttpWebClient2.cs:line 180
+   at Jackett.Common.Utils.Clients.WebClient.GetResultAsync(WebRequest request) in ./Jackett.Common/Utils/Clients/WebClient.cs:line 188
+   at Jackett.Common.Indexers.BaseWebIndexer.RequestWithCookiesAsync(String url, String cookieOverride, RequestType method, String referer, IEnumerable`1 data, Dictionary`2 headers, String rawbody, Nullable`1 emulateBrowser) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 617
+   at Jackett.Common.Indexers.Definitions.CardigannIndexer.PerformQuery(TorznabQuery query) in ./Jackett.Common/Indexers/Definitions/CardigannIndexer.cs:line 1563
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 378
+   --- End of inner exception stack trace ---
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 403
+   at Jackett.Common.Indexers.BaseWebIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 816
+   at Jackett.Server.Controllers.ResultsController.Results(ApiSearch requestt) in ./Jackett.Server/Controllers/ResultsController.cs:line 256
+
+2025-06-04 18:24:27.2908 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 45 releases (from cache) [56ms]
+2025-06-04 18:24:27.3488 Error Jackett.Common.IndexerException: Exception (1337x): Challenge detected but FlareSolverr is not configured
+
+[v0.22.1987.0] Jackett.Common.IndexerException: Exception (1337x): Challenge detected but FlareSolverr is not configured
+ ---> FlareSolverrSharp.Exceptions.FlareSolverrException: Challenge detected but FlareSolverr is not configured
+   at FlareSolverrSharp.ClearanceHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Jackett.Common.Utils.Clients.HttpWebClient2.Run(WebRequest webRequest) in ./Jackett.Common/Utils/Clients/HttpWebClient2.cs:line 180
+   at Jackett.Common.Utils.Clients.WebClient.GetResultAsync(WebRequest request) in ./Jackett.Common/Utils/Clients/WebClient.cs:line 188
+   at Jackett.Common.Indexers.BaseWebIndexer.RequestWithCookiesAsync(String url, String cookieOverride, RequestType method, String referer, IEnumerable`1 data, Dictionary`2 headers, String rawbody, Nullable`1 emulateBrowser) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 617
+   at Jackett.Common.Indexers.Definitions.CardigannIndexer.PerformQuery(TorznabQuery query) in ./Jackett.Common/Indexers/Definitions/CardigannIndexer.cs:line 1563
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 378
+   --- End of inner exception stack trace ---
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 403
+   at Jackett.Common.Indexers.BaseWebIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 816
+   at Jackett.Server.Controllers.ResultsController.Results(ApiSearch requestt) in ./Jackett.Server/Controllers/ResultsController.cs:line 256
+
+2025-06-04 18:24:27.3526 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Mission: Impossible - The Final Reckoning 2025 => Found 45 releases (from cache) [25ms]
+2025-06-04 18:24:53.0572 Info Jackett stopped
+2025-06-04 18:26:36.4625 Info Starting Jackett v0.22.1987
+2025-06-04 18:26:36.7659 Info Environment version: 8.0.16 (/app/Jackett/)
+2025-06-04 18:26:36.7706 Info OS version: Unix 5.15.0.140 (64bit OS) (64bit process)
+2025-06-04 18:26:36.7706 Info Jackett variant: CoreLinuxMuslAmdx64
+2025-06-04 18:26:36.7706 Info File /etc/issue: Welcome to Alpine Linux 3.21
+2025-06-04 18:26:36.7706 Info Running in Docker: Yes (image build: v0.22.1987-ls49)
+2025-06-04 18:26:36.7706 Info ThreadPool MaxThreads: 32767 workerThreads, 1000 completionPortThreads
+2025-06-04 18:26:36.7706 Info App config/log directory: /config/Jackett
+2025-06-04 18:26:36.7745 Info Using proxy: Disabled
+2025-06-04 18:26:36.7745 Info Using FlareSolverr: No
+2025-06-04 18:26:36.7745 Info Using HTTP Client: HttpWebClient2
+2025-06-04 18:26:36.7745 Info Loading Native indexers ...
+2025-06-04 18:26:36.7916 Info Loaded 76 Native indexers.
+2025-06-04 18:26:36.7916 Info Loading Cardigann indexers from: /config/cardigann/definitions/, /etc/xdg/cardigan/definitions/, /app/Jackett/Definitions
+2025-06-04 18:26:38.1662 Info Loaded 525 Cardigann indexers.
+2025-06-04 18:26:38.1665 Info Loaded 601 indexers in total
+2025-06-04 18:26:38.1791 Info Adding aggregate indexer ('all' indexer) ...
+2025-06-04 18:26:38.1791 Info Adding filter indexer ('type:public' indexer) ...
+2025-06-04 18:26:38.1791 Info Adding filter indexer ('type:private' indexer) ...
+2025-06-04 18:26:38.1791 Info Adding filter indexer ('type:semi-public' indexer) ...
+2025-06-04 18:26:38.2705 Info Jackett startup finished in 2.010 s
+2025-06-04 18:29:06.8775 Info Jackett stopped
+2025-06-04 18:37:07.7683 Info Starting Jackett v0.22.1987
+2025-06-04 18:37:08.0758 Info Environment version: 8.0.16 (/app/Jackett/)
+2025-06-04 18:37:08.0805 Info OS version: Unix 5.15.0.140 (64bit OS) (64bit process)
+2025-06-04 18:37:08.0805 Info Jackett variant: CoreLinuxMuslAmdx64
+2025-06-04 18:37:08.0824 Info File /etc/issue: Welcome to Alpine Linux 3.21
+2025-06-04 18:37:08.0824 Info Running in Docker: Yes (image build: v0.22.1987-ls49)
+2025-06-04 18:37:08.0824 Info ThreadPool MaxThreads: 32767 workerThreads, 1000 completionPortThreads
+2025-06-04 18:37:08.0824 Info App config/log directory: /config/Jackett
+2025-06-04 18:37:08.0824 Info Using proxy: Disabled
+2025-06-04 18:37:08.0824 Info Using FlareSolverr: No
+2025-06-04 18:37:08.0824 Info Using HTTP Client: HttpWebClient2
+2025-06-04 18:37:08.0875 Info Loading Native indexers ...
+2025-06-04 18:37:08.1023 Info Loaded 76 Native indexers.
+2025-06-04 18:37:08.1023 Info Loading Cardigann indexers from: /config/cardigann/definitions/, /etc/xdg/cardigan/definitions/, /app/Jackett/Definitions
+2025-06-04 18:37:09.4189 Info Loaded 525 Cardigann indexers.
+2025-06-04 18:37:09.4189 Info Loaded 601 indexers in total
+2025-06-04 18:37:09.4325 Info Adding aggregate indexer ('all' indexer) ...
+2025-06-04 18:37:09.4351 Info Adding filter indexer ('type:public' indexer) ...
+2025-06-04 18:37:09.4351 Info Adding filter indexer ('type:private' indexer) ...
+2025-06-04 18:37:09.4351 Info Adding filter indexer ('type:semi-public' indexer) ...
+2025-06-04 18:37:09.5207 Info Jackett startup finished in 1.898 s
+2025-06-04 18:48:47.4418 Info Jackett stopped
+2025-06-05 09:35:13.9966 Info Starting Jackett v0.22.1992
+2025-06-05 09:35:14.3103 Info Environment version: 8.0.16 (/app/Jackett/)
+2025-06-05 09:35:14.3155 Info OS version: Unix 5.15.0.139 (64bit OS) (64bit process)
+2025-06-05 09:35:14.3155 Info Jackett variant: CoreLinuxMuslAmdx64
+2025-06-05 09:35:14.3155 Info File /etc/issue: Welcome to Alpine Linux 3.21
+2025-06-05 09:35:14.3155 Info Running in Docker: Yes (image build: v0.22.1992-ls50)
+2025-06-05 09:35:14.3155 Info ThreadPool MaxThreads: 32767 workerThreads, 1000 completionPortThreads
+2025-06-05 09:35:14.3155 Info App config/log directory: /config/Jackett
+2025-06-05 09:35:14.3193 Info Using proxy: Disabled
+2025-06-05 09:35:14.3193 Info Using FlareSolverr: No
+2025-06-05 09:35:14.3193 Info Using HTTP Client: HttpWebClient2
+2025-06-05 09:35:14.3193 Info Loading Native indexers ...
+2025-06-05 09:35:14.3373 Info Loaded 76 Native indexers.
+2025-06-05 09:35:14.3386 Info Loading Cardigann indexers from: /config/cardigann/definitions/, /etc/xdg/cardigan/definitions/, /app/Jackett/Definitions
+2025-06-05 09:35:15.6643 Info Loaded 525 Cardigann indexers.
+2025-06-05 09:35:15.6643 Info Loaded 601 indexers in total
+2025-06-05 09:35:15.6818 Info Adding aggregate indexer ('all' indexer) ...
+2025-06-05 09:35:15.6844 Info Adding filter indexer ('type:public' indexer) ...
+2025-06-05 09:35:15.6844 Info Adding filter indexer ('type:private' indexer) ...
+2025-06-05 09:35:15.6844 Info Adding filter indexer ('type:semi-public' indexer) ...
+2025-06-05 09:35:15.7722 Info Jackett startup finished in 1.923 s
+2025-06-05 09:36:49.7129 Info Jackett stopped
+2025-06-05 09:37:16.1167 Info Starting Jackett v0.22.1992
+2025-06-05 09:37:16.4488 Info Environment version: 8.0.16 (/app/Jackett/)
+2025-06-05 09:37:16.4532 Info OS version: Unix 5.15.0.139 (64bit OS) (64bit process)
+2025-06-05 09:37:16.4547 Info Jackett variant: CoreLinuxMuslAmdx64
+2025-06-05 09:37:16.4547 Info File /etc/issue: Welcome to Alpine Linux 3.21
+2025-06-05 09:37:16.4547 Info Running in Docker: Yes (image build: v0.22.1992-ls50)
+2025-06-05 09:37:16.4547 Info ThreadPool MaxThreads: 32767 workerThreads, 1000 completionPortThreads
+2025-06-05 09:37:16.4547 Info App config/log directory: /config/Jackett
+2025-06-05 09:37:16.4547 Info Using proxy: Disabled
+2025-06-05 09:37:16.4547 Info Using FlareSolverr: No
+2025-06-05 09:37:16.4547 Info Using HTTP Client: HttpWebClient2
+2025-06-05 09:37:16.4598 Info Loading Native indexers ...
+2025-06-05 09:37:16.4751 Info Loaded 76 Native indexers.
+2025-06-05 09:37:16.4751 Info Loading Cardigann indexers from: /config/cardigann/definitions/, /etc/xdg/cardigan/definitions/, /app/Jackett/Definitions
+2025-06-05 09:37:18.2761 Info Loaded 525 Cardigann indexers.
+2025-06-05 09:37:18.2761 Info Loaded 601 indexers in total
+2025-06-05 09:37:18.2892 Info Adding aggregate indexer ('all' indexer) ...
+2025-06-05 09:37:18.2920 Info Adding filter indexer ('type:public' indexer) ...
+2025-06-05 09:37:18.2920 Info Adding filter indexer ('type:private' indexer) ...
+2025-06-05 09:37:18.2920 Info Adding filter indexer ('type:semi-public' indexer) ...
+2025-06-05 09:37:18.3852 Info Jackett startup finished in 2.476 s
+2025-06-05 09:38:02.8790 Info Jackett stopped
+2025-06-05 10:16:16.3926 Info Starting Jackett v0.22.1992
+2025-06-05 10:16:16.7169 Info Environment version: 8.0.16 (/app/Jackett/)
+2025-06-05 10:16:16.7212 Info OS version: Unix 5.15.0.139 (64bit OS) (64bit process)
+2025-06-05 10:16:16.7228 Info Jackett variant: CoreLinuxMuslAmdx64
+2025-06-05 10:16:16.7228 Info File /etc/issue: Welcome to Alpine Linux 3.21
+2025-06-05 10:16:16.7228 Info Running in Docker: Yes (image build: v0.22.1992-ls50)
+2025-06-05 10:16:16.7228 Info ThreadPool MaxThreads: 32767 workerThreads, 1000 completionPortThreads
+2025-06-05 10:16:16.7228 Info App config/log directory: /config/Jackett
+2025-06-05 10:16:16.7228 Info Using proxy: Disabled
+2025-06-05 10:16:16.7228 Info Using FlareSolverr: No
+2025-06-05 10:16:16.7228 Info Using HTTP Client: HttpWebClient2
+2025-06-05 10:16:16.7281 Info Loading Native indexers ...
+2025-06-05 10:16:16.7433 Info Loaded 76 Native indexers.
+2025-06-05 10:16:16.7433 Info Loading Cardigann indexers from: /config/cardigann/definitions/, /etc/xdg/cardigan/definitions/, /app/Jackett/Definitions
+2025-06-05 10:16:18.1990 Info Loaded 525 Cardigann indexers.
+2025-06-05 10:16:18.1990 Info Loaded 601 indexers in total
+2025-06-05 10:16:18.2146 Info Adding aggregate indexer ('all' indexer) ...
+2025-06-05 10:16:18.2146 Info Adding filter indexer ('type:public' indexer) ...
+2025-06-05 10:16:18.2146 Info Adding filter indexer ('type:private' indexer) ...
+2025-06-05 10:16:18.2146 Info Adding filter indexer ('type:semi-public' indexer) ...
+2025-06-05 10:16:18.3041 Info Jackett startup finished in 2.085 s
+2025-06-05 10:20:41.6389 Error Jackett.Common.IndexerException: Exception (1337x): Challenge detected but FlareSolverr is not configured
+
+[v0.22.1992.0] Jackett.Common.IndexerException: Exception (1337x): Challenge detected but FlareSolverr is not configured
+ ---> FlareSolverrSharp.Exceptions.FlareSolverrException: Challenge detected but FlareSolverr is not configured
+   at FlareSolverrSharp.ClearanceHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Jackett.Common.Utils.Clients.HttpWebClient2.Run(WebRequest webRequest) in ./Jackett.Common/Utils/Clients/HttpWebClient2.cs:line 180
+   at Jackett.Common.Utils.Clients.WebClient.GetResultAsync(WebRequest request) in ./Jackett.Common/Utils/Clients/WebClient.cs:line 188
+   at Jackett.Common.Indexers.BaseWebIndexer.RequestWithCookiesAsync(String url, String cookieOverride, RequestType method, String referer, IEnumerable`1 data, Dictionary`2 headers, String rawbody, Nullable`1 emulateBrowser) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 617
+   at Jackett.Common.Indexers.Definitions.CardigannIndexer.PerformQuery(TorznabQuery query) in ./Jackett.Common/Indexers/Definitions/CardigannIndexer.cs:line 1563
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 378
+   --- End of inner exception stack trace ---
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 403
+   at Jackett.Common.Indexers.BaseWebIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 816
+   at Jackett.Server.Controllers.ResultsController.Results(ApiSearch requestt) in ./Jackett.Server/Controllers/ResultsController.cs:line 256
+
+2025-06-05 10:20:41.6791 Info Manual search in 1337x, kickasstorrents.ws, The Pirate Bay, TheRARBG, YTS for Lilo  Stitch 2025 => Found 57 releases [516ms]
+2025-06-05 10:24:27.8213 Info Jackett stopped
+2025-06-05 10:25:50.6946 Info Starting Jackett v0.22.1992
+2025-06-05 10:25:50.9975 Info Environment version: 8.0.16 (/app/Jackett/)
+2025-06-05 10:25:51.0017 Info OS version: Unix 5.15.0.139 (64bit OS) (64bit process)
+2025-06-05 10:25:51.0034 Info Jackett variant: CoreLinuxMuslAmdx64
+2025-06-05 10:25:51.0034 Info File /etc/issue: Welcome to Alpine Linux 3.21
+2025-06-05 10:25:51.0034 Info Running in Docker: Yes (image build: v0.22.1992-ls50)
+2025-06-05 10:25:51.0034 Info ThreadPool MaxThreads: 32767 workerThreads, 1000 completionPortThreads
+2025-06-05 10:25:51.0034 Info App config/log directory: /config/Jackett
+2025-06-05 10:25:51.0034 Info Using proxy: Disabled
+2025-06-05 10:25:51.0034 Info Using FlareSolverr: No
+2025-06-05 10:25:51.0068 Info Using HTTP Client: HttpWebClient2
+2025-06-05 10:25:51.0068 Info Loading Native indexers ...
+2025-06-05 10:25:51.0239 Info Loaded 76 Native indexers.
+2025-06-05 10:25:51.0239 Info Loading Cardigann indexers from: /config/cardigann/definitions/, /etc/xdg/cardigan/definitions/, /app/Jackett/Definitions
+2025-06-05 10:25:52.4379 Info Loaded 525 Cardigann indexers.
+2025-06-05 10:25:52.4379 Info Loaded 601 indexers in total
+2025-06-05 10:25:52.4510 Info Adding aggregate indexer ('all' indexer) ...
+2025-06-05 10:25:52.4554 Info Adding filter indexer ('type:public' indexer) ...
+2025-06-05 10:25:52.4554 Info Adding filter indexer ('type:private' indexer) ...
+2025-06-05 10:25:52.4554 Info Adding filter indexer ('type:semi-public' indexer) ...
+2025-06-05 10:25:52.5422 Info Jackett startup finished in 2.003 s
+2025-06-05 10:28:15.3682 Info Jackett stopped
+2025-06-05 10:28:53.6805 Info Starting Jackett v0.22.1992
+2025-06-05 10:28:54.0885 Info Environment version: 8.0.16 (/app/Jackett/)
+2025-06-05 10:28:54.0932 Info OS version: Unix 5.15.0.139 (64bit OS) (64bit process)
+2025-06-05 10:28:54.0947 Info Jackett variant: CoreLinuxMuslAmdx64
+2025-06-05 10:28:54.0947 Info File /etc/issue: Welcome to Alpine Linux 3.21
+2025-06-05 10:28:54.0947 Info Running in Docker: Yes (image build: v0.22.1992-ls50)
+2025-06-05 10:28:54.0947 Info ThreadPool MaxThreads: 32767 workerThreads, 1000 completionPortThreads
+2025-06-05 10:28:54.0947 Info App config/log directory: /config/Jackett
+2025-06-05 10:28:54.0947 Info Using proxy: Disabled
+2025-06-05 10:28:54.0947 Info Using FlareSolverr: No
+2025-06-05 10:28:54.0947 Info Using HTTP Client: HttpWebClient2
+2025-06-05 10:28:54.0999 Info Loading Native indexers ...
+2025-06-05 10:28:54.1157 Info Loaded 76 Native indexers.
+2025-06-05 10:28:54.1157 Info Loading Cardigann indexers from: /config/cardigann/definitions/, /etc/xdg/cardigan/definitions/, /app/Jackett/Definitions
+2025-06-05 10:28:55.6151 Info Loaded 525 Cardigann indexers.
+2025-06-05 10:28:55.6151 Info Loaded 601 indexers in total
+2025-06-05 10:28:55.6278 Info Adding aggregate indexer ('all' indexer) ...
+2025-06-05 10:28:55.6305 Info Adding filter indexer ('type:public' indexer) ...
+2025-06-05 10:28:55.6305 Info Adding filter indexer ('type:private' indexer) ...
+2025-06-05 10:28:55.6305 Info Adding filter indexer ('type:semi-public' indexer) ...
+2025-06-05 10:28:55.7295 Info Jackett startup finished in 2.241 s

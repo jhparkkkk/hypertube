@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { Box, CircularProgress, Typography, Button, IconButton, Slider, Menu, MenuItem } from '@mui/material';
+import { Box, CircularProgress, Typography, Button, IconButton, Slider } from '@mui/material';
 import { PlayArrow, Pause, VolumeUp, VolumeOff, Fullscreen, Forward10, Replay10, Subtitles } from '@mui/icons-material';
 import { api, API_BASE_URL } from '../../api/axiosConfig';
-import { MoviePlayerProps } from './shared/types';
 import { moviePlayerStyles } from './shared/styles';
 import { useAuth } from '../../context/AuthContext';
 
@@ -44,7 +43,7 @@ interface SubtitleTrack {
 }
 
 interface MoviePlayerComponentProps {
-  movieId: string;
+  movieId: number;
   magnet: string;
 }
 
@@ -53,9 +52,9 @@ const BUFFER_SEGMENTS = 2; // Number of segments to pre-buffer
 const MoviePlayer: React.FC<MoviePlayerComponentProps> = ({ movieId, magnet }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [filePath, setFilePath] = useState<string | null>(null);
-  const [statusData, setStatusData] = useState<MovieStatus | null>(null);
-  const [retryCount, setRetryCount] = useState(0);
+  const [, setFilePath] = useState<string | null>(null);
+  const [, setStatusData] = useState<MovieStatus | null>(null);
+  const [retryCount] = useState(0);
   
   // Video elements and buffering
   const currentVideoRef = useRef<HTMLVideoElement>(null);
@@ -72,12 +71,10 @@ const MoviePlayer: React.FC<MoviePlayerComponentProps> = ({ movieId, magnet }) =
   const [isBuffering, setIsBuffering] = useState(false);
   const [bufferedSegments, setBufferedSegments] = useState<number[]>([]);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [aspectRatioSet, setAspectRatioSet] = useState(false);
   
   // Progress tracking
   const intervalRef = useRef<number | null>(null);
   const [isDragging, setIsDragging] = useState(false);
-  const seekTimeoutRef = useRef<number | null>(null);
   const [showControls, setShowControls] = useState(true);
   const controlsTimeoutRef = useRef<number | null>(null);
   
@@ -92,7 +89,7 @@ const MoviePlayer: React.FC<MoviePlayerComponentProps> = ({ movieId, magnet }) =
   const [subtitleCues, setSubtitleCues] = useState<SubtitleCue[]>([]);
   const [currentSubtitleText, setCurrentSubtitleText] = useState<string>('');
 
-  const { user, setUser, logout, loadingUser} = useAuth();
+  const { user, loadingUser} = useAuth();
 
   const formatTime = (seconds: number) => {
     const hours = Math.floor(seconds / 3600);
@@ -335,7 +332,7 @@ const MoviePlayer: React.FC<MoviePlayerComponentProps> = ({ movieId, magnet }) =
     }
   };
 
-  const handleVolumeChange = (event: Event, newValue: number | number[]) => {
+  const handleVolumeChange = (_event: Event, newValue: number | number[]) => {
     const volumeValue = newValue as number;
     setVolume(volumeValue);
     if (currentVideoRef.current) {
@@ -471,13 +468,6 @@ const MoviePlayer: React.FC<MoviePlayerComponentProps> = ({ movieId, magnet }) =
         setShowControls(false);
       }
     }, 3000);
-  };
-
-  const handleLoadedMetadata = () => {
-    if (currentVideoRef.current && !isPlaying) {
-      // Start playing when metadata is loaded
-      currentVideoRef.current.play().catch(console.error);
-    }
   };
 
   // Fetch subtitles when component mounts

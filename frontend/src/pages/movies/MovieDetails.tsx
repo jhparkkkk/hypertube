@@ -89,8 +89,8 @@ const MovieDetails: React.FC = () => {
 	const [movie, setMovie] = useState<Movie | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
-	const [subtitles, setSubtitles] = useState<Subtitle[]>([]);
-	const { user, setUser, logout, loadingUser} = useAuth();
+	const [, setSubtitles] = useState<Subtitle[]>([]);
+	const { user, loadingUser} = useAuth();
 
 	useEffect(() => {
 		const fetchMovieDetails = async () => {
@@ -433,7 +433,7 @@ const MovieDetails: React.FC = () => {
 					</Paper>
 				)}
 
-				<MovieComments movieId={Number(id)} commentsCount={movie.comments_count} />
+				<MovieComments movieId={Number(id)} />
 			</Box>
 		</Box>
 	);
