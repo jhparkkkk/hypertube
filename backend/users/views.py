@@ -46,8 +46,10 @@ def create_user(request):
 def oauth_token(request):
     client_id = request.data.get("client_id")
     client_secret = request.data.get("client_secret")
+    print("[DEBUG] client_id sent from client:", client_id)
+    print("[DEBUG] client_secret sent from client", client_secret)
     if client_id != settings.VITE_CLIENT_ID or client_secret != settings.VITE_CLIENT_SECRET:
-        return Response({"error": "Invalid client_id or client_secret"}, status=status.HTTP_400_BAD)
+        return Response({"error": "Invalid client_id or client_secret"}, status=status.HTTP_400_BAD_REQUEST)
 
     username = request.data.get("username")
     password = request.data.get("password")

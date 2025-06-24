@@ -64,15 +64,15 @@ services:
       context: ./frontend
       args:
         NODE_ENV: production
+        VITE_CLIENT_ID: ${VITE_CLIENT_ID}
+        VITE_CLIENT_SECRET: ${VITE_CLIENT_SECRET}
     container_name: hypertube-frontend
     depends_on:
       - backend
     ports:
       - "3000:3000"
-    volumes:
-      - ./frontend:/app
-      - ./.env:/app/.env
-      - /app/node_modules
+    env_file:
+      - .env
     environment:
       - CHOKIDAR_USEPOLLING=true
       - NODE_ENV=production

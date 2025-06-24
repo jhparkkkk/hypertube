@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { Box, CircularProgress, Typography, Button, IconButton, Slider } from '@mui/material';
-import { PlayArrow, Pause, VolumeUp, VolumeOff, Fullscreen, Forward10, Replay10, Subtitles } from '@mui/icons-material';
+import { PlayArrow, Pause, Fullscreen, Forward10, Replay10, Subtitles } from '@mui/icons-material';
 import { api, API_BASE_URL } from '../../api/axiosConfig';
 import { moviePlayerStyles } from './shared/styles';
 import { useAuth } from '../../context/AuthContext';
@@ -60,8 +60,7 @@ const MoviePlayer: React.FC<MoviePlayerComponentProps> = ({ movieId, magnet }) =
   const currentVideoRef = useRef<HTMLVideoElement>(null);
   const bufferVideoRefs = useRef<HTMLVideoElement[]>([]);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
-  const [volume, setVolume] = useState(1);
+  const [isMuted, setIsMuted] = useState(true);
   
   // Segment and time management
   const [currentSegment, setCurrentSegment] = useState(0);
@@ -202,6 +201,69 @@ const MoviePlayer: React.FC<MoviePlayerComponentProps> = ({ movieId, magnet }) =
     };
   }, []);
 
+  const preloadSegments = useCallback((baseSegment: number, segData?: SegmentsData) => {
+    const dataToUse = segData || segmentsData;
+    if (!dataToUse) return;
+    
+    const segmentsToBuffer = Array.from({ length: BUFFER_SEGMENTS }, (_, i) => baseSegment + i + 1)
+      .filter(seg => seg < dataToUse.total_segments);
+    
+    segmentsToBuffer.forEach((segment, index) => {
+      const video = bufferVideoRefs.current[index];
+      if (!video) return;
+      
+      // Clear any previous source to avoid conflicts
+      video.src = '';
+      video.load();
+      
+      const src = `${API_BASE_URL}/video/${movieId}/stream/?segment=${segment}&t=${retryCount}`;
+      video.src = src;
+      video.load();
+      
+      video.oncanplaythrough = () => {
+        setBufferedSegments(prev => {
+          if (!prev.includes(segment)) {
+            return [...prev, segment];
+          }
+          return prev;
+        });
+      };
+      
+      video.onerror = (error) => {
+        console.error(`Error buffering segment ${segment}:`, error);
+      };
+    });
+  }, [movieId, retryCount, segmentsData]);
+
+  const fetchSegmentInfo = useCallback(async () => {
+    try {
+      const response = await api.get<SegmentsData>(`/video/${movieId}/segments/`);
+      setSegmentsData(response.data);
+      if (response.data.total_duration) {
+        setTotalDuration(response.data.total_duration);
+      }
+      // Calculate available time based on available segments
+      const lastAvailableSegment = Math.max(...response.data.available_segments.map(seg => seg.segment));
+      setAvailableTime((lastAvailableSegment + 1) * response.data.segment_duration);
+      
+      // Initialize video with first segment if not already loaded
+      if (currentVideoRef.current && !currentVideoRef.current.src && response.data.available_segments.length > 0) {
+        const firstSegmentSrc = `${API_BASE_URL}/video/${movieId}/stream/?segment=0&t=${retryCount}`;
+        currentVideoRef.current.src = firstSegmentSrc;
+        currentVideoRef.current.load();
+        setCurrentSegment(0);
+        
+        // Auto-play muted when loaded
+        currentVideoRef.current.addEventListener('loadeddata', () => {
+          currentVideoRef.current?.play().catch(console.error);
+          preloadSegments(0, response.data);
+        }, { once: true });
+      }
+    } catch (err) {
+      console.error('Failed to fetch segment info:', err);
+    }
+  }, [movieId, retryCount, preloadSegments]);
+
   const checkStatus = useCallback(async () => {
     try {
       const response = await api.get<MovieStatus>(`/video/${movieId}/status/`);
@@ -222,42 +284,7 @@ const MoviePlayer: React.FC<MoviePlayerComponentProps> = ({ movieId, magnet }) =
       setError(`Failed to check movie status: ${err instanceof Error ? err.message : 'Unknown error'}`);
       setLoading(false);
     }
-  }, [movieId, magnet]);
-
-  const fetchSegmentInfo = useCallback(async () => {
-    try {
-      const response = await api.get<SegmentsData>(`/video/${movieId}/segments/`);
-      setSegmentsData(response.data);
-      if (response.data.total_duration) {
-        setTotalDuration(response.data.total_duration);
-      }
-      // Calculate available time based on available segments
-      const lastAvailableSegment = Math.max(...response.data.available_segments.map(seg => seg.segment));
-      setAvailableTime((lastAvailableSegment + 1) * response.data.segment_duration);
-    } catch (err) {
-      console.error('Failed to fetch segment info:', err);
-    }
-  }, [movieId]);
-
-  const preloadSegments = useCallback((baseSegment: number) => {
-    if (!segmentsData) return;
-    
-    const segmentsToBuffer = Array.from({ length: BUFFER_SEGMENTS }, (_, i) => baseSegment + i + 1)
-      .filter(seg => seg < segmentsData.total_segments && !bufferedSegments.includes(seg));
-    
-    segmentsToBuffer.forEach((segment, index) => {
-      const video = bufferVideoRefs.current[index];
-      if (!video) return;
-      
-      const src = `${API_BASE_URL}/video/${movieId}/stream/?segment=${segment}&t=${retryCount}`;
-      video.src = src;
-      video.load();
-      
-      video.oncanplaythrough = () => {
-        setBufferedSegments(prev => [...prev, segment]);
-      };
-    });
-  }, [movieId, retryCount, segmentsData, bufferedSegments]);
+  }, [movieId, magnet, fetchSegmentInfo]);
 
   const switchToSegment = useCallback((targetSegment: number, seekTime?: number) => {
     if (!currentVideoRef.current || !segmentsData || isTransitioning) return;
@@ -332,27 +359,6 @@ const MoviePlayer: React.FC<MoviePlayerComponentProps> = ({ movieId, magnet }) =
     }
   };
 
-  const handleVolumeChange = (_event: Event, newValue: number | number[]) => {
-    const volumeValue = newValue as number;
-    setVolume(volumeValue);
-    if (currentVideoRef.current) {
-      currentVideoRef.current.volume = volumeValue;
-    }
-    setIsMuted(volumeValue === 0);
-  };
-
-  const toggleMute = () => {
-    if (!currentVideoRef.current) return;
-    
-    if (isMuted) {
-      currentVideoRef.current.volume = volume;
-      setIsMuted(false);
-    } else {
-      currentVideoRef.current.volume = 0;
-      setIsMuted(true);
-    }
-  };
-
   const enterFullscreen = () => {
     if (currentVideoRef.current) {
       if (currentVideoRef.current.requestFullscreen) {
@@ -383,7 +389,6 @@ const MoviePlayer: React.FC<MoviePlayerComponentProps> = ({ movieId, magnet }) =
       
       setVirtualTime(newVirtualTime);
       
-      // Check if we need to switch to next segment
       if (segmentTime >= segmentsData.segment_duration - 0.5) {
         const nextSegment = currentSegment + 1;
         if (nextSegment < segmentsData.total_segments && bufferedSegments.includes(nextSegment)) {
@@ -421,10 +426,6 @@ const MoviePlayer: React.FC<MoviePlayerComponentProps> = ({ movieId, magnet }) =
         case 'ArrowRight':
           e.preventDefault();
           skipForward();
-          break;
-        case 'KeyM':
-          e.preventDefault();
-          toggleMute();
           break;
         case 'KeyF':
           e.preventDefault();
@@ -497,6 +498,20 @@ const MoviePlayer: React.FC<MoviePlayerComponentProps> = ({ movieId, magnet }) =
       setCurrentSubtitle(null);
     }
   }, [subtitlesEnabled, subtitles]);
+
+  // Handle document click to unmute
+  useEffect(() => {
+    const handleDocumentClick = () => {
+      if (isMuted && currentVideoRef.current) {
+        currentVideoRef.current.muted = false;
+        setIsMuted(false);
+      }
+    };
+
+    document.addEventListener('click', handleDocumentClick);
+    return () => document.removeEventListener('click', handleDocumentClick);
+  }, [isMuted]);
+
   if (loading) {
     return (
       <Box sx={moviePlayerStyles.loadingContainer}>
@@ -549,6 +564,7 @@ const MoviePlayer: React.FC<MoviePlayerComponentProps> = ({ movieId, magnet }) =
           playsInline
           preload="auto"
           crossOrigin="anonymous"
+          muted={isMuted}
         />
         
         {/* Custom subtitle overlay */}
@@ -683,19 +699,6 @@ const MoviePlayer: React.FC<MoviePlayerComponentProps> = ({ movieId, magnet }) =
               <IconButton onClick={skipForward} sx={moviePlayerStyles.controlButton}>
                 <Forward10 />
               </IconButton>
-              <Box sx={moviePlayerStyles.volumeControl}>
-                <IconButton onClick={toggleMute} sx={moviePlayerStyles.controlButton}>
-                  {isMuted ? <VolumeOff /> : <VolumeUp />}
-                </IconButton>
-                <Slider
-                  value={isMuted ? 0 : volume}
-                  onChange={handleVolumeChange}
-                  min={0}
-                  max={1}
-                  step={0.1}
-                  sx={moviePlayerStyles.volumeSlider}
-                />
-              </Box>
               <IconButton 
                 onClick={() => setSubtitlesEnabled(!subtitlesEnabled)}
                 sx={{

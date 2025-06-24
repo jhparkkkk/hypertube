@@ -8,7 +8,7 @@ import theme from "./theme";
 import { ThemeProvider } from "@mui/material/styles";
 import { AuthProvider } from "./context/AuthContext";
 
-if (import.meta.env.MODE === "development") {
+if (import.meta.env.MODE === "production") {
 	console.log = () => {};
 	console.warn = () => {};
 	console.error = () => {};

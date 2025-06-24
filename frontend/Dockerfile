@@ -1,6 +1,12 @@
 ARG TARGETARCH
 FROM --platform=linux/$TARGETARCH node:20
 
+ARG VITE_CLIENT_ID
+ARG VITE_CLIENT_SECRET
+
+ENV VITE_CLIENT_ID=$VITE_CLIENT_ID
+ENV VITE_CLIENT_SECRET=$VITE_CLIENT_SECRET
+
 WORKDIR /app
 
 COPY package.json package-lock.json ./
@@ -12,12 +18,12 @@ COPY . .
 ARG NODE_ENV=production
 ENV NODE_ENV=$NODE_ENV
 
-EXPOSE 3000
+
 
 ENV CHOKIDAR_USEPOLLING=true
 
-RUN if [ "NODE_ENV" = "production" ]; then npm run build; fi
+RUN echo "🌿 Running build in $NODE_ENV" && npm run build
 
 EXPOSE 3000
 
-CMD [ "sh", "-c", "if [ \"$NODE_ENV\" = \"production\" ]; then npm exec vite preview -- --port 3000; else npm run dev; fi" ]
+CMD [ "sh", "-c", "npm exec vite preview -- --port 3000 --host" ]

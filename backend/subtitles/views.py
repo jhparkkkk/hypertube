@@ -9,6 +9,9 @@ from .serializers import SubtitleSerializer
 from rest_framework.pagination import PageNumberPagination
 from .services import SubtitleService
 import os
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class SubtitleViewSet(viewsets.ReadOnlyModelViewSet):
@@ -29,6 +32,7 @@ class SubtitleViewSet(viewsets.ReadOnlyModelViewSet):
         """
         Get subtitles for a specific movie in the user's preferred language.
         Returns a list of subtitle URLs and metadata.
+        If the movie is not found (not yet downloaded), returns an empty list.
         """
         movie_id = request.query_params.get("movie_id")
         language = request.query_params.get("language", request.user.preferred_language)
@@ -39,7 +43,7 @@ class SubtitleViewSet(viewsets.ReadOnlyModelViewSet):
         try:
             movie = MovieFile.objects.get(tmdb_id=movie_id)
         except MovieFile.DoesNotExist:
-            return Response({"error": "Movie not found"}, status=status.HTTP_404_NOT_FOUND)
+            return Response([], status=status.HTTP_200_OK)
 
         subtitles = self.subtitle_service.fetch_subtitles(movie, language)
         return Response(subtitles)
